@@ -1,1 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>{{SITE_TITLE}}</title>
+  <link rel="icon" type="image/svg+xml" href="{{LOGO_SVG}}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
+    
+    :root {
+      --bg-body: #fafafa;
+      --bg-card: #ffffff;
+      --bg-hover: #f5f5f5;
+      --text-main: #111111;
+      --text-sec: #666666;
+      --border-color: #eaeaea;
+      --input-bg: #fafafa;
+      --btn-primary-bg: #111111;
+      --btn-primary-text: #ffffff;
+      --btn-primary-hover: #000000;
+      --bg-grid: #e5e7eb;
+      --toast-bg: #111111;
+      --toast-text: #ffffff;
+      --logo-filter: none;
+    }
 
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-body: #0a0a0a;
+        --bg-card: #111111;
+        --bg-hover: #1a1a1a;
+        --text-main: #ededed;
+        --text-sec: #888888;
+        --border-color: #333333;
+        --input-bg: #0a0a0a;
+        --btn-primary-bg: #ededed;
+        --btn-primary-text: #0a0a0a;
+        --btn-primary-hover: #ffffff;
+        --bg-grid: #222222;
+        --toast-bg: #ededed;
+        --toast-text: #0a0a0a;
+        --logo-filter: invert(1) hue-rotate(180deg);
+      }
+    }
+
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      background-color: var(--bg-body); color: var(--text-main); 
+      overflow-x: hidden; min-height: 100dvh; 
+      -webkit-font-smoothing: antialiased; 
+      display: flex; flex-direction: column;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .dynamic-logo { filter: var(--logo-filter); transition: filter 0.3s; }
+
+    .bg-grid {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: radial-gradient(var(--bg-grid) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(to bottom, white, transparent 90%);
+      -webkit-mask-image: linear-gradient(to bottom, white, transparent 90%);
+    }
+
+    .clean-card { 
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .clean-input { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; transition: all 0.2s ease; }
+    .clean-input:focus { background: var(--bg-card); border-color: var(--text-main); outline: none; box-shadow: 0 0 0 1px var(--text-main); }
+
+    .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); font-weight: 600; border-radius: 8px; transition: all 0.15s ease; }
+    .btn-primary:hover { background: var(--btn-primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; pointer-events: none; }
+
+    .btn-secondary { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); font-weight: 600; border-radius: 8px; transition: all 0.15s ease; }
+    .btn-secondary:hover { border-color: var(--text-main); background: var(--bg-body); }
+
+    .anim-fade-up { animation: fadeUp 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    
+    .letter-spacing-huge { letter-spacing: 0.6em; padding-left: 0.6em; font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+    .nav-link { color: var(--text-sec); font-weight: 500; font-size: 0.875rem; transition: color 0.2s; }
+    .nav-link:hover { color: var(--text-main); }
+    .nav-link.active { color: var(--text-main); font-weight: 600; }
+  </style>
+</head>
+<body>
+  
+  <div class="bg-grid"></div>
+
+  <header class="w-full flex items-center justify-between px-6 md:px-12 py-5 shrink-0 z-50 bg-[var(--bg-body)]/80 backdrop-blur-md border-b border-[var(--border-color)] transition-colors duration-300">
+     <div class="flex items-center gap-3">
+       <div class="w-7 h-7 bg-[var(--text-main)] rounded flex items-center justify-center text-[var(--bg-card)] shrink-0 transition-colors duration-300">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+       </div>
+       <span class="text-base font-bold tracking-tight text-[var(--text-main)]">{{SITE_TITLE}}</span>
+     </div>
+     <nav class="flex gap-6" id="main-nav"></nav>
+  </header>
+
+  <main class="w-full flex-1 flex flex-col items-center p-6 md:p-12 relative z-10" id="main-content"></main>
+
+  <div id="toast" class="fixed bottom-8 z-[100] px-5 py-2.5 rounded-lg bg-[var(--toast-bg)] text-[var(--toast-text)] text-sm font-medium shadow-xl transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none">
+     <span id="toast-msg">操作成功</span>
+  </div>
+
+  <script>
+    const MODE = "{{MODE}}";
+    const CFG = {{CFG_JSON}};
+    let selectedFiles = [];
+    let currentDownloadFiles = [];
+    let uploadMode = 'file'; 
+    let uploadTarget = 'burn';
+    
+    let isUploading = false;
+    window.addEventListener('beforeunload', function (e) {
+       if (isUploading) { e.preventDefault(); e.returnValue = '文件正在直传中，离开页面将中断传输，确认离开吗？'; }
+    });
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      t.classList.remove('opacity-0', 'translate-y-8');
+      setTimeout(() => t.classList.add('opacity-0', 'translate-y-8'), 3000);
+    }
+
+    function initApp() {
+       const nav = document.getElementById('main-nav');
+       const main = document.getElementById('main-content');
+
+       if (MODE === 'front') {
+          nav.innerHTML = `<div class="nav-link active cursor-default">${CFG.navCodeDownload}</div>`;
+          main.innerHTML = getFrontHTML();
+          
+          setTimeout(() => {
+            const codeIn = document.getElementById('code-in');
+            if(codeIn) {
+                codeIn.addEventListener('keypress', e => { if (e.key === 'Enter') findFiles(); });
+                const urlParams = new URLSearchParams(window.location.search);
+                const codeFromUrl = urlParams.get('code');
+                if (codeFromUrl && codeFromUrl.length === 4) {
+                   codeIn.value = codeFromUrl.toUpperCase();
+                   findFiles(); 
+                   window.history.replaceState({}, document.title, "/"); 
+                }
+            }
+          }, 100);
+       } else {
+          nav.innerHTML = `<div class="nav-link active cursor-default">${CFG.navAdminUpload}</div>`;
+          main.innerHTML = getAdminHTML();
+          setTimeout(() => {
+              const savedPw = localStorage.getItem('admin_pw');
+              if (savedPw) document.getElementById('pw-in').value = savedPw;
+              setTarget('burn'); 
+          }, 0);
+       }
+    }
+
+    function getFrontHTML() {
+       return `
+       <div id="view-code" class="w-full max-w-2xl mt-10 md:mt-24 flex flex-col items-center">
+          <div id="state-input" class="w-full flex flex-col items-center anim-fade-up">
+             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-[var(--text-main)] mb-4">验证提取</h1>
+             <p class="text-[var(--text-sec)] text-sm md:text-base mb-12 text-center">输入您的 4 位密钥。数据提取后将从服务器彻底清除。</p>
+
+             <div class="w-full flex flex-col gap-4">
+               <input type="text" id="code-in" maxlength="4" placeholder="••••" class="clean-input w-full text-center text-6xl md:text-7xl letter-spacing-huge py-8 uppercase placeholder-gray-400">
+               <button onclick="findFiles()" id="btn-find" class="btn-primary w-full py-4 md:py-5 text-lg">验证并获取数据</button>
+             </div>
+          </div>
+
+          <div id="state-result" class="hidden w-full flex-col anim-fade-up">
+             <div class="flex justify-between items-end mb-6">
+                <h2 class="text-2xl font-bold tracking-tight text-[var(--text-main)]">结果就绪</h2>
+                <span class="text-xs font-bold text-[var(--text-sec)] px-2 py-1 bg-[var(--border-color)] rounded" id="dl-count-text">0</span>
+             </div>
+             
+             <div class="clean-card w-full flex flex-col overflow-hidden">
+                <div id="dl-list" class="flex-1 overflow-y-auto max-h-[50vh] divide-y divide-[var(--border-color)]"></div>
+                <div class="p-4 md:p-6 bg-[var(--bg-body)] border-t border-[var(--border-color)] transition-colors">
+                    <div id="dl-progress-box" class="hidden items-center gap-4 mb-4">
+                       <span id="dl-file-name" class="text-xs font-medium text-[var(--text-sec)] truncate w-24">准备中</span>
+                       <div class="flex-1 bg-[var(--border-color)] rounded-full h-1"><div id="dl-bar" class="bg-[var(--text-main)] h-full rounded-full w-0 transition-all"></div></div>
+                    </div>
+                    <button onclick="downloadAll()" id="btn-dl-all" class="btn-primary w-full py-3.5 text-base">一键保存并彻底销毁</button>
+                </div>
+             </div>
+          </div>
+          
+          <div id="text-view-modal" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur z-[200] flex-col overflow-y-auto p-4 md:p-12 transition-colors">
+             <div class="w-full max-w-3xl mx-auto flex flex-col min-h-full anim-fade-up">
+                <div class="flex justify-between items-center mb-8 pt-4">
+                   <h3 class="text-2xl md:text-4xl font-extrabold tracking-tight text-[var(--text-main)]">阅后即焚内容</h3>
+                   <button onclick="location.reload()" class="btn-secondary px-5 py-2 text-sm">完成并退出</button>
+                </div>
+                <div class="bg-red-500/10 text-red-500 border border-red-500/20 text-xs font-medium p-3 rounded-lg mb-6">
+                   注意：该内容已从服务器彻底移除。关闭此页面将无法找回，请立刻自行复制保存。
+                </div>
+                <textarea id="recv-text-area" readonly class="flex-1 clean-input p-6 md:p-8 resize-none font-mono text-base md:text-lg leading-relaxed"></textarea>
+             </div>
+          </div>
+       </div>
+       `;
+    }
+
+    function getAdminHTML() {
+       return `
+       <div class="w-full max-w-6xl flex flex-col gap-8 mt-4 md:mt-8">
+          <div class="flex flex-col md:flex-row justify-between md:items-end gap-4">
+             <div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-[var(--text-main)] mb-1">${CFG.navAdminUpload}</h2>
+                <p class="text-sm text-[var(--text-sec)] font-mono">直传模式 · 空间 ${CFG.maxStorageBytes/1024/1024/1024} GB</p>
+             </div>
+             
+             <div class="flex bg-[var(--border-color)] p-1 rounded-lg">
+                <button onclick="switchAdminTab('upload')" id="admin-tab-upload" class="px-5 py-1.5 bg-[var(--bg-card)] shadow-sm rounded text-sm font-semibold text-[var(--text-main)]">分发</button>
+                <button onclick="switchAdminTab('manage')" id="admin-tab-manage" class="px-5 py-1.5 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-sm font-semibold">管理</button>
+             </div>
+          </div>
+
+          <div class="w-full border-t border-[var(--border-color)]"></div>
+          
+          <div class="flex items-center gap-4">
+             <span class="text-sm font-bold text-[var(--text-main)]">Auth Key</span>
+             <input type="password" id="pw-in" placeholder="管理密钥" oninput="localStorage.setItem('admin_pw', this.value)" class="clean-input px-3 py-1.5 text-sm w-48 font-mono">
+          </div>
+          
+          <div id="admin-view-upload" class="flex flex-col md:flex-row gap-6 md:gap-10 anim-fade-up">
+             <div class="w-full md:w-64 shrink-0 flex flex-col gap-6">
+                <div>
+                   <span class="block text-xs font-bold text-[var(--text-sec)] mb-3 uppercase tracking-widest">Target Zone</span>
+                   <div class="flex flex-col gap-2">
+                      <label class="clean-card p-3 flex items-center gap-3 cursor-pointer border-[var(--text-main)] transition-colors" id="label-tgt-burn">
+                        <input type="radio" name="tgt" value="burn" onchange="setTarget('burn')" checked class="w-4 h-4 accent-[var(--text-main)]">
+                        <span class="text-sm font-semibold text-[var(--text-main)]">阅后即焚（单次下载）</span>
+                      </label>
+                      <label class="clean-card p-3 flex items-center gap-3 cursor-pointer hover:border-[var(--text-main)] transition-colors bg-[var(--bg-body)] opacity-60" id="label-tgt-pub">
+                        <input type="radio" name="tgt" value="public" onchange="setTarget('public')" class="w-4 h-4 accent-[var(--text-main)]">
+                        <span class="text-sm font-semibold text-[var(--text-main)]">固定长效（访问即下载）</span>
+                      </label>
+                   </div>
+                </div>
+                <div>
+                   <span class="block text-xs font-bold text-[var(--text-sec)] mb-3 uppercase tracking-widest">Content Type</span>
+                   <div class="flex bg-[var(--border-color)] rounded-lg p-1">
+                      <button onclick="setMode('file')" class="flex-1 py-1.5 bg-[var(--bg-card)] shadow-sm rounded text-sm font-semibold mode-btn text-[var(--text-main)] transition-all">File</button>
+                      <button onclick="setMode('text')" class="flex-1 py-1.5 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-sm font-semibold mode-btn transition-all">Text</button>
+                   </div>
+                </div>
+                <button onclick="startUpload()" id="btn-up" class="btn-primary w-full py-3.5 mt-4">前端直传</button>
+             </div>
+
+             <div class="flex-1 flex flex-col min-h-[350px] relative">
+                <div id="area-file" class="absolute inset-0 flex flex-col">
+                   <input type="file" id="file-in" multiple class="hidden" onchange="handleFileSelect(this)">
+                   <div class="border border-dashed border-[var(--text-sec)] opacity-60 bg-[var(--bg-body)] rounded-xl flex-1 flex flex-col items-center justify-center text-[var(--text-sec)] hover:bg-[var(--bg-hover)] hover:opacity-100 hover:text-[var(--text-main)] transition-all cursor-pointer min-h-[120px]" onclick="document.getElementById('file-in').click()">
+                      <span class="font-mono text-sm font-medium">Click to Add Files (S3 Direct)</span>
+                   </div>
+                   <div id="file-list" class="mt-4 overflow-y-auto max-h-[180px] grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                </div>
+                
+                <div id="area-text" class="hidden absolute inset-0">
+                   <textarea id="text-in" class="clean-input w-full h-full p-6 text-sm font-mono leading-relaxed" placeholder="Write or paste your secret text here..."></textarea>
+                </div>
+                
+                <div id="up-progress-box" class="absolute bottom-0 left-0 right-0 bg-[var(--bg-card)]/90 backdrop-blur border-t border-[var(--border-color)] p-4 hidden items-center gap-4 z-10 rounded-b-xl transition-colors">
+                   <span id="up-file-name" class="text-xs font-medium text-[var(--text-sec)] truncate w-1/3">Uploading directly to S3...</span>
+                   <div class="flex-1 bg-[var(--border-color)] rounded-full h-1"><div id="up-bar" class="bg-[var(--text-main)] h-full rounded-full w-0 transition-all"></div></div>
+                   <span id="up-pct" class="text-xs font-bold text-[var(--text-main)] w-10 text-right">0%</span>
+                </div>
+             </div>
+          </div>
+
+          <div id="admin-view-manage" class="hidden flex-col gap-6 anim-fade-up">
+             <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-[var(--text-sec)] tracking-widest uppercase" id="admin-file-count">0 FILES FOUND</span>
+                <button onclick="loadAdminFiles()" class="btn-secondary px-4 py-1.5 text-xs">Refresh</button>
+             </div>
+             <div id="admin-file-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+          </div>
+
+          <div id="up-success" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur z-[200] flex-col items-center justify-center p-6">
+             <div class="w-full max-w-sm flex flex-col items-center text-center anim-fade-up">
+                <h3 class="text-3xl font-extrabold text-[var(--text-main)] mb-2 tracking-tight">Upload Complete</h3>
+                <div id="result-hint" class="text-sm text-[var(--text-sec)] mb-8 font-mono leading-loose">Copy the access link below</div>
+                
+                <div id="result-box" data-link="" class="w-full border-2 border-[var(--text-main)] bg-[var(--bg-card)] p-6 rounded-xl text-4xl font-mono font-extrabold text-[var(--text-main)] cursor-pointer hover:bg-[var(--text-main)] hover:text-[var(--bg-card)] transition-colors mb-8" onclick="copyCode()">---</div>
+                
+                <button onclick="resetAdmin()" class="btn-secondary w-full py-3">Continue Uploading</button>
+             </div>
+          </div>
+       </div>
+       `;
+    }
+
+    function switchAdminTab(tab) {
+       const vUpload = document.getElementById('admin-view-upload');
+       const vManage = document.getElementById('admin-view-manage');
+       const tUpload = document.getElementById('admin-tab-upload');
+       const tManage = document.getElementById('admin-tab-manage');
+
+       if (tab === 'upload') {
+          vUpload.classList.remove('hidden'); vUpload.classList.add('flex');
+          vManage.classList.add('hidden'); vManage.classList.remove('flex');
+          tUpload.className = "px-5 py-1.5 bg-[var(--bg-card)] shadow-sm rounded text-sm font-semibold text-[var(--text-main)]";
+          tManage.className = "px-5 py-1.5 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-sm font-semibold";
+       } else {
+          vManage.classList.remove('hidden'); vManage.classList.add('flex');
+          vUpload.classList.add('hidden'); vUpload.classList.remove('flex');
+          tManage.className = "px-5 py-1.5 bg-[var(--bg-card)] shadow-sm rounded text-sm font-semibold text-[var(--text-main)]";
+          tUpload.className = "px-5 py-1.5 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-sm font-semibold";
+          loadAdminFiles();
+       }
+    }
+
+    async function loadAdminFiles() {
+       const pw = document.getElementById('pw-in').value || localStorage.getItem('admin_pw');
+       if(!pw) return toast('密钥为空');
+       
+       const listEl = document.getElementById('admin-file-list');
+       listEl.innerHTML = '<div class="col-span-full p-10 text-center font-mono text-[var(--text-sec)] text-sm">Loading data...</div>';
+       
+       try {
+          const res = await fetch(`/api/admin-list?pw=${encodeURIComponent(pw)}`);
+          if(!res.ok) throw new Error('访问被拒');
+          const files = await res.json();
+          
+          document.getElementById('admin-file-count').innerText = `${files.length} FILES FOUND`;
+          if(files.length === 0) {
+             listEl.innerHTML = '<div class="col-span-full p-16 text-center font-mono text-[var(--text-sec)] text-lg tracking-widest">NO FILES</div>';
+             return;
+          }
+
+          files.sort((a,b) => new Date(b.uploaded) - new Date(a.uploaded));
+
+          listEl.innerHTML = files.map(f => {
+             const isPublic = f.key.startsWith(CFG.fixedDownloadPrefix);
+             const tagStyle = isPublic ? "border-[var(--border-color)] text-[var(--text-sec)]" : "bg-[var(--text-main)] text-[var(--bg-card)] border-[var(--text-main)]";
+             const tagText = isPublic ? "Public" : "Burn";
+             const name = f.key.split('/').pop();
+             
+             let copyHtml = "";
+             if (isPublic) {
+                 const link = window.location.origin + "/api/direct?key=" + encodeURIComponent(f.key);
+                 copyHtml = `<button onclick="navigator.clipboard.writeText('${link}'); toast('直达链接已复制')" class="text-xs font-bold text-[var(--text-main)] hover:text-[var(--bg-card)] border border-[var(--text-main)] hover:bg-[var(--text-main)] py-1.5 rounded transition-colors w-full">复制链接</button>`;
+             } else {
+                 const code = f.key.split('/')[0];
+                 const link = window.location.origin + "/?code=" + code;
+                 copyHtml = `<button onclick="navigator.clipboard.writeText('${link}'); toast('提取链接已复制')" class="text-xs font-bold text-[var(--text-main)] hover:text-[var(--bg-card)] border border-[var(--text-main)] hover:bg-[var(--text-main)] py-1.5 rounded transition-colors w-full">复制链接</button>`;
+             }
+             
+             return `
+             <div class="clean-card p-4 flex flex-col justify-between gap-4 group">
+                <div class="flex flex-col gap-2">
+                   <span class="self-start text-[10px] px-2 py-0.5 border font-bold uppercase tracking-widest rounded-sm ${tagStyle}">${tagText}</span>
+                   <span class="text-sm font-bold text-[var(--text-main)] truncate" title="${name}">${name}</span>
+                   <span class="text-xs text-[var(--text-sec)] font-mono">${(f.size/1024/1024).toFixed(2)} MB</span>
+                </div>
+                <div class="flex flex-col gap-2 mt-4">
+                   ${copyHtml}
+                   <button onclick="deleteAdminFile('${f.key}')" class="text-xs font-bold text-red-600 hover:text-white border border-red-200 hover:bg-red-600 py-1.5 rounded transition-colors w-full">删除文件</button>
+                </div>
+             </div>
+             `;
+          }).join('');
+       } catch(e) {
+          listEl.innerHTML = '<div class="col-span-full p-10 text-center font-mono text-red-500 text-sm">Failed to load data</div>';
+       }
+    }
+
+    async function deleteAdminFile(key) {
+       if(!confirm('确定永久删除？')) return;
+       const pw = localStorage.getItem('admin_pw') || document.getElementById('pw-in').value;
+       try {
+          const res = await fetch(`/api/delete?pw=${encodeURIComponent(pw)}&key=${encodeURIComponent(key)}`, { method: 'DELETE' });
+          if(!res.ok) throw new Error('删除失败');
+          toast('已删除');
+          loadAdminFiles(); 
+       } catch(e) { toast(e.message); }
+    }
+
+    function setTarget(target) { 
+       uploadTarget = target; 
+       const lblB = document.getElementById('label-tgt-burn');
+       const lblP = document.getElementById('label-tgt-pub');
+       if(lblB && lblP) {
+           lblB.className = target === 'burn' ? "clean-card p-3 flex items-center gap-3 cursor-pointer border-[var(--text-main)]" : "clean-card p-3 flex items-center gap-3 cursor-pointer hover:border-[var(--text-main)] transition-colors bg-[var(--bg-body)] opacity-60";
+           lblP.className = target === 'public' ? "clean-card p-3 flex items-center gap-3 cursor-pointer border-[var(--text-main)]" : "clean-card p-3 flex items-center gap-3 cursor-pointer hover:border-[var(--text-main)] transition-colors bg-[var(--bg-body)] opacity-60";
+       }
+    }
+
+    function setMode(mode) {
+       uploadMode = mode;
+       document.getElementById('area-file').classList.toggle('hidden', mode !== 'file');
+       document.getElementById('area-text').classList.toggle('hidden', mode !== 'text');
+       document.querySelectorAll('.mode-btn').forEach(b => {
+           if(b.innerText === (mode === 'file' ? 'File' : 'Text')) {
+               b.className = "flex-1 py-1.5 bg-[var(--bg-card)] shadow-sm rounded text-sm font-semibold mode-btn text-[var(--text-main)] transition-all";
+           } else {
+               b.className = "flex-1 py-1.5 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-sm font-semibold mode-btn transition-all";
+           }
+       });
+    }
+
+    function handleFileSelect(input) {
+       selectedFiles = [...selectedFiles, ...Array.from(input.files)];
+       const fl = document.getElementById('file-list');
+       fl.innerHTML = selectedFiles.map((f,i) => `
+          <div class="clean-card p-3 flex justify-between items-center">
+             <span class="text-xs font-semibold text-[var(--text-main)] truncate mr-2">${f.name}</span>
+             <button onclick="selectedFiles.splice(${i},1); handleFileSelect({files:[]})" class="text-[var(--text-sec)] hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+          </div>
+       `).join('');
+       input.value = '';
+    }
+
+    async function startUpload() {
+       const pw = document.getElementById('pw-in').value;
+       if(!pw) return toast('未提供 Auth Key');
+       
+       const isPublic = (uploadTarget === 'public');
+       let queue = [];
+       if (uploadMode === 'text') {
+          const txt = document.getElementById('text-in').value;
+          if(!txt) return toast('无正文内容');
+          queue = [new File([new Blob([txt])], CFG.textMessageFilename)];
+       } else {
+          if(selectedFiles.length === 0) return toast('未添加文件');
+          queue = selectedFiles;
+       }
+
+       const btn = document.getElementById('btn-up');
+       const progBox = document.getElementById('up-progress-box');
+       const progBar = document.getElementById('up-bar');
+       const progPct = document.getElementById('up-pct');
+       const progName = document.getElementById('up-file-name');
+       
+       isUploading = true;
+       btn.disabled = true; btn.innerText = "Processing...";
+       progBox.classList.remove('hidden'); progBox.classList.add('flex');
+       
+       try {
+          let code = 'N/A';
+          if (!isPublic) {
+             const codeRes = await fetch(`/api/new-code?pw=${encodeURIComponent(pw)}`);
+             if(codeRes.status === 403) throw new Error(CFG.msgAuthFailed);
+             if(!codeRes.ok) throw new Error('API Error');
+             code = (await codeRes.json()).code;
+          }
+
+          for(let f of queue) {
+             let safeName = f.name;
+             progName.innerText = f.name;
+
+             const preRes = await fetch('/api/presign-put', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ pw, filename: safeName, size: f.size, code, isPublic })
+             });
+             if(!preRes.ok) throw new Error(await preRes.text() || '预签名失败');
+             const { url: uploadUrl, key: targetKey } = await preRes.json();
+
+             await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', uploadUrl);
+                xhr.upload.onprogress = (e) => {
+                   if (e.lengthComputable) {
+                      const pct = Math.round((e.loaded / e.total) * 100);
+                      progBar.style.width = pct + '%'; progPct.innerText = pct + '%';
+                   }
+                };
+                xhr.onload = () => { if (xhr.status === 200 || xhr.status === 204) resolve(); else reject(new Error(xhr.responseText || 'Upload Failed')); };
+                xhr.onerror = () => reject(new Error('网络无响应'));
+                xhr.send(f);
+             });
+
+             document.getElementById('up-success').classList.remove('hidden');
+             document.getElementById('up-success').classList.add('flex');
+             const rb = document.getElementById('result-box');
+
+             if (isPublic) {
+                const directLink = window.location.origin + "/api/direct?key=" + encodeURIComponent(targetKey);
+                rb.innerText = "LINK"; 
+                rb.classList.remove('letter-spacing-huge');
+                document.getElementById('result-hint').innerHTML = `固定直连下载链接（访问即下载）：<br><span class="text-[var(--text-main)] select-all mt-2 block opacity-80 border-b border-[var(--text-main)] inline-block pb-1">${directLink}</span>`;
+                rb.dataset.link = directLink;
+             } else {
+                rb.innerText = code; 
+                rb.classList.add('letter-spacing-huge');
+                const directLink = window.location.origin + "/?code=" + code;
+                document.getElementById('result-hint').innerHTML = `一键提取专属直达链接：<br><span class="text-[var(--text-main)] select-all mt-2 block opacity-80 border-b border-[var(--text-main)] inline-block pb-1">${directLink}</span><br><br>轻触上方数字也可仅复制 4 位提取码`;
+                rb.dataset.link = directLink;
+             }
+          }
+       } catch(e) { toast(e.message); } 
+       finally { isUploading = false; btn.disabled = false; btn.innerText = "执行上传操作"; progBox.classList.add('hidden'); progBox.classList.remove('flex'); progBar.style.width = '0%'; }
+    }
+
+    function resetAdmin() {
+       selectedFiles = []; document.getElementById('file-list').innerHTML = '';
+       document.getElementById('text-in').value = ''; 
+       document.getElementById('up-success').classList.add('hidden');
+       document.getElementById('up-success').classList.remove('flex');
+    }
+
+    function copyCode() {
+       const rb = document.getElementById('result-box');
+       if(rb.innerText === 'LINK') {
+          navigator.clipboard.writeText(rb.dataset.link);
+          toast('直达下载链接已复制');
+       } else if(rb.innerText !== '---') {
+          navigator.clipboard.writeText(rb.innerText); 
+          toast('提取码已复制');
+       }
+    }
+
+    async function findFiles() {
+       const codeIn = document.getElementById('code-in');
+       const code = codeIn.value.trim().toUpperCase();
+       if(code.length !== 4) return toast('需4位有效密钥');
+       
+       const btn = document.getElementById('btn-find'); 
+       btn.disabled = true; btn.innerText = "Authenticating...";
+       
+       try {
+          const res = await fetch(`/api/find?code=${code}`);
+          if(!res.ok) throw new Error();
+          currentDownloadFiles = await res.json();
+          
+          const txtItem = currentDownloadFiles.find(i => i.name === CFG.textMessageFilename);
+          if (txtItem) {
+             const preRes = await fetch(`/api/presign-get?key=${encodeURIComponent(txtItem.key)}`);
+             const { url: dlUrl } = await preRes.json();
+             const tRes = await fetch(dlUrl);
+             
+             document.getElementById('text-view-modal').classList.remove('hidden');
+             document.getElementById('text-view-modal').classList.add('flex');
+             document.getElementById('recv-text-area').value = await tRes.text();
+             
+             await fetch(`/api/burn?key=${encodeURIComponent(txtItem.key)}`, {method: 'DELETE'});
+          } else {
+             document.getElementById('state-input').classList.add('hidden');
+             document.getElementById('state-result').classList.remove('hidden');
+             document.getElementById('state-result').classList.add('flex');
+             
+             document.getElementById('dl-count-text').innerText = `${currentDownloadFiles.length}`;
+             document.getElementById('dl-list').innerHTML = currentDownloadFiles.map(f => `
+               <div class="px-4 py-4 md:px-6 flex justify-between items-center">
+                  <span class="text-sm font-semibold text-[var(--text-main)] truncate pr-4">${f.name}</span>
+                  <span class="text-xs font-mono text-[var(--text-sec)] shrink-0">${(f.size/1024/1024).toFixed(2)} MB</span>
+               </div>
+             `).join('');
+          }
+       } catch(e) { toast(CFG.msgNotFound); }
+       finally { btn.disabled = false; btn.innerText = "验证并获取数据"; codeIn.value = ''; }
+    }
+
+    async function streamDownload(url, filename, progBoxId, barId, pctId, nameId, btnId, isBurn = false, originKey = "") {
+       const progBox = document.getElementById(progBoxId);
+       const bar = document.getElementById(barId);
+       const pct = document.getElementById(pctId);
+       const btn = document.getElementById(btnId);
+       if(nameId) document.getElementById(nameId).innerText = filename;
+       
+       if(btn) btn.style.display = 'none';
+       progBox.classList.remove('hidden'); progBox.classList.add('flex');
+       bar.style.width = '0%'; if(pct) pct.innerText = '0%';
+
+       try {
+          const preRes = await fetch(url);
+          if(!preRes.ok) throw new Error('解析直连失败');
+          const { url: directUrl } = await preRes.json();
+
+          const res = await fetch(directUrl);
+          if (!res.ok) throw new Error('Stream Error');
+          const reader = res.body.getReader();
+          const total = +res.headers.get('Content-Length') || 0;
+          let loaded = 0; const chunks = [];
+
+          while(true) {
+             const {done, value} = await reader.read();
+             if (done) break;
+             chunks.push(value); loaded += value.length;
+             if (total > 0) {
+                const percent = Math.min(Math.round((loaded / total) * 100), 100);
+                bar.style.width = percent + '%'; if(pct) pct.innerText = percent + '%';
+             }
+          }
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob(chunks));
+          a.download = filename; a.click();
+          
+          if (isBurn && originKey) {
+              await fetch(`/api/burn?key=${encodeURIComponent(originKey)}`, {method: 'DELETE'});
+          }
+       } finally { 
+           progBox.classList.remove('flex'); progBox.classList.add('hidden'); 
+           if(btn) btn.style.display = '';
+       }
+    }
+
+    async function downloadAll() {
+       const btn = document.getElementById('btn-dl-all');
+       btn.disabled = true;
+       for(let f of currentDownloadFiles) {
+          await streamDownload(`/api/presign-get?key=${encodeURIComponent(f.key)}`, f.name, 'dl-progress-box', 'dl-bar', null, 'dl-file-name', 'btn-dl-all', true, f.key);
+       }
+       setTimeout(() => location.reload(), 2000);
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
