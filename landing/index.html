@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>加载中...</title>
+    <script src="./config.js"></script>
+    <style>
+        /* 这里原封不动保留你上面的全部 CSS 代码，为了页面整洁我省略了 */
+        :root {
+            --bg-color: #f5f5f7;
+            --text-primary: #1d1d1f;
+            /* ... (保留所有的样式) ... */
+        }
+        /* ... */
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <a id="blog-link" href="#" target="_blank" class="corner-link jump-link"></a>
+    <div id="toast" class="toast"><div id="toast-msg"></div></div>
+
+    <div class="glass-container">
+        <img id="avatar" src="" alt="Avatar" class="profile-img">
+        <h1 id="name"></h1>
+        <p id="bio" class="bio"></p>
+        <div id="bookmark-btn" class="btn-bookmark"></div>
+        <div id="links-wrapper" class="links-wrapper"></div>
+        <div class="contact">
+            <a id="email-link" href="#"></a>
+        </div>
+    </div>
+
+    <footer id="footer"></footer>
+
+    <script>
+        // 页面加载完成后，把 config.js 里的数据填到页面上
+        document.addEventListener('DOMContentLoaded', () => {
+            document.title = siteConfig.seo.title;
+            document.querySelector('meta[name="description"]').setAttribute("content", siteConfig.seo.description);
+            
+            let iconLink = document.querySelector("link[rel~='icon']");
+            if (!iconLink) {
+                iconLink = document.createElement('link');
+                iconLink.rel = 'icon';
+                document.head.appendChild(iconLink);
+            }
+            iconLink.href = siteConfig.seo.icon;
+
+            document.getElementById('blog-link').href = siteConfig.blogLink.link;
+            document.getElementById('blog-link').innerText = siteConfig.blogLink.text;
+            
+            document.getElementById('avatar').src = siteConfig.profile.avatar;
+            document.getElementById('name').innerText = siteConfig.profile.name;
+            document.getElementById('bio').innerText = siteConfig.profile.bio;
+            document.getElementById('bookmark-btn').innerText = siteConfig.profile.bookmarkBtn;
+            
+            document.getElementById('links-wrapper').innerHTML = siteConfig.urls.map(item => `
+                <a href="${item.link}" target="_blank" class="link-card jump-link">
+                    <div class="link-title">${item.title}</div>
+                    <div class="link-desc">${item.desc}</div>
+                </a>
+            `).join('');
+
+            document.getElementById('email-link').href = 'mailto:' + siteConfig.contact.email;
+            document.getElementById('email-link').innerText = siteConfig.contact.text;
+            document.getElementById('footer').innerText = siteConfig.footer;
+
+            // 收藏按钮逻辑
+            const bookmarkBtn = document.getElementById('bookmark-btn');
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            let toastTimeout;
+
+            if (bookmarkBtn) {
+                bookmarkBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(window.location.href).catch(() => {});
+                    const isMac = /Mac/i.test(navigator.userAgent);
+                    const shortcut = isMac ? '⌘ Command + D' : 'Ctrl + D';
+                    toastMsg.innerHTML = `已复制本页网址<br>请按 <strong>${shortcut}</strong> 加入书签防失联`;
+                    toast.classList.add('show');
+                    clearTimeout(toastTimeout);
+                    toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
