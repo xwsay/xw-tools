@@ -3,23 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="canonical" href="https://www.xwsay.com/" />
     <title>加载中...</title>
     <script src="./config.js"></script>
     <style>
-        /* 这里原封不动保留你上面的全部 CSS 代码，为了页面整洁我省略了 */
-        :root {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            /* ... (保留所有的样式) ... */
-        }
-        /* ... */
+        /* 这里保留你之前提供的全部 CSS 样式 */
+        :root { --bg-color: #f5f5f7; --text-primary: #1d1d1f; --text-secondary: #86868b; --glass-bg: rgba(255, 255, 255, 0.6); --glass-border: rgba(255, 255, 255, 0.8); --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); --card-hover-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(0, 0, 0, 0.05); --card-hover-border: rgba(0, 0, 0, 0.1); --glow-1: #ffb8b8; --glow-2: #e0c3fc; --toast-bg: rgba(255, 255, 255, 0.8); }
+        @media (prefers-color-scheme: dark) { :root { --bg-color: #000000; --text-primary: #f5f5f7; --text-secondary: #a1a1a6; --glass-bg: rgba(28, 28, 30, 0.5); --glass-border: rgba(255, 255, 255, 0.08); --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); --card-hover-bg: rgba(44, 44, 46, 0.8); --card-border: rgba(255, 255, 255, 0.05); --card-hover-border: rgba(255, 255, 255, 0.15); --glow-1: #4a154b; --glow-2: #1e1e3f; --toast-bg: rgba(28, 28, 30, 0.7); } }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-color); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow-x: hidden; position: relative; }
+        .ambient-bg { position: fixed; top: 50%; left: 50%; width: 150vw; height: 150vw; transform: translate(-50%, -50%); background: radial-gradient(circle at 30% 30%, var(--glow-1) 0%, transparent 40%), radial-gradient(circle at 70% 70%, var(--glow-2) 0%, transparent 40%); filter: blur(100px); opacity: 0.6; z-index: 0; animation: breathe 10s ease-in-out infinite alternate; pointer-events: none; }
+        @keyframes breathe { 0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } 100% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); } }
+        .corner-link { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10; padding: 0.5rem 1.2rem; background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 99px; color: var(--text-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; box-shadow: var(--glass-shadow); }
+        .glass-container { position: relative; z-index: 1; width: 90%; max-width: 480px; background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem 2rem; box-shadow: var(--glass-shadow); text-align: center; animation: slideUpFade 0.6s ease-out both; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 2px solid var(--glass-border); transition: transform 0.3s; }
+        h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .bio { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .btn-bookmark { display: inline-flex; padding: 0.6rem 1.2rem; border-radius: 99px; background: rgba(134, 134, 139, 0.08); color: var(--text-primary); border: 1px solid var(--card-border); cursor: pointer; margin-bottom: 2.5rem; transition: all 0.2s; font-size: 0.85rem; }
+        .links-wrapper { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+        .link-card { display: flex; flex-direction: column; align-items: flex-start; padding: 1.2rem 1.5rem; background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 16px; text-decoration: none; transition: all 0.3s; position: relative; overflow: hidden; }
+        .link-card:hover { background: var(--card-hover-bg); transform: translateY(-2px); }
+        .link-title { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.2rem; display: flex; justify-content: space-between; width: 100%; }
+        .link-desc { font-size: 0.85rem; color: var(--text-secondary); text-align: left; }
+        footer { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--text-secondary); z-index: 1; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--toast-bg); backdrop-filter: blur(24px); padding: 1rem 1.5rem; border-radius: 16px; transition: bottom 0.4s; z-index: 999; font-size: 0.9rem; }
+        .toast.show { bottom: 40px; }
     </style>
 </head>
 <body>
     <div class="ambient-bg"></div>
-    <a id="blog-link" href="#" target="_blank" class="corner-link jump-link"></a>
+    <a id="blog-link" href="#" target="_blank" class="corner-link"></a>
     <div id="toast" class="toast"><div id="toast-msg"></div></div>
-
     <div class="glass-container">
         <img id="avatar" src="" alt="Avatar" class="profile-img">
         <h1 id="name"></h1>
@@ -30,59 +45,38 @@
             <a id="email-link" href="#"></a>
         </div>
     </div>
-
     <footer id="footer"></footer>
 
     <script>
-        // 页面加载完成后，把 config.js 里的数据填到页面上
         document.addEventListener('DOMContentLoaded', () => {
+            // 填充配置数据
             document.title = siteConfig.seo.title;
-            document.querySelector('meta[name="description"]').setAttribute("content", siteConfig.seo.description);
-            
-            let iconLink = document.querySelector("link[rel~='icon']");
-            if (!iconLink) {
-                iconLink = document.createElement('link');
-                iconLink.rel = 'icon';
-                document.head.appendChild(iconLink);
-            }
-            iconLink.href = siteConfig.seo.icon;
-
             document.getElementById('blog-link').href = siteConfig.blogLink.link;
             document.getElementById('blog-link').innerText = siteConfig.blogLink.text;
-            
             document.getElementById('avatar').src = siteConfig.profile.avatar;
             document.getElementById('name').innerText = siteConfig.profile.name;
             document.getElementById('bio').innerText = siteConfig.profile.bio;
             document.getElementById('bookmark-btn').innerText = siteConfig.profile.bookmarkBtn;
-            
             document.getElementById('links-wrapper').innerHTML = siteConfig.urls.map(item => `
-                <a href="${item.link}" target="_blank" class="link-card jump-link">
+                <a href="${item.link}" target="_blank" class="link-card">
                     <div class="link-title">${item.title}</div>
                     <div class="link-desc">${item.desc}</div>
                 </a>
             `).join('');
-
             document.getElementById('email-link').href = 'mailto:' + siteConfig.contact.email;
             document.getElementById('email-link').innerText = siteConfig.contact.text;
             document.getElementById('footer').innerText = siteConfig.footer;
 
-            // 收藏按钮逻辑
-            const bookmarkBtn = document.getElementById('bookmark-btn');
+            // 收藏功能
+            const btn = document.getElementById('bookmark-btn');
             const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            let toastTimeout;
-
-            if (bookmarkBtn) {
-                bookmarkBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(window.location.href).catch(() => {});
-                    const isMac = /Mac/i.test(navigator.userAgent);
-                    const shortcut = isMac ? '⌘ Command + D' : 'Ctrl + D';
-                    toastMsg.innerHTML = `已复制本页网址<br>请按 <strong>${shortcut}</strong> 加入书签防失联`;
-                    toast.classList.add('show');
-                    clearTimeout(toastTimeout);
-                    toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500);
-                });
-            }
+            btn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href);
+                const isMac = /Mac/i.test(navigator.userAgent);
+                document.getElementById('toast-msg').innerHTML = `网址已复制<br>按 <strong>${isMac?'⌘+D':'Ctrl+D'}</strong> 收藏`;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            });
         });
     </script>
 </body>
