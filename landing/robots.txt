@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 权重域名声明
+Sitemap: https://www.xwsay.com/sitemap.xml
