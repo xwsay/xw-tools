@@ -1,7 +1,7 @@
 这是一个基于 **“动静分离 + 边缘计算”** 架构的企业级安全文件分发系统。
 前端 UI 托管在 GitHub，后端逻辑由 Cloudflare Worker 驱动，文件实体安全地存储在 S3/R2 对象存储中。
 
-## 🏗️ 架构备忘录 (工作原理)
+## 架构备忘录 (工作原理)
 * **网页床 (UI)**：存放在 GitHub (`download/index.html`)。由 Worker 实时动态拉取并注入变量，享受 CDN 极速缓存。
 * **调度员 (API)**：部署在 Cloudflare Worker。负责拦截非法请求、校验密码、并向 S3 索取临时上传/下载签名（Presigned URL）。
 * **实体库 (Storage)**：Cloudflare R2 或任意兼容 S3 的对象存储。文件实体**绝不**经过 Worker 内存，而是由前端拿着“临时签名”直接与存储桶进行 P2P 级直传/直下，完美绕过 Worker 的体积和时间限制。
