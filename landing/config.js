@@ -33,16 +33,6 @@ const siteConfig = {
       title: "教程手册", 
       desc: "保姆级实操指南与跨境工具教程",
       link: "https://docs.xwsay.com" 
-    },
-    {
-      title: "安全下载中心",
-      desc: "阅后即焚、极速分发的工具分发站",
-      link: "https://download.xwsay.com" 
-    },
-    {
-      title: "地址生成器",
-      desc: "免税州 Apple ID 注册信息一键生成",
-      link: "https://address.xwsay.com" 
     }
   ],
 
