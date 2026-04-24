@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    :root { --theme: #000000; } /* 💡 你可以直接在这里改留言板的主题色 */
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #ffffff; color: #1d1d1f; padding: 24px; -webkit-font-smoothing: antialiased; }
+    h3 { font-size: 22px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.5px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #86868b; margin-bottom: 8px; }
+    input, textarea { width: 100%; padding: 14px 16px; background: #f5f5f7; border: 2px solid transparent; border-radius: 12px; font-size: 15px; color: #1d1d1f; outline: none; transition: all 0.25s ease; font-family: inherit; }
+    input:focus, textarea:focus { background: #ffffff; border-color: var(--theme); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+    textarea { height: 120px; resize: none; line-height: 1.5; }
+    .file-area { display: flex; align-items: center; justify-content: space-between; background: #f5f5f7; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; }
+    .link-btn { color: var(--theme); cursor: pointer; font-weight: 500; display: flex; align-items: center; }
+    #removeBtn { color: #ff3b30; }
+    #preview { width: 100%; max-height: 160px; object-fit: cover; border-radius: 12px; display: none; margin-bottom: 20px; border: 1px solid #e5e5ea; }
+    .btn { width: 100%; padding: 16px; background: var(--theme); color: #ffffff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.1s ease, opacity 0.2s ease; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    #status { margin-top: 16px; text-align: center; font-size: 14px; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <h3>留言反馈</h3>
+  <form id="feedbackForm">
+    <div class="form-group">
+      <label>您的邮箱 (必填)</label>
+      <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label>问题描述 (必填)</label>
+      <textarea id="message" required></textarea>
+    </div>
+    <div class="file-area">
+      <input type="file" id="imageFile" accept="image/*" style="display:none">
+      <span class="link-btn" onclick="document.getElementById('imageFile').click()">📎 添加图片 (小于20MB)</span>
+      <span class="link-btn" id="removeBtn" style="display:none;">删除</span>
+    </div>
+    <img id="preview">
+    <button type="submit" class="btn" id="submitBtn">提 交</button>
+  </form>
+  <div id="status"></div>
 
+  <script>
+    const form = document.getElementById('feedbackForm');
+    const fileInput = document.getElementById('imageFile');
+    const preview = document.getElementById('preview');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusDiv = document.getElementById('status');
+    const removeBtn = document.getElementById('removeBtn');
+
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 20 * 1024 * 1024) {
+          alert("图片太大了，请压缩后再传");
+          fileInput.value = ''; return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        removeBtn.style.display = 'block';
+      }
+    };
+
+    removeBtn.onclick = () => {
+      fileInput.value = ''; preview.src = '';
+      preview.style.display = 'none'; removeBtn.style.display = 'none';
+    };
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerText = "发送中...";
+      
+      const formData = new FormData();
+      formData.append('email', document.getElementById('email').value);
+      formData.append('message', document.getElementById('message').value);
+      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+
+      try {
+        // 💡 关键修改：自动定位到 Worker 后端
+        const response = await fetch('{{WORKER_URL}}api/submit', { method: 'POST', body: formData });
+        if (response.ok) {
+          statusDiv.innerText = "✅ 提交成功";
+          statusDiv.style.color = "#34c759";
+          form.reset(); preview.style.display = 'none'; removeBtn.style.display = 'none';
+        } else { throw new Error(); }
+      } catch (err) {
+        statusDiv.innerText = "❌ 网络错误，请重试";
+        statusDiv.style.color = "#ff3b30";
+      }
+      submitBtn.disabled = false;
+      submitBtn.innerText = "提 交";
+    };
+  </script>
+</body>
+</html>
