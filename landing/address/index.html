@@ -5,27 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>美区免税州地址生成器 | 小闻说</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 15px; background: #f5f5f7; margin: 0; }
-        .container { background: #ffffff; max-width: 480px; margin: 10px auto; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
-        h2 { text-align: center; margin: 0 0 6px 0; font-size: 20px; font-weight: 600; }
-        .brand-subtitle { text-align: center; font-size: 13px; color: #86868b; margin-bottom: 20px; }
-        .brand-subtitle a { color: #1d1d1f; text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
+        /* 继承主站的顶级 CSS 变量 */
+        :root {
+            --bg-color: #fbfbfd;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-hover: #ffffff;
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --glow-1: #e0eaff;
+            --glow-2: #fce7f3;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --text-primary: #f5f5f7;
+                --text-secondary: #a1a1a6;
+                --glass-bg: rgba(28, 28, 30, 0.6);
+                --glass-border: rgba(255, 255, 255, 0.08);
+                --card-bg: rgba(44, 44, 46, 0.5);
+                --card-hover: rgba(58, 58, 60, 0.8);
+                --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.4);
+                --glow-1: #1a2342;
+                --glow-2: #38192a;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+            padding: 20px 15px;
+        }
+
+        /* 主站同款氛围背景 */
+        .ambient-bg { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: radial-gradient(circle at 20% 30%, var(--glow-1) 0%, transparent 50%), 
+                        radial-gradient(circle at 80% 70%, var(--glow-2) 0%, transparent 50%); 
+            filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
+            animation: breathe 10s ease-in-out infinite alternate;
+        }
+        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+
+        /* 左上角返回主页 */
+        .back-link {
+            position: fixed; top: 1.5rem; left: 1.5rem; z-index: 10;
+            padding: 0.5rem 1rem; border-radius: 99px; font-size: 0.85rem; font-weight: 500;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            color: var(--text-primary); text-decoration: none; backdrop-filter: blur(20px);
+            transition: all 0.2s; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 4px;
+        }
+        .back-link:hover { transform: translateY(-2px); background: var(--card-hover); }
+
+        /* 核心拟态容器 */
+        .glass-container { 
+            width: 100%; max-width: 480px; 
+            background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border); border-radius: 24px; 
+            padding: 2rem 1.5rem; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            position: relative; z-index: 1;
+        }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { text-align: center; margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px;}
+        .brand-subtitle { text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; }
+        .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
         .brand-subtitle a:hover { opacity: 0.7; }
-        button.generate-btn { width: 100%; padding: 14px; font-size: 16px; font-weight: 600; background: #1d1d1f; color: white; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: transform 0.2s, box-shadow 0.2s; }
-        button.generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-        .info-list { display: flex; flex-direction: column; gap: 12px; }
-        .info-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #fafafa; border-radius: 12px; border: 1px solid #f0f0f0; }
+
+        /* 按钮大厂化 */
+        button.generate-btn { 
+            width: 100%; padding: 16px; font-size: 1rem; font-weight: 600; 
+            background: var(--text-primary); color: var(--bg-color); 
+            border: none; border-radius: 16px; cursor: pointer; margin-bottom: 16px; 
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s; 
+            box-shadow: var(--shadow-sm);
+        }
+        button.generate-btn:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        button.generate-btn:active { transform: translateY(0); }
+
+        /* 列表项 iOS 化 */
+        .info-list { display: flex; flex-direction: column; gap: 10px; }
+        .info-row { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 14px 16px; background: var(--card-bg); 
+            border-radius: 16px; border: 1px solid var(--glass-border); 
+            transition: background 0.2s;
+        }
+        .info-row:hover { background: var(--card-hover); }
         .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 12px; }
-        .label { font-size: 12px; color: #86868b; margin-bottom: 4px; font-weight: 500; }
-        .value { font-size: 16px; color: #1d1d1f; word-break: break-all; font-weight: 600; }
-        .copy-btn { padding: 8px 16px; font-size: 14px; font-weight: 500; background: #ffffff; border: 1px solid #d2d2d7; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .value { font-size: 1rem; color: var(--text-primary); word-break: break-all; font-weight: 600; }
+        
+        /* 复制按钮精细化 */
+        .copy-btn { 
+            padding: 6px 14px; font-size: 0.8rem; font-weight: 600; 
+            background: var(--bg-color); color: var(--text-primary);
+            border: 1px solid var(--glass-border); border-radius: 99px; 
+            cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-sm);
+        }
+        .copy-btn:hover { background: var(--text-primary); color: var(--bg-color); }
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
+
+        @media (max-width: 480px) {
+            .glass-container { padding: 1.5rem 1rem; border-radius: 20px; }
+            .back-link { top: 1rem; left: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+            button.generate-btn { padding: 14px; font-size: 0.95rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="ambient-bg"></div>
+    
+    <a href="https://www.xwsay.com" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        返回主页
+    </a>
+
+    <div class="glass-container">
         <h2>🇺🇸 美区免税州地址生成器</h2>
-        <div class="brand-subtitle"><a href="https://www.xwsay.com" target="_blank">小闻说</a> 专属极客工具</div>
+        <div class="brand-subtitle"><a href="https://www.xwsay.com">小闻说</a> 专属极客工具</div>
         <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
         <div id="output" class="info-list"></div>
     </div>
