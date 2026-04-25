@@ -6,19 +6,11 @@ const siteConfig = {
     url: "https://www.xwsay.com"
   },
   
-  // 专业感插件配置
-  status: {
-    text: "全站节点畅通", // 状态灯文字
-    version: "v2.0 Core" // 极客版本号
-  },
-
-  // 右上角博客入口
   blogLink: {
     text: "作者博客",
     link: "https://blog.xwsay.com"
   },
 
-  // 核心视觉区
   profile: {
     avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
     name: "小闻说",
@@ -26,7 +18,6 @@ const siteConfig = {
     bookmarkBtn: "获取防失联书签"
   },
 
-  // 核心业务：目前只上线教程
   urls: [
     {
       title: "教程手册", 
