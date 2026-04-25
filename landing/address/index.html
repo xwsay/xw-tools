@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>美区免税州地址生成器 | 小闻说</title>
     <style>
-        /* 继承主站的顶级 CSS 变量 */
         :root {
             --bg-color: #fbfbfd;
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(0, 0, 0, 0.05);
-            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.5);
             --card-hover: #ffffff;
             --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --accent: #0071e3;
             --glow-1: #e0eaff;
             --glow-2: #fce7f3;
         }
@@ -26,9 +26,9 @@
                 --text-secondary: #a1a1a6;
                 --glass-bg: rgba(28, 28, 30, 0.6);
                 --glass-border: rgba(255, 255, 255, 0.08);
-                --card-bg: rgba(44, 44, 46, 0.5);
+                --card-bg: rgba(44, 44, 46, 0.4);
                 --card-hover: rgba(58, 58, 60, 0.8);
-                --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.4);
+                --accent: #2997ff;
                 --glow-1: #1a2342;
                 --glow-2: #38192a;
             }
@@ -45,22 +45,17 @@
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased; 
             padding: 20px 15px;
+            position: relative;
         }
 
-        /* 主站同款氛围背景 */
         .ambient-bg { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background: radial-gradient(circle at 20% 30%, var(--glow-1) 0%, transparent 50%), 
                         radial-gradient(circle at 80% 70%, var(--glow-2) 0%, transparent 50%); 
             filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
-            animation: breathe 10s ease-in-out infinite alternate;
         }
-        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-        /* 左上角返回主页 */
         .back-link {
             position: fixed; top: 1.5rem; left: 1.5rem; z-index: 10;
             padding: 0.5rem 1rem; border-radius: 99px; font-size: 0.85rem; font-weight: 500;
@@ -68,105 +63,111 @@
             color: var(--text-primary); text-decoration: none; backdrop-filter: blur(20px);
             transition: all 0.2s; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 4px;
         }
-        .back-link:hover { transform: translateY(-2px); background: var(--card-hover); }
 
-        /* 核心拟态容器 */
         .glass-container { 
             width: 100%; max-width: 480px; 
             background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border); border-radius: 24px; 
             padding: 2rem 1.5rem; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-            position: relative; z-index: 1;
         }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { text-align: center; margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px;}
+        h2 { text-align: center; margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 600; }
         .brand-subtitle { text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; }
-        .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
-        .brand-subtitle a:hover { opacity: 0.7; }
+        .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; }
 
-        /* 按钮大厂化 */
         button.generate-btn { 
             width: 100%; padding: 16px; font-size: 1rem; font-weight: 600; 
             background: var(--text-primary); color: var(--bg-color); 
             border: none; border-radius: 16px; cursor: pointer; margin-bottom: 16px; 
-            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s; 
-            box-shadow: var(--shadow-sm);
+            transition: all 0.2s; box-shadow: var(--shadow-sm);
         }
-        button.generate-btn:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        button.generate-btn:active { transform: translateY(0); }
+        button.generate-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* 列表项 iOS 化 */
         .info-list { display: flex; flex-direction: column; gap: 10px; }
         .info-row { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 14px 16px; background: var(--card-bg); 
             border-radius: 16px; border: 1px solid var(--glass-border); 
-            transition: background 0.2s;
         }
-        .info-row:hover { background: var(--card-hover); }
         .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 12px; }
-        .label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-        .value { font-size: 1rem; color: var(--text-primary); word-break: break-all; font-weight: 600; }
+        .label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 500; text-transform: uppercase; }
+        .value { font-size: 1rem; color: var(--text-primary); font-weight: 600; }
         
-        /* 复制按钮精细化 */
         .copy-btn { 
             padding: 6px 14px; font-size: 0.8rem; font-weight: 600; 
             background: var(--bg-color); color: var(--text-primary);
             border: 1px solid var(--glass-border); border-radius: 99px; 
-            cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-sm);
+            cursor: pointer; transition: all 0.2s;
         }
         .copy-btn:hover { background: var(--text-primary); color: var(--bg-color); }
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
 
-        @media (max-width: 480px) {
-            .glass-container { padding: 1.5rem 1rem; border-radius: 20px; }
-            .back-link { top: 1rem; left: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-            button.generate-btn { padding: 14px; font-size: 0.95rem; }
+        /* 🚀 核心：引流卡片样式 */
+        .cta-card {
+            margin-top: 24px;
+            padding: 1.25rem;
+            background: rgba(0, 113, 227, 0.05); /* 淡淡的 Apple 蓝 */
+            border: 1px dashed var(--accent); /* 虚线增加点击暗示 */
+            border-radius: 18px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        @media (prefers-color-scheme: dark) {
+            .cta-card { background: rgba(41, 151, 255, 0.1); border-color: rgba(41, 151, 255, 0.4); }
+        }
+        .cta-card:hover {
+            background: rgba(0, 113, 227, 0.1);
+            transform: translateY(-2px);
+            border-style: solid;
+        }
+        .cta-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="ambient-bg"></div>
-    
-    <a href="https://www.xwsay.com" class="back-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        返回主页
-    </a>
+    <a href="https://www.xwsay.com" class="back-link">返回主页</a>
 
     <div class="glass-container">
         <h2>🇺🇸 美区免税州地址生成器</h2>
         <div class="brand-subtitle"><a href="https://www.xwsay.com">小闻说</a> 专属工具</div>
         <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
+        
         <div id="output" class="info-list"></div>
+
+        <a href="https://docs.xwsay.com/article/us-apple-id-guide" target="_blank" class="cta-card">
+            <div class="cta-text">👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》</div>
+        </a>
     </div>
 
     <script>
-        var firstNames = ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda", "Richard", "Thomas", "Sarah", "Jessica"];
-        var lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez"];
-        var streetNames = ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd", "Lakeview Dr", "Sunset Blvd"];
+        var firstNames = ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"];
+        var lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"];
+        var streetNames = ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"];
         var taxFreeStates = [
-            { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}, {name: "Dover", zip: "19901"}] },
-            { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}, {name: "Eugene", zip: "97401"}] },
+            { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
+            { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
             { state: "MT", stateName: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
             { state: "NH", stateName: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
             { state: "AK", stateName: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
         ];
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-        
-        function generatePhone() {
-            return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000);
-        }
+        function generatePhone() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); }
 
         function copyText(elementId, btnElement) {
             var text = document.getElementById(elementId).innerText;
             var textarea = document.createElement("textarea");
             textarea.value = text;
-            textarea.setAttribute('readonly', '');
-            textarea.style.position = 'absolute';
-            textarea.style.left = '-9999px';
+            textarea.style.position = 'fixed'; textarea.style.left = '-9999px';
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand("copy");
@@ -175,33 +176,27 @@
             var oldText = btnElement.innerText;
             btnElement.innerText = "已复制";
             btnElement.classList.add("copied");
-            setTimeout(function() { 
-                btnElement.innerText = oldText; 
-                btnElement.classList.remove("copied");
-            }, 1500);
+            setTimeout(function() { btnElement.innerText = oldText; btnElement.classList.remove("copied"); }, 1500);
         }
 
         function createRow(label, value, id) {
-            var html = '<div class="info-row">';
-            html += '<div class="info-content">';
-            html += '<div class="label">' + label + '</div>';
-            html += '<div class="value" id="' + id + '">' + value + '</div>';
-            html += '</div>';
-            html += '<button class="copy-btn" onclick="copyText(&quot;' + id + '&quot;, this)">复制</button>';
-            html += '</div>';
-            return html;
+            return `<div class="info-row">
+                <div class="info-content">
+                    <div class="label">${label}</div>
+                    <div class="value" id="${id}">${value}</div>
+                </div>
+                <button class="copy-btn" onclick="copyText('${id}', this)">复制</button>
+            </div>`;
         }
 
         function renderAddress(data) {
-            var out = document.getElementById("output");
-            if(!out) return;
-            out.innerHTML = 
-                createRow("全名 (Name)", data.fullName, "val-name") +
-                createRow("街道 (Street)", data.fullStreet, "val-street") +
-                createRow("城市 (City)", data.cityName, "val-city") +
-                createRow("州 (State)", data.stateName + " (" + data.stateCode + ")", "val-state-full") +
-                createRow("邮编 (Zip Code)", data.zipCode, "val-zip") +
-                createRow("电话 (Phone)", data.phone, "val-phone");
+            document.getElementById("output").innerHTML = 
+                createRow("全名", data.fullName, "val-name") +
+                createRow("街道", data.fullStreet, "val-street") +
+                createRow("城市", data.cityName, "val-city") +
+                createRow("州代号", data.stateCode, "val-state") +
+                createRow("邮编", data.zipCode, "val-zip") +
+                createRow("电话", data.phone, "val-phone");
         }
 
         function generateNewAddress() {
@@ -211,12 +206,10 @@
                 fullName: getRandom(firstNames) + ' ' + getRandom(lastNames),
                 fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(streetNames),
                 cityName: cityObj.name,
-                stateName: stateObj.stateName,
                 stateCode: stateObj.state,
                 zipCode: cityObj.zip,
                 phone: generatePhone()
             };
-            
             try { localStorage.setItem('xiaowen_us_address_data', JSON.stringify(addressData)); } catch(e) {}
             renderAddress(addressData);
         }
@@ -226,9 +219,7 @@
                 var savedData = localStorage.getItem('xiaowen_us_address_data');
                 if (savedData) { renderAddress(JSON.parse(savedData)); } 
                 else { generateNewAddress(); }
-            } catch(e) {
-                generateNewAddress();
-            }
+            } catch(e) { generateNewAddress(); }
         };
     </script>
 </body>
