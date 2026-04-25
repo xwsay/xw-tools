@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>美区免税州地址生成器 | 小闻说</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 15px; background: #f5f5f7; margin: 0; }
+        .container { background: #ffffff; max-width: 480px; margin: 10px auto; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        h2 { text-align: center; margin: 0 0 6px 0; font-size: 20px; font-weight: 600; }
+        .brand-subtitle { text-align: center; font-size: 13px; color: #86868b; margin-bottom: 20px; }
+        .brand-subtitle a { color: #1d1d1f; text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
+        .brand-subtitle a:hover { opacity: 0.7; }
+        button.generate-btn { width: 100%; padding: 14px; font-size: 16px; font-weight: 600; background: #1d1d1f; color: white; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: transform 0.2s, box-shadow 0.2s; }
+        button.generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        .info-list { display: flex; flex-direction: column; gap: 12px; }
+        .info-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #fafafa; border-radius: 12px; border: 1px solid #f0f0f0; }
+        .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 12px; }
+        .label { font-size: 12px; color: #86868b; margin-bottom: 4px; font-weight: 500; }
+        .value { font-size: 16px; color: #1d1d1f; word-break: break-all; font-weight: 600; }
+        .copy-btn { padding: 8px 16px; font-size: 14px; font-weight: 500; background: #ffffff; border: 1px solid #d2d2d7; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🇺🇸 美区免税州地址生成器</h2>
+        <div class="brand-subtitle"><a href="https://www.xwsay.com" target="_blank">小闻说</a> 专属极客工具</div>
+        <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
+        <div id="output" class="info-list"></div>
+    </div>
+
+    <script>
+        var firstNames = ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda", "Richard", "Thomas", "Sarah", "Jessica"];
+        var lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez"];
+        var streetNames = ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd", "Lakeview Dr", "Sunset Blvd"];
+        var taxFreeStates = [
+            { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}, {name: "Dover", zip: "19901"}] },
+            { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}, {name: "Eugene", zip: "97401"}] },
+            { state: "MT", stateName: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
+            { state: "NH", stateName: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
+            { state: "AK", stateName: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
+        ];
+
+        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        
+        function generatePhone() {
+            return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000);
+        }
+
+        function copyText(elementId, btnElement) {
+            var text = document.getElementById(elementId).innerText;
+            var textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            
+            var oldText = btnElement.innerText;
+            btnElement.innerText = "已复制";
+            btnElement.classList.add("copied");
+            setTimeout(function() { 
+                btnElement.innerText = oldText; 
+                btnElement.classList.remove("copied");
+            }, 1500);
+        }
+
+        function createRow(label, value, id) {
+            var html = '<div class="info-row">';
+            html += '<div class="info-content">';
+            html += '<div class="label">' + label + '</div>';
+            html += '<div class="value" id="' + id + '">' + value + '</div>';
+            html += '</div>';
+            html += '<button class="copy-btn" onclick="copyText(&quot;' + id + '&quot;, this)">复制</button>';
+            html += '</div>';
+            return html;
+        }
+
+        function renderAddress(data) {
+            var out = document.getElementById("output");
+            if(!out) return;
+            out.innerHTML = 
+                createRow("全名 (Name)", data.fullName, "val-name") +
+                createRow("街道 (Street)", data.fullStreet, "val-street") +
+                createRow("城市 (City)", data.cityName, "val-city") +
+                createRow("州 (State)", data.stateName + " (" + data.stateCode + ")", "val-state-full") +
+                createRow("邮编 (Zip Code)", data.zipCode, "val-zip") +
+                createRow("电话 (Phone)", data.phone, "val-phone");
+        }
+
+        function generateNewAddress() {
+            var stateObj = getRandom(taxFreeStates);
+            var cityObj = getRandom(stateObj.cities);
+            var addressData = {
+                fullName: getRandom(firstNames) + ' ' + getRandom(lastNames),
+                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(streetNames),
+                cityName: cityObj.name,
+                stateName: stateObj.stateName,
+                stateCode: stateObj.state,
+                zipCode: cityObj.zip,
+                phone: generatePhone()
+            };
+            
+            try { localStorage.setItem('xiaowen_us_address_data', JSON.stringify(addressData)); } catch(e) {}
+            renderAddress(addressData);
+        }
+        
+        window.onload = function() {
+            try {
+                var savedData = localStorage.getItem('xiaowen_us_address_data');
+                if (savedData) { renderAddress(JSON.parse(savedData)); } 
+                else { generateNewAddress(); }
+            } catch(e) {
+                generateNewAddress();
+            }
+        };
+    </script>
+</body>
+</html>
