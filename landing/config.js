@@ -20,7 +20,7 @@ const siteConfig = {
   tutorial: {
     title: "最新教程网站",
     desc: "保姆级实操指南与跨境网络工具教程，包含自媒体平台入口。",
-    warning: "注：教程底层域名可能因网络波动失效，请务必收藏本发布页（xwsay.com）作为永久入口。",
+    warning: "注：教程域名可能失效，请务必收藏本发布页（xwsay.com）作为永久入口。",
     link: "https://docs.xwsay.com" 
   },
 
