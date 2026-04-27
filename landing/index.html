@@ -46,9 +46,15 @@
             background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center;
         }
-        .nav-container { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* 【修改点 3】扩大导航栏最大宽度，让左右元素向两边推开 */
+        .nav-container { 
+            width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        
         .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); }
-        .nav-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .nav-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
         .nav-name { font-weight: 600; font-size: 0.95rem; }
         .nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; transition: opacity 0.2s; }
         .nav-link:hover { opacity: 0.7; }
@@ -67,7 +73,6 @@
         .tut-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.8rem; display: flex; justify-content: space-between; }
         .tut-desc { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; }
         
-        /* 新增：提示模块样式 */
         .tut-warning {
             font-size: 0.85rem; color: var(--warn-text); background: var(--warn-bg);
             padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid var(--warn-border);
@@ -80,12 +85,18 @@
         .al-box { display: flex; flex-direction: column; gap: 1rem; }
         @media (min-width: 600px) { .al-box { flex-direction: row; align-items: center; justify-content: space-between; } }
         
+        /* 【修改点 4】改变邮箱链接排版，消除输入框错觉 */
         .email-link {
-            font-family: ui-monospace, SFMono-Regular, monospace; font-size: 1rem; color: var(--text-main); text-decoration: none;
+            font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.95rem; color: var(--text-main); text-decoration: none;
             padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 8px;
-            background: var(--card-hover); flex-grow: 1; text-align: center;
+            background: var(--card-hover); flex-grow: 1; 
+            display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s;
         }
-        .btn-bookmark { padding: 0.8rem 1.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; background: var(--text-main); color: var(--bg); border: none; border-radius: 8px; }
+        .email-link:hover { border-color: var(--border-hover); }
+        .email-link::after { content: "↗"; color: var(--text-muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 400; }
+        
+        .btn-bookmark { padding: 0.8rem 1.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; background: var(--text-main); color: var(--bg); border: none; border-radius: 8px; transition: opacity 0.2s; }
+        .btn-bookmark:hover { opacity: 0.9; }
 
         footer { margin-top: 6rem; padding-bottom: 3rem; font-size: 0.85rem; color: var(--text-muted); }
         .footer-info { margin-bottom: 0.5rem; }
@@ -160,7 +171,9 @@
 
                 document.getElementById('al-title').innerText = siteConfig.antiLost.title;
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
-                document.getElementById('al-email').innerText = siteConfig.antiLost.email;
+                
+                // 给邮箱补充前缀提示，使其更像按钮
+                document.getElementById('al-email').innerText = "发邮件至： " + siteConfig.antiLost.email;
                 document.getElementById('al-email').href = `mailto:${siteConfig.antiLost.email}?subject=${siteConfig.antiLost.emailSubject}`;
                 document.getElementById('bookmark-btn').innerText = siteConfig.antiLost.btnText;
 
@@ -178,8 +191,7 @@
             if(bBtn) {
                 bBtn.addEventListener('click', () => {
                     navigator.clipboard.writeText(window.location.href).catch(()=>{});
-                    const isMac = /Mac/i.test(navigator.userAgent);
-                    document.getElementById('toast-msg').innerHTML = `本页链接已复制。按 <strong>${isMac ? '⌘+D' : 'Ctrl+D'}</strong> 收藏防走失。`;
+                    document.getElementById('toast-msg').innerHTML = `本页链接已复制。请按 <strong>⌘+D</strong> 收藏防走失。`;
                     toast.classList.add('show');
                     setTimeout(() => toast.classList.remove('show'), 3000);
                 });
