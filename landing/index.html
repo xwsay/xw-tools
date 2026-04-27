@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="canonical" href="https://www.xwsay.com/" />
     <title>加载中...</title>
-    
     <script src="./config.js"></script>
-
     <style>
-        /* 极简黑白主题变量 */
         :root {
             --bg: #ffffff;
             --text-main: #111111;
@@ -48,148 +45,142 @@
             -webkit-font-smoothing: antialiased; 
         }
 
-        /* 顶部导航 */
+        /* 导航栏 */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 2rem;
-            max-width: 800px;
+            padding: 2rem;
+            max-width: 900px;
             margin: 0 auto;
         }
         .nav-brand { display: flex; align-items: center; gap: 12px; }
         .nav-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
-        .nav-name { font-weight: 600; font-size: 1rem; letter-spacing: -0.2px; }
+        .nav-name { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.3px; }
         .nav-link { 
-            font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; 
+            font-size: 0.9rem; font-weight: 500; color: var(--text-main); text-decoration: none; 
             padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s;
         }
-        .nav-link:hover { background: var(--card-hover); border-color: var(--border-hover); }
+        .nav-link:hover { border-color: var(--border-hover); background: var(--card-hover); }
 
-        /* 主体内容区 */
+        /* 内容区 */
         .container {
-            max-width: 800px;
-            margin: 4rem auto;
+            max-width: 900px;
+            margin: 2rem auto 6rem;
             padding: 0 2rem;
         }
 
-        /* 头部介绍 */
-        .header-section { margin-bottom: 4rem; }
-        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 1rem; line-height: 1.2; }
-        .bio { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; }
+        .hero { margin-bottom: 5rem; }
+        h1 { font-size: 3rem; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 1.5rem; line-height: 1.1; }
+        .bio { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2.5rem; }
         .btn-bookmark {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            padding: 0.8rem 1.8rem; font-size: 0.95rem; font-weight: 500; cursor: pointer;
             background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 6px;
-            transition: opacity 0.2s;
         }
-        .btn-bookmark:hover { opacity: 0.9; }
 
-        /* 分割线 */
-        hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
-
-        /* 防失联模块 */
-        .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
-        .anti-lost-container {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
+        /* 核心提醒板块 */
+        .anti-lost-section { margin-bottom: 4rem; }
+        .section-header { 
+            display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;
+            font-size: 1.3rem; font-weight: 600; letter-spacing: -0.5px;
+        }
+        .section-header::before {
+            content: ""; width: 8px; height: 8px; border-radius: 50%; background: #ff3b30;
+        }
+        .al-box {
+            border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem;
             background: var(--card-bg);
         }
-        .al-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+        .al-desc { color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; max-width: 700px; }
         
-        .al-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 600px) { .al-grid { grid-template-columns: 1fr 1fr; } }
+        .al-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .al-grid { grid-template-columns: 1.5fr 1fr; } }
         
-        .al-item { display: flex; flex-direction: column; gap: 0.5rem; }
-        .al-label { font-size: 0.85rem; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; }
-        .al-value { 
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.95rem; color: var(--text-main); text-decoration: none;
-            padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px;
-            background: var(--card-hover); transition: border-color 0.2s;
+        .al-card { display: flex; flex-direction: column; gap: 0.8rem; }
+        .al-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .al-action { 
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+            font-size: 1rem; color: var(--text-main); text-decoration: none;
+            padding: 1rem 1.2rem; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--card-hover); transition: all 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .al-value:hover { border-color: var(--border-hover); }
-        .al-hint { font-size: 0.8rem; color: var(--text-muted); }
+        .al-action:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+        .al-hint { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* 链接列表 */
-        .links-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
-        @media (min-width: 600px) { .links-grid { grid-template-columns: 1fr 1fr; } }
-        
-        .link-card {
-            display: flex; flex-direction: column; padding: 1.5rem;
-            border: 1px solid var(--border); border-radius: 8px; text-decoration: none;
-            background: var(--card-bg); transition: all 0.2s;
+        /* 资源列表 */
+        .resource-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-muted); }
+        .resource-link {
+            display: block; padding: 2rem; border: 1px solid var(--border); border-radius: 12px;
+            text-decoration: none; transition: all 0.2s; background: var(--card-bg);
         }
-        .link-card:hover { border-color: var(--border-hover); background: var(--card-hover); transform: translateY(-1px); }
-        .link-title { font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
-        .link-desc { font-size: 0.85rem; color: var(--text-muted); }
+        .resource-link:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .res-name { font-size: 1.2rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
+        .res-desc { font-size: 0.95rem; color: var(--text-muted); }
 
-        /* 底部 */
-        footer { margin-top: 5rem; padding-bottom: 3rem; text-align: left; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem; }
-        .contact-link { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-        .contact-link:hover { color: var(--text-main); }
+        footer { margin-top: 8rem; border-top: 1px solid var(--border); padding-top: 3rem; font-size: 0.9rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 20px; margin-bottom: 10px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; }
+        .footer-links a:hover { color: var(--text-main); }
 
-        /* Toast 提示 */
         .toast {
-            position: fixed; bottom: 2rem; right: 2rem;
+            position: fixed; top: 2rem; left: 50%; transform: translateX(-50%) translateY(-20px);
             background: var(--toast-bg); color: var(--toast-text);
-            padding: 1rem 1.5rem; border-radius: 6px; font-size: 0.9rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            opacity: 0; transform: translateY(10px); pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999;
+            padding: 1rem 2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500;
+            opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999;
         }
-        .toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-brand">
-            <img id="nav-avatar" src="" alt="Avatar" class="nav-avatar">
+            <img id="nav-avatar" src="" alt="" class="nav-avatar">
             <span id="nav-name" class="nav-name"></span>
         </div>
         <a id="blog-link" href="#" target="_blank" class="nav-link"></a>
     </nav>
 
     <main class="container">
-        <section class="header-section">
+        <section class="hero">
             <h1 id="main-title">消除技术门槛</h1>
             <p id="bio" class="bio"></p>
             <button id="bookmark-btn" class="btn-bookmark"></button>
         </section>
 
-        <section>
-            <h2 id="al-title" class="section-title"></h2>
-            <div class="anti-lost-container">
+        <section class="anti-lost-section">
+            <div id="al-title" class="section-header"></div>
+            <div class="al-box">
                 <p id="al-desc" class="al-desc"></p>
                 <div class="al-grid">
-                    <div class="al-item">
-                        <span class="al-label">发送邮件</span>
-                        <a id="al-email-link" href="#" class="al-value"></a>
+                    <div class="al-card">
+                        <span class="al-label">自动回复地址</span>
+                        <a id="al-email-link" href="#" class="al-action"></a>
                         <span id="al-email-hint" class="al-hint"></span>
                     </div>
-                    <div class="al-item">
+                    <div class="al-card">
                         <span id="al-tg-title" class="al-label"></span>
-                        <a id="al-tg-link" href="#" target="_blank" class="al-value" style="display: flex; justify-content: space-between;">
+                        <a id="al-tg-link" href="#" target="_blank" class="al-action">
                             <span>订阅频道</span>
                             <span>↗</span>
                         </a>
-                        <span class="al-hint">获取实时更新与通知</span>
+                        <span class="al-hint">获取实时更新通知</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <hr>
-
         <section>
-            <h2 class="section-title">资源与工具</h2>
-            <div id="links-wrapper" class="links-grid"></div>
+            <div class="resource-title">核心资源</div>
+            <div id="resources-wrapper"></div>
         </section>
 
-        <footer id="footer-container">
-            <a id="email-link" href="#" class="contact-link"></a>
-            <span id="footer-text"></span>
+        <footer>
+            <div class="footer-links">
+                <a id="contact-email" href="#"></a>
+            </div>
+            <div id="footer-text"></div>
         </footer>
     </main>
 
@@ -198,16 +189,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // 读取 config.js 中的数据渲染页面
                 document.title = siteConfig.seo.title;
-                const descMeta = document.querySelector('meta[name="description"]');
-                if (!descMeta) {
-                    const meta = document.createElement('meta');
-                    meta.name = "description";
-                    meta.content = siteConfig.seo.description;
-                    document.head.appendChild(meta);
-                }
-                
                 document.getElementById('nav-avatar').src = siteConfig.profile.avatar;
                 document.getElementById('nav-name').innerText = siteConfig.profile.name;
                 document.getElementById('blog-link').href = siteConfig.blogLink.link;
@@ -219,28 +201,27 @@
                 document.getElementById('al-title').innerText = siteConfig.antiLost.title;
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
                 document.getElementById('al-email-link').innerText = siteConfig.antiLost.email;
-                document.getElementById('al-email-link').href = `mailto:${siteConfig.antiLost.email}?subject=获取地址`;
+                document.getElementById('al-email-link').href = `mailto:${siteConfig.antiLost.email}?subject=最新地址`;
                 document.getElementById('al-email-hint').innerText = siteConfig.antiLost.emailSubject;
                 document.getElementById('al-tg-title').innerText = siteConfig.antiLost.telegramTitle;
                 document.getElementById('al-tg-link').href = siteConfig.antiLost.telegramLink;
 
-                document.getElementById('links-wrapper').innerHTML = siteConfig.urls.map(item => `
-                    <a href="${item.link}" target="_blank" class="link-card">
-                        <div class="link-title">${item.title}</div>
-                        <div class="link-desc">${item.desc}</div>
+                document.getElementById('resources-wrapper').innerHTML = siteConfig.resources.map(item => `
+                    <a href="${item.link}" target="_blank" class="resource-link">
+                        <div class="res-name">${item.title}</div>
+                        <div class="res-desc">${item.desc}</div>
                     </a>
                 `).join('');
 
-                document.getElementById('email-link').href = 'mailto:' + siteConfig.contact.email;
-                document.getElementById('email-link').innerText = siteConfig.contact.text;
+                document.getElementById('contact-email').href = 'mailto:' + siteConfig.contact.email;
+                document.getElementById('contact-email').innerText = siteConfig.contact.text;
                 document.getElementById('footer-text').innerText = siteConfig.footer;
 
                 const feedbackScript = document.createElement('script');
                 feedbackScript.src = "https://feedback.xwsay.dpdns.org/widget.js";
                 feedbackScript.defer = true;
                 document.head.appendChild(feedbackScript);
-
-            } catch (e) { console.error("配置加载错误:", e); }
+            } catch (e) { console.error(e); }
 
             const bBtn = document.getElementById('bookmark-btn');
             const toast = document.getElementById('toast');
@@ -248,7 +229,7 @@
                 bBtn.addEventListener('click', () => {
                     navigator.clipboard.writeText(window.location.href).catch(()=>{});
                     const isMac = /Mac/i.test(navigator.userAgent);
-                    document.getElementById('toast-msg').innerHTML = `主页链接已复制。按 <strong>${isMac ? '⌘ + D' : 'Ctrl + D'}</strong> 收藏本页。`;
+                    document.getElementById('toast-msg').innerHTML = `链接已复制。按 <strong>${isMac ? '⌘+D' : 'Ctrl+D'}</strong> 收藏本页。`;
                     toast.classList.add('show');
                     setTimeout(() => toast.classList.remove('show'), 3500);
                 });
