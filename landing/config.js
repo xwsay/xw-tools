@@ -14,7 +14,6 @@ const siteConfig = {
   profile: {
     avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
     name: "小闻说",
-    // 【修改点 1】采用精准业务文案
     bio: "数字出海 · 账号网络 · 免费教程"
   },
 
@@ -27,10 +26,10 @@ const siteConfig = {
 
   antiLost: {
     title: "备用获取方案",
-    desc: "如上方链接无法访问，请发送邮件获取最新地址。",
+    // 【修改点】在文案中明确指出邮件标题的要求
+    desc: "如上方链接无法访问，请发送邮件至下方邮箱，标题填写「最新地址」，系统将自动回复。",
     email: "x@xwsay.com",
-    emailSubject: "邮件标题请填写：最新地址",
-    // 【修改点 2】快捷键极客化文案
+    emailSubject: "最新地址",
     btnText: "收藏本页 (⌘+D)"
   },
 
