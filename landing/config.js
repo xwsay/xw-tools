@@ -7,7 +7,7 @@ const siteConfig = {
   },
   
   blogLink: {
-    text: "作者博客",
+    text: "访问主站 ↗",
     link: "https://blog.xwsay.com"
   },
 
@@ -16,6 +16,16 @@ const siteConfig = {
     name: "小闻说",
     bio: "消除技术门槛 · 工具为你所用",
     bookmarkBtn: "获取防失联书签"
+  },
+
+  // 防失联专属配置区
+  antiLost: {
+    title: "防失联指南",
+    desc: "如遇网站无法访问，请发送邮件至下方邮箱，系统将自动回复最新可用网址。",
+    email: "x@xwsay.com",
+    emailSubject: "邮件标题请填写：获取地址",
+    telegramTitle: "Telegram 频道",
+    telegramLink: "https://t.me/xwshuo"
   },
 
   urls: [
