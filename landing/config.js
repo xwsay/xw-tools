@@ -8,7 +8,7 @@ const siteConfig = {
   
   nav: {
     blogLink: "https://blog.xwsay.com",
-    blogText: "个人博客 ↗"
+    blogText: "作者博客 ↗"
   },
 
   profile: {
