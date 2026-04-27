@@ -63,7 +63,6 @@
         h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
         .bio { font-size: 1.05rem; color: var(--text-muted); }
         
-        /* 【修改点】把书签按钮移动到顶部，调整样式使其更自然 */
         .btn-bookmark { 
             display: inline-block; margin-top: 1.5rem; padding: 0.8rem 1.5rem; font-size: 0.9rem; 
             font-weight: 500; cursor: pointer; background: var(--text-main); color: var(--bg); 
@@ -90,7 +89,6 @@
         .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
         .al-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
         
-        /* 独立的邮箱按钮容器 */
         .al-box { display: flex; flex-direction: column; max-width: 400px; }
         
         .email-link {
@@ -110,6 +108,20 @@
             opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 2000;
         }
         .toast.show { opacity: 1; }
+
+        /* 移动端专属适配 */
+        @media (max-width: 600px) {
+            .nav-container { padding: 0 1.2rem; }
+            .main { margin-top: 80px; padding: 0 1.2rem; }
+            h1 { font-size: 1.8rem; }
+            .bio { font-size: 0.95rem; }
+            .tutorial-card { padding: 1.5rem; }
+            .tut-title { font-size: 1.25rem; }
+            .tut-desc { font-size: 0.9rem; }
+            .tut-warning { font-size: 0.8rem; flex-direction: column; align-items: flex-start; gap: 4px; padding: 0.6rem 0.8rem; }
+            .email-link { font-size: 0.85rem; padding: 0.8rem 1rem; }
+            .toast { width: 90%; text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -177,7 +189,6 @@
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
                 
                 document.getElementById('al-email').innerText = "发邮件至： " + siteConfig.antiLost.email;
-                // 将邮件标题参数拼接到链接中
                 document.getElementById('al-email').href = `mailto:${siteConfig.antiLost.email}?subject=${encodeURIComponent(siteConfig.antiLost.emailSubject)}`;
 
                 document.getElementById('contact-text').innerText = siteConfig.contactText;
@@ -194,7 +205,6 @@
             if(bBtn) {
                 bBtn.addEventListener('click', () => {
                     navigator.clipboard.writeText(window.location.href).catch(()=>{});
-                    // 由于你使用的是 Mac 电脑，这里直接硬编码显示 ⌘+D 即可保持文案简洁
                     document.getElementById('toast-msg').innerHTML = `本页链接已复制。请按 <strong>⌘+D</strong> 收藏防走失。`;
                     toast.classList.add('show');
                     setTimeout(() => toast.classList.remove('show'), 3000);
