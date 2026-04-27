@@ -6,39 +6,33 @@ const siteConfig = {
     url: "https://www.xwsay.com"
   },
   
-  blogLink: {
-    text: "个人博客 ↗",
-    link: "https://blog.xwsay.com"
+  nav: {
+    blogLink: "https://blog.xwsay.com",
+    blogText: "个人博客 ↗"
   },
 
   profile: {
     avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
     name: "小闻说",
-    bio: "消除技术门槛 · 工具为你所用",
-    bookmarkBtn: "获取防失联书签"
+    bio: "消除技术门槛 · 工具为你所用"
+  },
+
+  // 核心教程入口
+  tutorial: {
+    title: "最新教程网站",
+    desc: "保姆级实操指南与跨境网络工具教程，包含自媒体平台入口。",
+    warning: "注：教程底层域名可能因网络波动失效，请务必收藏本发布页（xwsay.com）作为永久入口。",
+    link: "https://docs.xwsay.com" // 这里可以填你的短链地址
   },
 
   antiLost: {
-    title: "防失联提醒",
-    desc: "如遇网站无法访问，请发送邮件至下方邮箱获取最新网址。建议将该邮箱保存至通讯录，以备不时之需。",
+    title: "备用获取方案",
+    desc: "如上方链接无法访问，请发送邮件获取最新地址。",
     email: "x@xwsay.com",
     emailSubject: "邮件标题请填写：最新地址",
-    telegramTitle: "Telegram 频道",
-    telegramLink: "https://t.me/xwshuo"
+    btnText: "获取防失联书签"
   },
 
-  // 资源导航：仅保留教程手册
-  resources: [
-    {
-      title: "教程手册", 
-      desc: "保姆级实操指南与跨境网络工具教程，包含自媒体平台入口。",
-      link: "https://docs.xwsay.com" 
-    }
-  ],
-
-  contact: {
-    email: "x@xwsay.com",
-    text: "商务与反馈：x@xwsay.com"
-  },
+  contactText: "商务与反馈：x@xwsay.com",
   footer: "© 2026 小闻说. All rights reserved."
 };
