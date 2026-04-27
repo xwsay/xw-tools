@@ -1,185 +1,310 @@
-<script>
-const siteConfig = {
-  seo: {
-    title: "小闻说 | 官方发布页",
-    description: "消除技术门槛，工具为你所用。小闻说官方教程与防失联入口。",
-    icon: "https://img.xwsay.com/Piclist/20260130180233761.ico",
-    url: "https://www.xwsay.com"
-  },
-  
-  blogLink: {
-    text: "访问主站",
-    link: "https://blog.xwsay.com"
-  },
-
-  profile: {
-    avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
-    name: "小闻说",
-    bio: "消除技术门槛 · 工具为你所用",
-    bookmarkBtn: "获取防失联书签"
-  },
-
-  // 【新增】防失联专属配置区
-  antiLost: {
-    title: "防失联指南",
-    desc: "如遇网站无法访问，请发送邮件至下方邮箱，系统将自动回复最新可用网址。",
-    email: "x@xwsay.com",
-    emailSubject: "邮件标题请填写：获取地址",
-    telegramTitle: "Telegram 频道",
-    telegramLink: "https://t.me/xwshuo"
-  },
-
-  urls: [
-    {
-      title: "教程手册", 
-      desc: "保姆级实操指南与跨境网络工具教程",
-      link: "https://docs.xwsay.com" 
-    }
-  ],
-
-  contact: {
-    email: "x@xwsay.com",
-    text: "商务与反馈：x@xwsay.com"
-  },
-  footer: "© 2026 小闻说. All rights reserved."
-};
-</script>
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="">
     <link rel="canonical" href="https://www.xwsay.com/" />
     <title>加载中...</title>
-    <style>
-        :root { --bg-color: #f5f5f7; --text-primary: #1d1d1f; --text-secondary: #86868b; --glass-bg: rgba(255, 255, 255, 0.6); --glass-border: rgba(255, 255, 255, 0.8); --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); --card-hover-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(0, 0, 0, 0.05); --glow-1: #ffb8b8; --glow-2: #e0c3fc; --toast-bg: rgba(255, 255, 255, 0.9); --accent-color: #0066cc; }
-        @media (prefers-color-scheme: dark) { :root { --bg-color: #000000; --text-primary: #f5f5f7; --text-secondary: #a1a1a6; --glass-bg: rgba(28, 28, 30, 0.5); --glass-border: rgba(255, 255, 255, 0.08); --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); --card-hover-bg: rgba(44, 44, 46, 0.8); --card-border: rgba(255, 255, 255, 0.05); --glow-1: #4a154b; --glow-2: #1e1e3f; --toast-bg: rgba(28, 28, 30, 0.8); --accent-color: #2997ff; } }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-color); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow-x: hidden; -webkit-font-smoothing: antialiased; position: relative; padding: 2rem 0; }
-        .ambient-bg { position: fixed; top: 50%; left: 50%; width: 150vw; height: 150vw; transform: translate(-50%, -50%); background: radial-gradient(circle at 30% 30%, var(--glow-1) 0%, transparent 40%), radial-gradient(circle at 70% 70%, var(--glow-2) 0%, transparent 40%); filter: blur(100px); opacity: 0.6; z-index: 0; animation: breathe 10s ease-in-out infinite alternate; pointer-events: none; }
-        @keyframes breathe { 0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } 100% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); } }
-        .top-bar { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10; }
-        .corner-link { padding: 0.5rem 1.2rem; background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 99px; color: var(--text-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; box-shadow: var(--glass-shadow); }
-        .corner-link:hover { background: var(--card-hover-bg); transform: translateY(-2px); }
-        .glass-container { position: relative; z-index: 1; width: 90%; max-width: 440px; background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem 2rem; box-shadow: var(--glass-shadow); text-align: center; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; margin-bottom: 3rem; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 2px solid var(--glass-border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
-        h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.25rem; letter-spacing: -0.5px; }
-        .bio { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; }
-        .btn-bookmark { display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.2rem; border-radius: 99px; background: rgba(134, 134, 139, 0.08); color: var(--text-primary); border: 1px solid var(--card-border); cursor: pointer; margin-bottom: 2rem; transition: all 0.2s; backdrop-filter: blur(10px); }
-        
-        /* 防失联卡片专属样式 */
-        .anti-lost-card { background: rgba(134, 134, 139, 0.05); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2.5rem; text-align: left; }
-        .al-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
-        .al-title::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #ff3b30; box-shadow: 0 0 8px rgba(255, 59, 48, 0.6); }
-        .al-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.5; }
-        .al-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-top: 1px solid var(--card-border); }
-        .al-label { font-size: 0.85rem; font-weight: 500; color: var(--text-primary); }
-        .al-value { font-size: 0.85rem; color: var(--accent-color); text-decoration: none; font-weight: 500; }
-        .al-hint { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+    
+    <script>
+    // ==========================================
+    // 全局数据配置区（修改这里的文本即可，无需改动下方代码）
+    // ==========================================
+    const siteConfig = {
+      seo: {
+        title: "小闻说 | 官方发布页",
+        description: "消除技术门槛，工具为你所用。小闻说官方教程与防失联入口。",
+        icon: "https://img.xwsay.com/Piclist/20260130180233761.ico",
+        url: "https://www.xwsay.com"
+      },
+      
+      blogLink: {
+        text: "访问主站 ↗",
+        link: "https://blog.xwsay.com"
+      },
 
-        .links-wrapper { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-        .link-card { display: flex; flex-direction: column; align-items: flex-start; padding: 1.5rem; background: var(--text-primary); border-radius: 16px; text-decoration: none; transition: all 0.3s; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-        .link-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); opacity: 0.95; }
-        .link-title { font-size: 1.15rem; font-weight: 600; color: var(--bg-color); margin-bottom: 0.3rem; width: 100%; display: flex; justify-content: space-between; }
-        .link-title::after { content: '→'; opacity: 0.8; }
-        .link-desc { font-size: 0.85rem; color: var(--bg-color); opacity: 0.8; text-align: left; }
-        footer { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--text-secondary); z-index: 1; width: 100%; text-align: center; }
-        .contact a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
-        .contact a:hover { color: var(--text-primary); }
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--toast-bg); backdrop-filter: blur(24px); padding: 1rem 1.5rem; border-radius: 16px; transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; text-align: center; font-size: 0.9rem; }
-        .toast.show { bottom: 40px; }
+      profile: {
+        avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
+        name: "小闻说",
+        bio: "消除技术门槛 · 工具为你所用",
+        bookmarkBtn: "获取防失联书签"
+      },
+
+      antiLost: {
+        title: "防失联指南",
+        desc: "如遇网站无法访问，请发送邮件至下方邮箱，系统将自动回复最新可用网址。",
+        email: "x@xwsay.com",
+        emailSubject: "邮件标题请填写：获取地址",
+        telegramTitle: "Telegram 频道",
+        telegramLink: "https://t.me/xwshuo"
+      },
+
+      urls: [
+        {
+          title: "教程手册", 
+          desc: "保姆级实操指南与跨境网络工具教程",
+          link: "https://docs.xwsay.com" 
+        }
+      ],
+
+      contact: {
+        email: "x@xwsay.com",
+        text: "商务与反馈：x@xwsay.com"
+      },
+      footer: "© 2026 小闻说. All rights reserved."
+    };
+    </script>
+
+    <style>
+        /* 极简黑白主题变量 (Linear 风格) */
+        :root {
+            --bg: #ffffff;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border: #eaeaea;
+            --border-hover: #cccccc;
+            --card-bg: #ffffff;
+            --card-hover: #fafafa;
+            --btn-bg: #111111;
+            --btn-text: #ffffff;
+            --toast-bg: #111111;
+            --toast-text: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0a0a;
+                --text-main: #ededed;
+                --text-muted: #888888;
+                --border: #222222;
+                --border-hover: #444444;
+                --card-bg: #0a0a0a;
+                --card-hover: #111111;
+                --btn-bg: #ededed;
+                --btn-text: #0a0a0a;
+                --toast-bg: #ededed;
+                --toast-text: #0a0a0a;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        /* 顶部导航 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .nav-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+        .nav-name { font-weight: 600; font-size: 1rem; letter-spacing: -0.2px; }
+        .nav-link { 
+            font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; 
+            padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s;
+        }
+        .nav-link:hover { background: var(--card-hover); border-color: var(--border-hover); }
+
+        /* 主体内容区 */
+        .container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        /* 头部介绍 */
+        .header-section { margin-bottom: 4rem; }
+        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 1rem; line-height: 1.2; }
+        .bio { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; }
+        .btn-bookmark {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 6px;
+            transition: opacity 0.2s;
+        }
+        .btn-bookmark:hover { opacity: 0.9; }
+
+        /* 分割线 */
+        hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+        /* 防失联模块 (文档流风格) */
+        .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+        .anti-lost-container {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            background: var(--card-bg);
+        }
+        .al-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+        
+        .al-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 600px) { .al-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .al-item { display: flex; flex-direction: column; gap: 0.5rem; }
+        .al-label { font-size: 0.85rem; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; }
+        .al-value { 
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.95rem; color: var(--text-main); text-decoration: none;
+            padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--card-hover); transition: border-color 0.2s;
+        }
+        .al-value:hover { border-color: var(--border-hover); }
+        .al-hint { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* 链接列表 */
+        .links-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+        @media (min-width: 600px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .link-card {
+            display: flex; flex-direction: column; padding: 1.5rem;
+            border: 1px solid var(--border); border-radius: 8px; text-decoration: none;
+            background: var(--card-bg); transition: all 0.2s;
+        }
+        .link-card:hover { border-color: var(--border-hover); background: var(--card-hover); transform: translateY(-1px); }
+        .link-title { font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
+        .link-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* 底部 */
+        footer { margin-top: 5rem; padding-bottom: 3rem; text-align: left; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem; }
+        .contact-link { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .contact-link:hover { color: var(--text-main); }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: var(--toast-bg); color: var(--toast-text);
+            padding: 1rem 1.5rem; border-radius: 6px; font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            opacity: 0; transform: translateY(10px); pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
     </style>
 </head>
 <body>
-    <div class="ambient-bg"></div>
-    <div class="top-bar"><a id="blog-link" href="#" target="_blank" class="corner-link"></a></div>
-    <div id="toast" class="toast"><div id="toast-msg"></div></div>
-    
-    <div class="glass-container">
-        <img id="avatar" src="" alt="Avatar" class="profile-img">
-        <h1 id="name"></h1>
-        <p id="bio" class="bio"></p>
-        <div id="bookmark-btn" class="btn-bookmark"></div>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img id="nav-avatar" src="" alt="Avatar" class="nav-avatar">
+            <span id="nav-name" class="nav-name"></span>
+        </div>
+        <a id="blog-link" href="#" target="_blank" class="nav-link"></a>
+    </nav>
 
-        <div class="anti-lost-card">
-            <div class="al-title" id="al-title"></div>
-            <div class="al-desc" id="al-desc"></div>
-            <div class="al-item">
-                <div>
-                    <span class="al-label">发送邮件</span>
-                    <span class="al-hint" id="al-email-hint"></span>
+    <main class="container">
+        <section class="header-section">
+            <h1 id="main-title">消除技术门槛</h1>
+            <p id="bio" class="bio"></p>
+            <button id="bookmark-btn" class="btn-bookmark"></button>
+        </section>
+
+        <section>
+            <h2 id="al-title" class="section-title"></h2>
+            <div class="anti-lost-container">
+                <p id="al-desc" class="al-desc"></p>
+                <div class="al-grid">
+                    <div class="al-item">
+                        <span class="al-label">发送邮件</span>
+                        <a id="al-email-link" href="#" class="al-value"></a>
+                        <span id="al-email-hint" class="al-hint"></span>
+                    </div>
+                    <div class="al-item">
+                        <span id="al-tg-title" class="al-label"></span>
+                        <a id="al-tg-link" href="#" target="_blank" class="al-value" style="display: flex; justify-content: space-between;">
+                            <span>订阅频道</span>
+                            <span>↗</span>
+                        </a>
+                        <span class="al-hint">获取实时更新与通知</span>
+                    </div>
                 </div>
-                <a id="al-email-link" href="#" class="al-value"></a>
             </div>
-            <div class="al-item">
-                <span class="al-label" id="al-tg-title"></span>
-                <a id="al-tg-link" href="#" target="_blank" class="al-value">点击订阅</a>
-            </div>
-        </div>
+        </section>
 
-        <div id="links-wrapper" class="links-wrapper"></div>
-        <div class="contact">
-            <a id="email-link" href="#"></a>
-        </div>
-    </div>
-    <footer id="footer"></footer>
+        <hr>
+
+        <section>
+            <h2 class="section-title">资源与工具</h2>
+            <div id="links-wrapper" class="links-grid"></div>
+        </section>
+
+        <footer id="footer-container">
+            <a id="email-link" href="#" class="contact-link"></a>
+            <span id="footer-text"></span>
+        </footer>
+    </main>
+
+    <div id="toast" class="toast"><span id="toast-msg"></span></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // 基础配置渲染
+                // 页面基础配置
                 document.title = siteConfig.seo.title;
-                const desc = document.querySelector('meta[name="description"]');
-                if(desc) desc.setAttribute("content", siteConfig.seo.description);
+                const descMeta = document.querySelector('meta[name="description"]');
+                if (!descMeta) {
+                    const meta = document.createElement('meta');
+                    meta.name = "description";
+                    meta.content = siteConfig.seo.description;
+                    document.head.appendChild(meta);
+                }
+                
+                // 导航栏
+                document.getElementById('nav-avatar').src = siteConfig.profile.avatar;
+                document.getElementById('nav-name').innerText = siteConfig.profile.name;
                 document.getElementById('blog-link').href = siteConfig.blogLink.link;
                 document.getElementById('blog-link').innerText = siteConfig.blogLink.text;
-                document.getElementById('avatar').src = siteConfig.profile.avatar;
-                document.getElementById('name').innerText = siteConfig.profile.name;
+
+                // 头部区域
                 document.getElementById('bio').innerText = siteConfig.profile.bio;
                 document.getElementById('bookmark-btn').innerText = siteConfig.profile.bookmarkBtn;
-                
-                // 防失联配置渲染
+
+                // 防失联模块
                 document.getElementById('al-title').innerText = siteConfig.antiLost.title;
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
-                document.getElementById('al-email-hint').innerText = siteConfig.antiLost.emailSubject;
                 document.getElementById('al-email-link').innerText = siteConfig.antiLost.email;
                 document.getElementById('al-email-link').href = `mailto:${siteConfig.antiLost.email}?subject=获取地址`;
+                document.getElementById('al-email-hint').innerText = siteConfig.antiLost.emailSubject;
                 document.getElementById('al-tg-title').innerText = siteConfig.antiLost.telegramTitle;
                 document.getElementById('al-tg-link').href = siteConfig.antiLost.telegramLink;
 
-                // 链接列表渲染
+                // 链接矩阵
                 document.getElementById('links-wrapper').innerHTML = siteConfig.urls.map(item => `
                     <a href="${item.link}" target="_blank" class="link-card">
                         <div class="link-title">${item.title}</div>
                         <div class="link-desc">${item.desc}</div>
                     </a>
                 `).join('');
-                
-                // 底部配置渲染
+
+                // 底部配置
                 document.getElementById('email-link').href = 'mailto:' + siteConfig.contact.email;
                 document.getElementById('email-link').innerText = siteConfig.contact.text;
-                document.getElementById('footer').innerText = siteConfig.footer;
-                
-                // 反馈组件加载
+                document.getElementById('footer-text').innerText = siteConfig.footer;
+
+                // 反馈组件加载 (安全注入)
                 const feedbackScript = document.createElement('script');
                 feedbackScript.src = "https://feedback.xwsay.dpdns.org/widget.js";
                 feedbackScript.defer = true;
                 document.head.appendChild(feedbackScript);
-            } catch (e) { console.error(e); }
 
-            // 书签功能
+            } catch (e) { console.error("配置加载错误:", e); }
+
+            // 书签 Toast 交互逻辑
             const bBtn = document.getElementById('bookmark-btn');
             const toast = document.getElementById('toast');
             if(bBtn) {
                 bBtn.addEventListener('click', () => {
                     navigator.clipboard.writeText(window.location.href).catch(()=>{});
                     const isMac = /Mac/i.test(navigator.userAgent);
-                    document.getElementById('toast-msg').innerHTML = `网址已复制<br>按 <strong>${isMac?'⌘+D':'Ctrl+D'}</strong> 收藏防失联`;
+                    document.getElementById('toast-msg').innerHTML = `主页链接已复制。按 <strong>${isMac ? '⌘ + D' : 'Ctrl + D'}</strong> 收藏本页。`;
                     toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 3000);
+                    setTimeout(() => toast.classList.remove('show'), 3500);
                 });
             }
         });
