@@ -7,7 +7,7 @@ const siteConfig = {
   },
   
   blogLink: {
-    text: "访问主站 ↗",
+    text: "个人博客 ↗",
     link: "https://blog.xwsay.com"
   },
 
@@ -18,20 +18,20 @@ const siteConfig = {
     bookmarkBtn: "获取防失联书签"
   },
 
-  // 防失联专属配置区
   antiLost: {
-    title: "防失联指南",
-    desc: "如遇网站无法访问，请发送邮件至下方邮箱，系统将自动回复最新可用网址。",
+    title: "防失联提醒",
+    desc: "如遇网站无法访问，请发送邮件至下方邮箱获取最新网址。建议将该邮箱保存至通讯录，以备不时之需。",
     email: "x@xwsay.com",
-    emailSubject: "邮件标题请填写：获取地址",
+    emailSubject: "邮件标题请填写：最新地址",
     telegramTitle: "Telegram 频道",
     telegramLink: "https://t.me/xwshuo"
   },
 
-  urls: [
+  // 资源导航：仅保留教程手册
+  resources: [
     {
       title: "教程手册", 
-      desc: "保姆级实操指南与跨境网络工具教程",
+      desc: "保姆级实操指南与跨境网络工具教程，包含自媒体平台入口。",
       link: "https://docs.xwsay.com" 
     }
   ],
