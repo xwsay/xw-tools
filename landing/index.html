@@ -47,7 +47,6 @@
             border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center;
         }
         
-        /* 【修改点 3】扩大导航栏最大宽度，让左右元素向两边推开 */
         .nav-container { 
             width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -63,6 +62,14 @@
         .profile-section { margin-bottom: 4rem; }
         h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
         .bio { font-size: 1.05rem; color: var(--text-muted); }
+        
+        /* 【修改点】把书签按钮移动到顶部，调整样式使其更自然 */
+        .btn-bookmark { 
+            display: inline-block; margin-top: 1.5rem; padding: 0.8rem 1.5rem; font-size: 0.9rem; 
+            font-weight: 500; cursor: pointer; background: var(--text-main); color: var(--bg); 
+            border: none; border-radius: 8px; transition: opacity 0.2s; 
+        }
+        .btn-bookmark:hover { opacity: 0.9; }
 
         .tutorial-card {
             display: block; padding: 2.5rem; border: 1px solid var(--border); border-radius: 12px;
@@ -82,21 +89,17 @@
         .backup-section { border-top: 1px solid var(--border); padding-top: 3rem; }
         .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
         .al-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-        .al-box { display: flex; flex-direction: column; gap: 1rem; }
-        @media (min-width: 600px) { .al-box { flex-direction: row; align-items: center; justify-content: space-between; } }
         
-        /* 【修改点 4】改变邮箱链接排版，消除输入框错觉 */
+        /* 独立的邮箱按钮容器 */
+        .al-box { display: flex; flex-direction: column; max-width: 400px; }
+        
         .email-link {
             font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.95rem; color: var(--text-main); text-decoration: none;
             padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 8px;
-            background: var(--card-hover); flex-grow: 1; 
-            display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s;
+            background: var(--card-hover); display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s;
         }
         .email-link:hover { border-color: var(--border-hover); }
         .email-link::after { content: "↗"; color: var(--text-muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 400; }
-        
-        .btn-bookmark { padding: 0.8rem 1.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; background: var(--text-main); color: var(--bg); border: none; border-radius: 8px; transition: opacity 0.2s; }
-        .btn-bookmark:hover { opacity: 0.9; }
 
         footer { margin-top: 6rem; padding-bottom: 3rem; font-size: 0.85rem; color: var(--text-muted); }
         .footer-info { margin-bottom: 0.5rem; }
@@ -124,6 +127,7 @@
         <section class="profile-section">
             <h1 id="main-title">消除技术门槛</h1>
             <p id="bio" class="bio"></p>
+            <button id="bookmark-btn" class="btn-bookmark"></button>
         </section>
 
         <a id="tut-link" href="#" target="_blank" class="tutorial-card">
@@ -141,7 +145,6 @@
             <p id="al-desc" class="al-desc"></p>
             <div class="al-box">
                 <a id="al-email" href="#" class="email-link"></a>
-                <button id="bookmark-btn" class="btn-bookmark"></button>
             </div>
         </section>
 
@@ -163,6 +166,7 @@
                 document.getElementById('blog-link').innerText = siteConfig.nav.blogText;
 
                 document.getElementById('bio').innerText = siteConfig.profile.bio;
+                document.getElementById('bookmark-btn').innerText = siteConfig.antiLost.btnText;
                 
                 document.getElementById('tut-link').href = siteConfig.tutorial.link;
                 document.getElementById('tut-title').innerText = siteConfig.tutorial.title;
@@ -172,10 +176,9 @@
                 document.getElementById('al-title').innerText = siteConfig.antiLost.title;
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
                 
-                // 给邮箱补充前缀提示，使其更像按钮
                 document.getElementById('al-email').innerText = "发邮件至： " + siteConfig.antiLost.email;
-                document.getElementById('al-email').href = `mailto:${siteConfig.antiLost.email}?subject=${siteConfig.antiLost.emailSubject}`;
-                document.getElementById('bookmark-btn').innerText = siteConfig.antiLost.btnText;
+                // 将邮件标题参数拼接到链接中
+                document.getElementById('al-email').href = `mailto:${siteConfig.antiLost.email}?subject=${encodeURIComponent(siteConfig.antiLost.emailSubject)}`;
 
                 document.getElementById('contact-text').innerText = siteConfig.contactText;
                 document.getElementById('footer-text').innerText = siteConfig.footer;
@@ -191,6 +194,7 @@
             if(bBtn) {
                 bBtn.addEventListener('click', () => {
                     navigator.clipboard.writeText(window.location.href).catch(()=>{});
+                    // 由于你使用的是 Mac 电脑，这里直接硬编码显示 ⌘+D 即可保持文案简洁
                     document.getElementById('toast-msg').innerHTML = `本页链接已复制。请按 <strong>⌘+D</strong> 收藏防走失。`;
                     toast.classList.add('show');
                     setTimeout(() => toast.classList.remove('show'), 3000);
