@@ -6,57 +6,10 @@
     <link rel="canonical" href="https://www.xwsay.com/" />
     <title>加载中...</title>
     
-    <script>
-    // ==========================================
-    // 全局数据配置区（修改这里的文本即可，无需改动下方代码）
-    // ==========================================
-    const siteConfig = {
-      seo: {
-        title: "小闻说 | 官方发布页",
-        description: "消除技术门槛，工具为你所用。小闻说官方教程与防失联入口。",
-        icon: "https://img.xwsay.com/Piclist/20260130180233761.ico",
-        url: "https://www.xwsay.com"
-      },
-      
-      blogLink: {
-        text: "访问主站 ↗",
-        link: "https://blog.xwsay.com"
-      },
-
-      profile: {
-        avatar: "https://img.xwsay.com/Piclist/20260404224434259.webp", 
-        name: "小闻说",
-        bio: "消除技术门槛 · 工具为你所用",
-        bookmarkBtn: "获取防失联书签"
-      },
-
-      antiLost: {
-        title: "防失联指南",
-        desc: "如遇网站无法访问，请发送邮件至下方邮箱，系统将自动回复最新可用网址。",
-        email: "x@xwsay.com",
-        emailSubject: "邮件标题请填写：获取地址",
-        telegramTitle: "Telegram 频道",
-        telegramLink: "https://t.me/xwshuo"
-      },
-
-      urls: [
-        {
-          title: "教程手册", 
-          desc: "保姆级实操指南与跨境网络工具教程",
-          link: "https://docs.xwsay.com" 
-        }
-      ],
-
-      contact: {
-        email: "x@xwsay.com",
-        text: "商务与反馈：x@xwsay.com"
-      },
-      footer: "© 2026 小闻说. All rights reserved."
-    };
-    </script>
+    <script src="./config.js"></script>
 
     <style>
-        /* 极简黑白主题变量 (Linear 风格) */
+        /* 极简黑白主题变量 */
         :root {
             --bg: #ffffff;
             --text-main: #111111;
@@ -135,7 +88,7 @@
         /* 分割线 */
         hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
 
-        /* 防失联模块 (文档流风格) */
+        /* 防失联模块 */
         .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
         .anti-lost-container {
             border: 1px solid var(--border);
@@ -245,7 +198,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // 页面基础配置
+                // 读取 config.js 中的数据渲染页面
                 document.title = siteConfig.seo.title;
                 const descMeta = document.querySelector('meta[name="description"]');
                 if (!descMeta) {
@@ -255,17 +208,14 @@
                     document.head.appendChild(meta);
                 }
                 
-                // 导航栏
                 document.getElementById('nav-avatar').src = siteConfig.profile.avatar;
                 document.getElementById('nav-name').innerText = siteConfig.profile.name;
                 document.getElementById('blog-link').href = siteConfig.blogLink.link;
                 document.getElementById('blog-link').innerText = siteConfig.blogLink.text;
 
-                // 头部区域
                 document.getElementById('bio').innerText = siteConfig.profile.bio;
                 document.getElementById('bookmark-btn').innerText = siteConfig.profile.bookmarkBtn;
 
-                // 防失联模块
                 document.getElementById('al-title').innerText = siteConfig.antiLost.title;
                 document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
                 document.getElementById('al-email-link').innerText = siteConfig.antiLost.email;
@@ -274,7 +224,6 @@
                 document.getElementById('al-tg-title').innerText = siteConfig.antiLost.telegramTitle;
                 document.getElementById('al-tg-link').href = siteConfig.antiLost.telegramLink;
 
-                // 链接矩阵
                 document.getElementById('links-wrapper').innerHTML = siteConfig.urls.map(item => `
                     <a href="${item.link}" target="_blank" class="link-card">
                         <div class="link-title">${item.title}</div>
@@ -282,12 +231,10 @@
                     </a>
                 `).join('');
 
-                // 底部配置
                 document.getElementById('email-link').href = 'mailto:' + siteConfig.contact.email;
                 document.getElementById('email-link').innerText = siteConfig.contact.text;
                 document.getElementById('footer-text').innerText = siteConfig.footer;
 
-                // 反馈组件加载 (安全注入)
                 const feedbackScript = document.createElement('script');
                 feedbackScript.src = "https://feedback.xwsay.dpdns.org/widget.js";
                 feedbackScript.defer = true;
@@ -295,7 +242,6 @@
 
             } catch (e) { console.error("配置加载错误:", e); }
 
-            // 书签 Toast 交互逻辑
             const bBtn = document.getElementById('bookmark-btn');
             const toast = document.getElementById('toast');
             if(bBtn) {
