@@ -15,43 +15,35 @@ const siteConfig = {
   hero: {
     title: "消除技术门槛",
     subtitle: "数字出海 · 账号网络 · 免费教程",
-    desc: "专注数字工具与网络底层逻辑的技术实操指南，为你提供纯粹、无干扰的阅读体验。",
-    primaryBtn: "浏览最新教程",
-    primaryLink: "https://docs.xwsay.com",
-    secondaryBtn: "了解更多"
+    desc: "互联网不应有围墙。在这里，我将复杂的底层逻辑拆解为直观的实操指南，助你无障碍触达全球数字生产力工具。",
+    primaryBtn: "立即进入教程中心",
+    primaryLink: "https://docs.xwsay.com"
   },
 
+  // 核心价值主张（留人关键：专业度）
   features: [
     {
-      title: "底层网络路由",
-      desc: "深度解析国际网络通信原理，提供稳定、合规的底层网络环境配置方案。"
+      title: "零门槛实操",
+      desc: "拒绝晦涩的理论堆砌。每一篇教程都经过实测，确保小白也能按图索骥，直达结果。"
     },
     {
-      title: "国际账号生态",
-      desc: "涵盖全球主流开发者平台、生产力工具及跨国业务平台的注册与风控规避。"
+      title: "底层逻辑拆解",
+      desc: "不仅教你如何操作，更告诉你为什么。掌握网络路由与账户风控的本质规律。"
     },
     {
-      title: "纯粹实操体验",
-      desc: "摒弃冗长理论与复杂概念，提供清晰直观的保姆级步骤，直达核心诉求。"
+      title: "长期稳定更新",
+      desc: "技术环境瞬息万变。我将持续跟踪全球平台政策，实时修正教程，确保方案永远可用。"
     }
   ],
 
-  showcase: {
-    sectionTitle: "核心资源库",
-    cards: [
-      {
-        tag: "Primary Resource",
-        title: "最新实操教程",
-        desc: "包含虚拟号码、平台注册及网络优化的全套系统性指南。",
-        link: "https://docs.xwsay.com"
-      },
-      {
-        tag: "Tools Aggregation",
-        title: "必备工具精选",
-        desc: "甄选高效、稳定、注重隐私保护的数字出海利器。",
-        link: "https://docs.xwsay.com" 
-      }
-    ]
+  // 永久保障模块（留人关键：安全感）
+  assurance: {
+    title: "防失联永久保障",
+    desc: "教程域名可能变动，但这里是永久的灯塔。如遇链接失效，请通过以下方式重新建立连接。",
+    bookmarkText: "收藏本页 (⌘+D)",
+    emailText: "发送邮件获取最新地址",
+    email: "x@xwsay.com",
+    emailSubject: "最新地址"
   },
 
   footer: {
