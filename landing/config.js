@@ -15,9 +15,9 @@ const siteConfig = {
   hero: {
     title: "消除技术门槛",
     subtitle: "数字出海 · 账号网络 · 免费教程",
-    desc: "互联网不应有围墙。在这里，我将复杂的底层逻辑拆解为直观的实操指南，助你无障碍触达全球数字生产力工具。",
+    desc: "专注于提升个人数字生产力。在这里，我将复杂的网络配置与底层逻辑，拆解为直观的实操指南，助你高效掌握全球前沿的数字工具。",
     primaryBtn: "立即进入教程中心",
-    primaryLink: "https://docs.xwsay.com"
+    primaryLink: "https://docs.xwsay.com" // 这里记得换成你的备用域名短链
   },
 
   // 核心价值主张（留人关键：专业度）
