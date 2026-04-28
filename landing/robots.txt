@@ -1,5 +1,28 @@
-User-agent: *
-Allow: /
-
 # 权重域名声明
 Sitemap: https://www.xwsay.com/sitemap.xml
+
+# 允许 Google, Bing 等国际主流搜索引擎
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Slurp
+Allow: /
+User-agent: DuckDuckBot
+Allow: /
+
+# 拦截国内主流搜索引擎
+User-agent: Baiduspider
+Disallow: /
+User-agent: Sogou web spider
+Disallow: /
+User-agent: 360Spider
+Disallow: /
+User-agent: Yisouspider
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+
+# 默认拦截其他所有未知爬虫 (放在最后)
+User-agent: *
+Disallow: /
