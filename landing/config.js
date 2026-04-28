@@ -17,10 +17,9 @@ const siteConfig = {
     subtitle: "数字出海 · 账号网络 · 免费教程",
     desc: "专注于提升个人数字生产力。在这里，我将复杂的网络配置与底层逻辑，拆解为直观的实操指南，助你高效掌握全球前沿的数字工具。",
     primaryBtn: "立即进入教程中心",
-    primaryLink: "https://docs.xwsay.com" // 这里记得换成你的备用域名短链
+    primaryLink: "https://docs.xwsay.com"
   },
 
-  // 核心价值主张（留人关键：专业度）
   features: [
     {
       title: "零门槛实操",
@@ -36,12 +35,12 @@ const siteConfig = {
     }
   ],
 
-  // 永久保障模块（留人关键：安全感）
   assurance: {
     title: "防失联永久保障",
-    desc: "教程域名可能变动，但这里是永久的灯塔。如遇链接失效，请通过以下方式重新建立连接。",
-    bookmarkText: "收藏本页 (⌘+D)",
-    emailText: "发送邮件获取最新地址",
+    followText: "关注公众号：小闻说",
+    emailTitle: "邮件自助获取",
+    emailDesc: "如遇网站无法访问，请发送邮件至：x@xwsay.com",
+    emailInst: "标题填写：最新地址（正文留空即可）。系统会自动回复最新网址，建议将此邮箱保存至通讯录。",
     email: "x@xwsay.com",
     emailSubject: "最新地址"
   },
