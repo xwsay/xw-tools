@@ -15,8 +15,7 @@
             --border: #eaeaea;
             --nav-bg: rgba(255, 255, 255, 0.8);
             --card-hover: #f5f5f5;
-            --btn-primary-bg: #111111;
-            --btn-primary-text: #ffffff;
+            --accent: #111111;
         }
         @media (prefers-color-scheme: dark) {
             :root {
@@ -28,8 +27,7 @@
                 --border: #222222;
                 --nav-bg: rgba(0, 0, 0, 0.8);
                 --card-hover: #111111;
-                --btn-primary-bg: #ededed;
-                --btn-primary-text: #000000;
+                --accent: #ededed;
             }
         }
 
@@ -40,7 +38,6 @@
             line-height: 1.6; -webkit-font-smoothing: antialiased; 
         }
 
-        /* 导航栏 */
         .header {
             position: fixed; top: 0; left: 0; right: 0; height: 64px;
             background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -56,51 +53,52 @@
         .nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; transition: opacity 0.2s; }
         .nav-link:hover { opacity: 0.7; }
 
-        /* 首屏 Hero */
-        .hero { max-width: 900px; margin: 160px auto 100px; padding: 0 2rem; text-align: center; }
-        .hero-subtitle { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
-        .hero-title { font-size: 4rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero-desc { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem; }
-        .hero-actions { display: flex; gap: 1rem; justify-content: center; }
-        .btn { padding: 0.9rem 2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
-        .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
-        .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
-        .btn-secondary { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
-        .btn-secondary:hover { background: var(--bg-alt); }
+        .hero { max-width: 900px; margin: 160px auto 80px; padding: 0 2rem; text-align: center; }
+        .hero-subtitle { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
+        .hero-title { font-size: 4rem; font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero-desc { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin: 0 auto 3rem; }
 
-        /* 特性网格 Features */
-        .features { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 0; }
-        .grid-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
-        .feature-item { padding: 1rem 0; }
-        .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); }
+        /* 核心教程卡片：视觉重心 */
+        .primary-cta-card {
+            max-width: 800px; margin: 0 auto 100px; padding: 4rem 2rem;
+            background: var(--accent); color: var(--bg);
+            border-radius: 24px; text-align: center; text-decoration: none;
+            display: block; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .primary-cta-card:hover { transform: scale(1.02); }
+        .cta-label { font-size: 0.75rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; display: block; }
+        .cta-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-btn-text { font-size: 1.1rem; font-weight: 600; display: flex; items-center; justify-content: center; gap: 10px; }
+
+        .features { padding: 6rem 0; border-top: 1px solid var(--border); }
+        .grid-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; }
+        .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; }
         .feature-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 
-        /* 核心资源 Showcase */
-        .showcase { max-width: 1200px; margin: 8rem auto; padding: 0 2rem; }
-        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 3rem; text-align: center; letter-spacing: -0.5px; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
-        .card { display: block; padding: 3rem; border: 1px solid var(--border); border-radius: 16px; text-decoration: none; background: var(--bg); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card:hover { border-color: var(--text-muted); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.04); }
-        .card-tag { font-size: 0.75rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.5rem; display: block; }
-        .card-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .card-title span:last-child { font-weight: 400; color: var(--text-muted); transition: transform 0.2s; }
-        .card:hover .card-title span:last-child { transform: translateX(4px); color: var(--text-main); }
-        .card-desc { font-size: 1rem; color: var(--text-muted); }
+        /* 保障区域：留人深度 */
+        .assurance-section { background: var(--bg-alt); padding: 8rem 0; border-top: 1px solid var(--border); text-align: center; }
+        .assurance-content { max-width: 600px; margin: 0 auto; padding: 0 2rem; }
+        .assurance-title { font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .assurance-desc { color: var(--text-muted); margin-bottom: 3rem; }
+        .assurance-actions { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+        .btn-ghost { padding: 0.8rem 2rem; border-radius: 12px; border: 1px solid var(--border); color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; width: 100%; max-width: 320px; }
+        .btn-ghost:hover { background: var(--bg); border-color: var(--text-main); }
 
-        /* 页脚 Footer */
-        .footer { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; md:flex-row; justify-content: space-between; align-items: center; gap: 1rem; color: var(--text-muted); font-size: 0.85rem; }
-        .footer-links { display: flex; gap: 2rem; }
+        .footer { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--text-light); font-size: 0.85rem; }
 
-        /* 移动端适配 */
+        .toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background: var(--text-main); color: var(--bg); padding: 0.8rem 1.5rem; border-radius: 12px; font-size: 0.9rem;
+            opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 2000;
+        }
+        .toast.show { opacity: 1; }
+
         @media (max-width: 768px) {
-            .hero { margin: 120px auto 60px; }
             .hero-title { font-size: 2.8rem; }
-            .hero-desc { font-size: 1.05rem; }
-            .hero-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
-            .btn { text-align: center; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .card { padding: 2rem; }
-            .footer { flex-direction: column; text-align: center; }
+            .hero { margin: 120px auto 60px; }
+            .primary-cta-card { margin: 0 1.5rem 80px; padding: 3rem 1.5rem; }
+            .cta-title { font-size: 1.8rem; }
+            .assurance-title { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -108,7 +106,7 @@
     <header class="header">
         <div class="nav-container">
             <a href="/" class="nav-brand">
-                <img id="nav-avatar" src="" alt="Avatar" class="nav-avatar">
+                <img id="nav-avatar" src="" alt="" class="nav-avatar">
                 <span id="nav-name" class="nav-name"></span>
             </a>
             <a id="nav-action" href="#" target="_blank" class="nav-link"></a>
@@ -120,80 +118,82 @@
             <span id="hero-subtitle" class="hero-subtitle"></span>
             <h1 id="hero-title" class="hero-title"></h1>
             <p id="hero-desc" class="hero-desc"></p>
-            <div class="hero-actions">
-                <a id="btn-primary" href="#" target="_blank" class="btn btn-primary"></a>
-                <a id="btn-secondary" href="#features" class="btn btn-secondary"></a>
+        </section>
+
+        <a id="main-cta-link" href="#" target="_blank" class="primary-cta-card">
+            <span class="cta-label">Core Destination</span>
+            <div id="cta-title" class="cta-title"></div>
+            <div class="cta-btn-text">
+                <span id="cta-btn-label"></span>
+                <span>→</span>
             </div>
+        </a>
+
+        <section class="features">
+            <div id="features-grid" class="grid-container"></div>
         </section>
 
-        <section id="features" class="features">
-            <div id="features-grid" class="grid-container">
+        <section class="assurance-section">
+            <div class="assurance-content">
+                <h2 id="ass-title" class="assurance-title"></h2>
+                <p id="ass-desc" class="assurance-desc"></p>
+                <div class="assurance-actions">
+                    <button id="bookmark-btn" class="btn-ghost"></button>
+                    <a id="email-link" href="#" class="btn-ghost"></a>
                 </div>
-        </section>
-
-        <section class="showcase">
-            <h2 id="showcase-title" class="section-title"></h2>
-            <div id="cards-grid" class="cards-grid">
-                </div>
+            </div>
         </section>
     </main>
 
     <footer class="footer">
         <div id="footer-copyright"></div>
-        <div class="footer-links">
-            <span id="footer-contact"></span>
-        </div>
+        <div id="footer-contact"></div>
     </footer>
+
+    <div id="toast" class="toast">已成功复制链接。按 <strong>⌘+D</strong> 收藏本站。</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 基础配置渲染
+            // 配置渲染
             document.title = siteConfig.seo.title;
             document.getElementById('nav-avatar').src = siteConfig.nav.avatar;
             document.getElementById('nav-name').innerText = siteConfig.nav.brandName;
             document.getElementById('nav-action').innerText = siteConfig.nav.actionText;
             document.getElementById('nav-action').href = siteConfig.nav.actionLink;
 
-            // 首屏渲染
-            document.getElementById('hero-title').innerText = siteConfig.hero.title;
             document.getElementById('hero-subtitle').innerText = siteConfig.hero.subtitle;
+            document.getElementById('hero-title').innerText = siteConfig.hero.title;
             document.getElementById('hero-desc').innerText = siteConfig.hero.desc;
-            document.getElementById('btn-primary').innerText = siteConfig.hero.primaryBtn;
-            document.getElementById('btn-primary').href = siteConfig.hero.primaryLink;
-            document.getElementById('btn-secondary').innerText = siteConfig.hero.secondaryBtn;
 
-            // 动态生成特性网格
-            const featuresContainer = document.getElementById('features-grid');
-            siteConfig.features.forEach(feature => {
-                const featureHTML = `
-                    <div class="feature-item">
-                        <h3 class="feature-title">${feature.title}</h3>
-                        <p class="feature-desc">${feature.desc}</p>
-                    </div>
-                `;
-                featuresContainer.innerHTML += featureHTML;
+            // 核心卡片渲染
+            document.getElementById('main-cta-link').href = siteConfig.hero.primaryLink;
+            document.getElementById('cta-title').innerText = "最新教程中心";
+            document.getElementById('cta-btn-label').innerText = siteConfig.hero.primaryBtn;
+
+            // 特性网格
+            const fGrid = document.getElementById('features-grid');
+            siteConfig.features.forEach(f => {
+                fGrid.innerHTML += `<div class="feature-item"><h3 class="feature-title">${f.title}</h3><p class="feature-desc">${f.desc}</p></div>`;
             });
 
-            // 动态生成资源卡片
-            document.getElementById('showcase-title').innerText = siteConfig.showcase.sectionTitle;
-            const cardsContainer = document.getElementById('cards-grid');
-            siteConfig.showcase.cards.forEach(card => {
-                const cardHTML = `
-                    <a href="${card.link}" target="_blank" class="card">
-                        <span class="card-tag">${card.tag}</span>
-                        <div class="card-title">
-                            <span>${card.title}</span>
-                            <span>→</span>
-                        </div>
-                        <p class="card-desc">${card.desc}</p>
-                    </a>
-                `;
-                cardsContainer.innerHTML += cardHTML;
-            });
+            // 保障模块
+            document.getElementById('ass-title').innerText = siteConfig.assurance.title;
+            document.getElementById('ass-desc').innerText = siteConfig.assurance.desc;
+            document.getElementById('bookmark-btn').innerText = siteConfig.assurance.bookmarkText;
+            document.getElementById('email-link').innerText = siteConfig.assurance.emailText;
+            document.getElementById('email-link').href = `mailto:${siteConfig.assurance.email}?subject=${siteConfig.assurance.emailSubject}`;
 
-            // 页脚渲染
             document.getElementById('footer-copyright').innerText = siteConfig.footer.copyright;
             document.getElementById('footer-contact').innerText = siteConfig.footer.contact;
+
+            // 书签功能
+            const bBtn = document.getElementById('bookmark-btn');
+            const toast = document.getElementById('toast');
+            bBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).catch(()=>{});
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            });
         });
     </script>
 </body>
