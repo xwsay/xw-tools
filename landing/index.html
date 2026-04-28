@@ -3,128 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="canonical" href="https://www.xwsay.com/" />
     <title>加载中...</title>
     <script src="./config.js"></script>
     <style>
         :root {
             --bg: #ffffff;
+            --bg-alt: #fafafa;
             --text-main: #111111;
             --text-muted: #666666;
+            --text-light: #999999;
             --border: #eaeaea;
-            --nav-bg: rgba(255, 255, 255, 0.7);
-            --card-hover: #fafafa;
-            --warn-text: #b45309;
-            --warn-bg: rgba(217, 119, 6, 0.05);
-            --warn-border: rgba(217, 119, 6, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: #f5f5f5;
+            --btn-primary-bg: #111111;
+            --btn-primary-text: #ffffff;
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #0a0a0a;
+                --bg: #000000;
+                --bg-alt: #0a0a0a;
                 --text-main: #ededed;
                 --text-muted: #888888;
+                --text-light: #555555;
                 --border: #222222;
-                --nav-bg: rgba(10, 10, 10, 0.7);
+                --nav-bg: rgba(0, 0, 0, 0.8);
                 --card-hover: #111111;
-                --warn-text: #fbbf24;
-                --warn-bg: rgba(251, 191, 36, 0.05);
-                --warn-border: rgba(251, 191, 36, 0.1);
+                --btn-primary-bg: #ededed;
+                --btn-primary-text: #000000;
             }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased; 
+            background-color: var(--bg); color: var(--text-main); 
+            line-height: 1.6; -webkit-font-smoothing: antialiased; 
         }
 
+        /* 导航栏 */
         .header {
             position: fixed; top: 0; left: 0; right: 0; height: 64px;
             background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center;
         }
-        
         .nav-container { 
             width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
             display: flex; justify-content: space-between; align-items: center; 
         }
-        
         .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); }
-        .nav-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+        .nav-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); object-fit: cover; }
         .nav-name { font-weight: 600; font-size: 0.95rem; }
         .nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; transition: opacity 0.2s; }
         .nav-link:hover { opacity: 0.7; }
 
-        .main { max-width: 800px; margin: 100px auto 4rem; padding: 0 1.5rem; }
-        .profile-section { margin-bottom: 4rem; }
-        h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
-        .bio { font-size: 1.05rem; color: var(--text-muted); }
-        
-.btn-bookmark { 
-    display: inline-block; margin-top: 1.5rem; padding: 0.7rem 1.4rem; font-size: 0.9rem; 
-    font-weight: 500; cursor: pointer; background: var(--bg); color: var(--text-main); 
-    border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; 
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-}
-.btn-bookmark:hover { 
-    background: var(--card-hover); border-color: var(--border-hover); transform: translateY(-1px);
-}
-        .btn-bookmark:hover { opacity: 0.9; }
+        /* 首屏 Hero */
+        .hero { max-width: 900px; margin: 160px auto 100px; padding: 0 2rem; text-align: center; }
+        .hero-subtitle { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
+        .hero-title { font-size: 4rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero-desc { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem; }
+        .hero-actions { display: flex; gap: 1rem; justify-content: center; }
+        .btn { padding: 0.9rem 2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
+        .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
+        .btn-secondary { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-alt); }
 
-        .tutorial-card {
-            display: block; padding: 2.5rem; border: 1px solid var(--border); border-radius: 12px;
-            text-decoration: none; background: var(--bg); transition: all 0.2s; margin-bottom: 3rem;
-        }
-        .tutorial-card:hover { border-color: var(--text-main); background: var(--card-hover); transform: translateY(-2px); }
-        .tut-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; display: block; }
-        .tut-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.8rem; display: flex; justify-content: space-between; }
-        .tut-desc { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        
-        .tut-warning {
-            font-size: 0.85rem; color: var(--warn-text); background: var(--warn-bg);
-            padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid var(--warn-border);
-            display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;
-        }
+        /* 特性网格 Features */
+        .features { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 0; }
+        .grid-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+        .feature-item { padding: 1rem 0; }
+        .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); }
+        .feature-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 
-        .backup-section { border-top: 1px solid var(--border); padding-top: 3rem; }
-        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
-        .al-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-        
-        .al-box { display: flex; flex-direction: column; max-width: 400px; }
-        
-        .email-link {
-            font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.95rem; color: var(--text-main); text-decoration: none;
-            padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 8px;
-            background: var(--card-hover); display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s;
-        }
-        .email-link:hover { border-color: var(--border-hover); }
-        .email-link::after { content: "↗"; color: var(--text-muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 400; }
+        /* 核心资源 Showcase */
+        .showcase { max-width: 1200px; margin: 8rem auto; padding: 0 2rem; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 3rem; text-align: center; letter-spacing: -0.5px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+        .card { display: block; padding: 3rem; border: 1px solid var(--border); border-radius: 16px; text-decoration: none; background: var(--bg); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card:hover { border-color: var(--text-muted); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.04); }
+        .card-tag { font-size: 0.75rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.5rem; display: block; }
+        .card-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .card-title span:last-child { font-weight: 400; color: var(--text-muted); transition: transform 0.2s; }
+        .card:hover .card-title span:last-child { transform: translateX(4px); color: var(--text-main); }
+        .card-desc { font-size: 1rem; color: var(--text-muted); }
 
-        footer { margin-top: 6rem; padding-bottom: 3rem; font-size: 0.85rem; color: var(--text-muted); }
-        .footer-info { margin-bottom: 0.5rem; }
+        /* 页脚 Footer */
+        .footer { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; md:flex-row; justify-content: space-between; align-items: center; gap: 1rem; color: var(--text-muted); font-size: 0.85rem; }
+        .footer-links { display: flex; gap: 2rem; }
 
-        .toast {
-            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            background: var(--text-main); color: var(--bg); padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 0.9rem;
-            opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 2000;
-        }
-        .toast.show { opacity: 1; }
-
-        /* 移动端专属适配 */
-        @media (max-width: 600px) {
-            .nav-container { padding: 0 1.2rem; }
-            .main { margin-top: 80px; padding: 0 1.2rem; }
-            h1 { font-size: 1.8rem; }
-            .bio { font-size: 0.95rem; }
-            .tutorial-card { padding: 1.5rem; }
-            .tut-title { font-size: 1.25rem; }
-            .tut-desc { font-size: 0.9rem; }
-            .tut-warning { font-size: 0.8rem; flex-direction: column; align-items: flex-start; gap: 4px; padding: 0.6rem 0.8rem; }
-            .email-link { font-size: 0.85rem; padding: 0.8rem 1rem; }
-            .toast { width: 90%; text-align: center; }
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .hero { margin: 120px auto 60px; }
+            .hero-title { font-size: 2.8rem; }
+            .hero-desc { font-size: 1.05rem; }
+            .hero-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn { text-align: center; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .card { padding: 2rem; }
+            .footer { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -132,88 +108,92 @@
     <header class="header">
         <div class="nav-container">
             <a href="/" class="nav-brand">
-                <img id="nav-avatar" src="" alt="" class="nav-avatar">
+                <img id="nav-avatar" src="" alt="Avatar" class="nav-avatar">
                 <span id="nav-name" class="nav-name"></span>
             </a>
-            <a id="blog-link" href="#" target="_blank" class="nav-link"></a>
+            <a id="nav-action" href="#" target="_blank" class="nav-link"></a>
         </div>
     </header>
 
-    <main class="main">
-        <section class="profile-section">
-            <h1 id="main-title">消除技术门槛</h1>
-            <p id="bio" class="bio"></p>
-            <button id="bookmark-btn" class="btn-bookmark"></button>
-        </section>
-
-        <a id="tut-link" href="#" target="_blank" class="tutorial-card">
-            <span class="tut-label">Primary Resource</span>
-            <div class="tut-title">
-                <span id="tut-title"></span>
-                <span>→</span>
-            </div>
-            <p id="tut-desc" class="tut-desc"></p>
-            <div id="tut-warning" class="tut-warning"></div>
-        </a>
-
-        <section class="backup-section">
-            <h2 id="al-title" class="section-title"></h2>
-            <p id="al-desc" class="al-desc"></p>
-            <div class="al-box">
-                <a id="al-email" href="#" class="email-link"></a>
+    <main>
+        <section class="hero">
+            <span id="hero-subtitle" class="hero-subtitle"></span>
+            <h1 id="hero-title" class="hero-title"></h1>
+            <p id="hero-desc" class="hero-desc"></p>
+            <div class="hero-actions">
+                <a id="btn-primary" href="#" target="_blank" class="btn btn-primary"></a>
+                <a id="btn-secondary" href="#features" class="btn btn-secondary"></a>
             </div>
         </section>
 
-        <footer>
-            <div id="contact-text" class="footer-info"></div>
-            <div id="footer-text"></div>
-        </footer>
+        <section id="features" class="features">
+            <div id="features-grid" class="grid-container">
+                </div>
+        </section>
+
+        <section class="showcase">
+            <h2 id="showcase-title" class="section-title"></h2>
+            <div id="cards-grid" class="cards-grid">
+                </div>
+        </section>
     </main>
 
-    <div id="toast" class="toast"><span id="toast-msg"></span></div>
+    <footer class="footer">
+        <div id="footer-copyright"></div>
+        <div class="footer-links">
+            <span id="footer-contact"></span>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                document.title = siteConfig.seo.title;
-                document.getElementById('nav-avatar').src = siteConfig.profile.avatar;
-                document.getElementById('nav-name').innerText = siteConfig.profile.name;
-                document.getElementById('blog-link').href = siteConfig.nav.blogLink;
-                document.getElementById('blog-link').innerText = siteConfig.nav.blogText;
+            // 基础配置渲染
+            document.title = siteConfig.seo.title;
+            document.getElementById('nav-avatar').src = siteConfig.nav.avatar;
+            document.getElementById('nav-name').innerText = siteConfig.nav.brandName;
+            document.getElementById('nav-action').innerText = siteConfig.nav.actionText;
+            document.getElementById('nav-action').href = siteConfig.nav.actionLink;
 
-                document.getElementById('bio').innerText = siteConfig.profile.bio;
-                document.getElementById('bookmark-btn').innerText = siteConfig.antiLost.btnText;
-                
-                document.getElementById('tut-link').href = siteConfig.tutorial.link;
-                document.getElementById('tut-title').innerText = siteConfig.tutorial.title;
-                document.getElementById('tut-desc').innerText = siteConfig.tutorial.desc;
-                document.getElementById('tut-warning').innerText = siteConfig.tutorial.warning;
+            // 首屏渲染
+            document.getElementById('hero-title').innerText = siteConfig.hero.title;
+            document.getElementById('hero-subtitle').innerText = siteConfig.hero.subtitle;
+            document.getElementById('hero-desc').innerText = siteConfig.hero.desc;
+            document.getElementById('btn-primary').innerText = siteConfig.hero.primaryBtn;
+            document.getElementById('btn-primary').href = siteConfig.hero.primaryLink;
+            document.getElementById('btn-secondary').innerText = siteConfig.hero.secondaryBtn;
 
-                document.getElementById('al-title').innerText = siteConfig.antiLost.title;
-                document.getElementById('al-desc').innerText = siteConfig.antiLost.desc;
-                
-                document.getElementById('al-email').innerText = "发邮件至： " + siteConfig.antiLost.email;
-                document.getElementById('al-email').href = `mailto:${siteConfig.antiLost.email}?subject=${encodeURIComponent(siteConfig.antiLost.emailSubject)}`;
+            // 动态生成特性网格
+            const featuresContainer = document.getElementById('features-grid');
+            siteConfig.features.forEach(feature => {
+                const featureHTML = `
+                    <div class="feature-item">
+                        <h3 class="feature-title">${feature.title}</h3>
+                        <p class="feature-desc">${feature.desc}</p>
+                    </div>
+                `;
+                featuresContainer.innerHTML += featureHTML;
+            });
 
-                document.getElementById('contact-text').innerText = siteConfig.contactText;
-                document.getElementById('footer-text').innerText = siteConfig.footer;
+            // 动态生成资源卡片
+            document.getElementById('showcase-title').innerText = siteConfig.showcase.sectionTitle;
+            const cardsContainer = document.getElementById('cards-grid');
+            siteConfig.showcase.cards.forEach(card => {
+                const cardHTML = `
+                    <a href="${card.link}" target="_blank" class="card">
+                        <span class="card-tag">${card.tag}</span>
+                        <div class="card-title">
+                            <span>${card.title}</span>
+                            <span>→</span>
+                        </div>
+                        <p class="card-desc">${card.desc}</p>
+                    </a>
+                `;
+                cardsContainer.innerHTML += cardHTML;
+            });
 
-                const feedbackScript = document.createElement('script');
-                feedbackScript.src = "https://feedback.xwsay.dpdns.org/widget.js";
-                feedbackScript.defer = true;
-                document.head.appendChild(feedbackScript);
-            } catch (e) { console.error(e); }
-
-            const bBtn = document.getElementById('bookmark-btn');
-            const toast = document.getElementById('toast');
-            if(bBtn) {
-                bBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(window.location.href).catch(()=>{});
-                    document.getElementById('toast-msg').innerHTML = `本页链接已复制。请按 <strong>⌘+D</strong> 收藏防走失。`;
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 3000);
-                });
-            }
+            // 页脚渲染
+            document.getElementById('footer-copyright').innerText = siteConfig.footer.copyright;
+            document.getElementById('footer-contact').innerText = siteConfig.footer.contact;
         });
     </script>
 </body>
