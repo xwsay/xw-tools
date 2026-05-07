@@ -4,95 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>加载中...</title>
+    <!-- 引入外部配置文件 -->
     <script src="./config.js"></script>
     <style>
+        /* ---------------------------------------------------------
+           [底座样式区] - 负责 UI 设计，如无 UI 修改需求请勿动
+        ---------------------------------------------------------- */
         :root {
             --bg: #ffffff;
-            --bg-alt: #fafafa;
-            --text-main: #111111;
-            --text-muted: #666666;
-            --text-light: #999999;
-            --border: #eaeaea;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --accent: #111111;
+            --bg-alt: #f8f9fa;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --accent: #0071e3; /* 科技蓝 */
+            --border: #d2d2d7;
+            --card-bg: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.72);
         }
+
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg: #000000;
-                --bg-alt: #0a0a0a;
-                --text-main: #ededed;
-                --text-muted: #888888;
-                --text-light: #555555;
-                --border: #222222;
-                --nav-bg: rgba(0, 0, 0, 0.8);
-                --accent: #ededed;
+                --bg-alt: #161617;
+                --text-main: #f5f5f7;
+                --text-muted: #a1a1a6;
+                --accent: #2997ff;
+                --border: #424245;
+                --card-bg: #1c1c1e;
+                --nav-bg: rgba(0, 0, 0, 0.72);
             }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; 
             background-color: var(--bg); color: var(--text-main); 
-            line-height: 1.6; -webkit-font-smoothing: antialiased; 
+            line-height: 1.47; -webkit-font-smoothing: antialiased; 
         }
 
+        /* 导航栏设计 */
         .header {
-            position: fixed; top: 0; left: 0; right: 0; height: 64px;
-            background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            position: fixed; top: 0; left: 0; right: 0; height: 52px;
+            background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center;
         }
         .nav-container { 
-            width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
+            width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 22px; 
             display: flex; justify-content: space-between; align-items: center; 
         }
-        .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); }
-        .nav-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); object-fit: cover; }
-        .nav-name { font-weight: 600; font-size: 0.95rem; }
-        .nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-main); text-decoration: none; transition: opacity 0.2s; }
-        .nav-link:hover { opacity: 0.7; }
+        .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main); }
+        .nav-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+        .nav-name { font-weight: 500; font-size: 14px; letter-spacing: -0.01em; }
+        .nav-link { font-size: 12px; color: var(--text-main); text-decoration: none; opacity: 0.8; transition: opacity 0.2s; }
+        .nav-link:hover { opacity: 1; color: var(--accent); }
 
-        .hero { max-width: 900px; margin: 160px auto 80px; padding: 0 2rem; text-align: center; }
-        .hero-subtitle { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
-        .hero-title { font-size: 4rem; font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero-desc { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin: 0 auto 3rem; }
+        /* Hero 视觉区 */
+        .hero { max-width: 800px; margin: 120px auto 60px; padding: 0 22px; text-align: center; }
+        .hero-subtitle { font-size: 17px; font-weight: 600; color: var(--accent); margin-bottom: 12px; display: block; }
+        .hero-title { font-size: 56px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.07; margin-bottom: 18px; }
+        .hero-desc { font-size: 21px; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; font-weight: 400; }
 
+        /* 主入口卡片升级版 */
         .primary-cta-card {
-            max-width: 800px; margin: 0 auto 100px; padding: 4rem 2rem;
-            background: var(--accent); color: var(--bg);
-            border-radius: 24px; text-align: center; text-decoration: none;
-            display: block; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            max-width: 600px; margin: 0 auto 100px; padding: 32px;
+            background: var(--accent); color: #ffffff;
+            border-radius: 18px; text-align: center; text-decoration: none;
+            display: block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
-        .primary-cta-card:hover { transform: scale(1.02); }
-        .cta-label { font-size: 0.75rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; display: block; }
-        .cta-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
-        .cta-btn-text { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .primary-cta-card:hover { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0, 113, 227, 0.4); }
+        .cta-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .cta-btn-text { font-size: 16px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; opacity: 0.9; }
 
-        .features { padding: 6rem 0; border-top: 1px solid var(--border); }
-        .grid-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; }
-        .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; }
-        .feature-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+        /* 特性展示区 */
+        .features { padding: 80px 0; background: var(--bg-alt); border-top: 1px solid var(--border); }
+        .grid-container { max-width: 1000px; margin: 0 auto; padding: 0 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .feature-item { padding: 40px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); transition: transform 0.3s; }
+        .feature-item:hover { transform: translateY(-5px); }
+        .feature-title { font-size: 24px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.01em; }
+        .feature-desc { font-size: 17px; color: var(--text-muted); line-height: 1.47; }
 
-        .assurance-section { background: var(--bg-alt); padding: 8rem 0; border-top: 1px solid var(--border); }
-        .assurance-content { max-width: 700px; margin: 0 auto; padding: 0 2rem; }
-        .assurance-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 3rem; text-align: center; }
-        
-        .assurance-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; text-align: left; }
-        @media (min-width: 768px) { .assurance-grid { grid-template-columns: 1fr 1fr; } }
-
-        .ass-card { padding: 2rem; border-radius: 16px; border: 1px solid var(--border); background: var(--bg); }
-        .ass-label { font-size: 0.75rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-bottom: 1rem; display: block; }
-        .ass-value { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; display: block; }
-        .ass-inst { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
-        
-        .email-action { display: inline-block; margin-top: 1.2rem; font-size: 0.85rem; font-weight: 600; color: var(--text-main); text-decoration: underline; }
-
-        .footer { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--text-light); font-size: 0.85rem; }
+        /* 页脚 */
+        .footer { max-width: 1000px; margin: 0 auto; padding: 60px 22px; text-align: center; color: var(--text-muted); font-size: 12px; }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.8rem; }
-            .hero { margin: 120px auto 60px; }
-            .primary-cta-card { margin: 0 1.5rem 80px; padding: 3rem 1.5rem; }
-            .cta-title { font-size: 1.8rem; }
+            .hero-title { font-size: 40px; }
+            .hero-desc { font-size: 18px; }
+            .hero { margin: 100px auto 40px; }
+            .primary-cta-card { margin: 0 22px 60px; }
         }
     </style>
 </head>
@@ -115,7 +113,6 @@
         </section>
 
         <a id="main-cta-link" href="#" target="_blank" class="primary-cta-card">
-            <span class="cta-label">Core Destination</span>
             <div id="cta-title" class="cta-title"></div>
             <div class="cta-btn-text">
                 <span id="cta-btn-label"></span>
@@ -126,59 +123,61 @@
         <section class="features">
             <div id="features-grid" class="grid-container"></div>
         </section>
-
-        <section class="assurance-section">
-            <div class="assurance-content">
-                <h2 id="ass-title" class="assurance-title"></h2>
-                <div class="assurance-grid">
-                    <div class="ass-card">
-                        <span class="ass-label">Stay Connected</span>
-                        <span id="ass-follow" class="ass-value"></span>
-                        <p class="ass-inst">实时获取最新教程动态、技术分享及防失联网址分发。</p>
-                    </div>
-                    <div class="ass-card">
-                        <span class="ass-label">Backup Channel</span>
-                        <span id="ass-email-desc" class="ass-value"></span>
-                        <p id="ass-email-inst" class="ass-inst"></p>
-                        <a id="email-btn" href="#" class="email-action">立即发送邮件获取 →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="footer">
         <div id="footer-copyright"></div>
-        <div id="footer-contact"></div>
+        <div id="footer-contact" style="margin-top: 8px;"></div>
     </footer>
 
     <script>
+        /* ---------------------------------------------------------
+           [渲染逻辑区] - 自动将配置文件填入页面，请勿动
+        ---------------------------------------------------------- */
         document.addEventListener('DOMContentLoaded', () => {
+            // 设置 SEO
             document.title = siteConfig.seo.title;
+            const metaDesc = document.createElement('meta');
+            metaDesc.name = "description";
+            metaDesc.content = siteConfig.seo.description;
+            document.head.appendChild(metaDesc);
+
+            // 动态设置网站 Icon
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            link.href = siteConfig.seo.icon;
+
+            // 导航栏
             document.getElementById('nav-avatar').src = siteConfig.nav.avatar;
             document.getElementById('nav-name').innerText = siteConfig.nav.brandName;
             document.getElementById('nav-action').innerText = siteConfig.nav.actionText;
             document.getElementById('nav-action').href = siteConfig.nav.actionLink;
 
+            // Hero 区
             document.getElementById('hero-subtitle').innerText = siteConfig.hero.subtitle;
             document.getElementById('hero-title').innerText = siteConfig.hero.title;
             document.getElementById('hero-desc').innerText = siteConfig.hero.desc;
 
+            // 主入口
             document.getElementById('main-cta-link').href = siteConfig.hero.primaryLink;
-            document.getElementById('cta-title').innerText = "最新教程中心";
-            document.getElementById('cta-btn-label').innerText = siteConfig.hero.primaryBtn;
+            document.getElementById('cta-title').innerText = siteConfig.hero.primaryBtn;
+            document.getElementById('cta-btn-label').innerText = "教程即刻开启";
 
+            // 特性列表
             const fGrid = document.getElementById('features-grid');
+            fGrid.innerHTML = ''; // 清空原有内容，防止重复加载
             siteConfig.features.forEach(f => {
-                fGrid.innerHTML += `<div class="feature-item"><h3 class="feature-title">${f.title}</h3><p class="feature-desc">${f.desc}</p></div>`;
+                const item = document.createElement('div');
+                item.className = 'feature-item';
+                item.innerHTML = `<h3 class="feature-title">${f.title}</h3><p class="feature-desc">${f.desc}</p>`;
+                fGrid.appendChild(item);
             });
 
-            document.getElementById('ass-title').innerText = siteConfig.assurance.title;
-            document.getElementById('ass-follow').innerText = siteConfig.assurance.followText;
-            document.getElementById('ass-email-desc').innerText = siteConfig.assurance.email;
-            document.getElementById('ass-email-inst').innerText = siteConfig.assurance.emailInst;
-            document.getElementById('email-btn').href = `mailto:${siteConfig.assurance.email}?subject=${encodeURIComponent(siteConfig.assurance.emailSubject)}`;
-
+            // 页脚
             document.getElementById('footer-copyright').innerText = siteConfig.footer.copyright;
             document.getElementById('footer-contact').innerText = siteConfig.footer.contact;
         });
