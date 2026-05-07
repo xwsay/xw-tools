@@ -35,16 +35,6 @@ const siteConfig = {
     }
   ],
 
-  assurance: {
-    title: "防失联永久保障",
-    followText: "关注公众号：小闻说",
-    emailTitle: "邮件自助获取",
-    emailDesc: "如遇网站无法访问，请发送邮件至：x@xwsay.com",
-    emailInst: "标题填写：最新地址（正文留空即可）。系统会自动回复最新网址，建议将此邮箱保存至通讯录。",
-    email: "x@xwsay.com",
-    emailSubject: "最新地址"
-  },
-
   footer: {
     copyright: "© 2026 小闻说. All rights reserved.",
     contact: "商务与反馈：x@xwsay.com"
