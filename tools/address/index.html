@@ -54,7 +54,6 @@
             filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
         }
 
-        /* 🚀 紧凑型组件布局 */
         .glass-container { 
             width: 100%; max-width: 480px; 
             background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -131,6 +130,9 @@
             brandName: "小闻说",
             homeUrl: "https://www.xwsay.com",
             
+            // 再次生成时的确认提示文案
+            confirmText: "确定要重新生成新地址吗？当前显示地址将被覆盖。",
+
             // 底部引导卡片配置
             ctaLink: "https://docs.xwsay.com/article/us-apple-id-guide",
             ctaHtml: "👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》",
@@ -157,7 +159,7 @@
     <div class="glass-container">
         <h2 id="main-heading">🇺🇸 美区免税州地址生成器</h2>
         <div class="brand-subtitle"><a href="" id="brand-link" target="_blank">小闻说</a> 专属工具</div>
-        <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
+        <button class="generate-btn" onclick="handleGenerateClick()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
 
@@ -173,6 +175,8 @@
         document.getElementById("brand-link").innerText = siteConfig.brandName;
         document.getElementById("cta-card-link").href = siteConfig.ctaLink;
         document.getElementById("cta-card-text").innerHTML = siteConfig.ctaHtml;
+
+        var isAddressGenerated = false; // 标识是否已经生成过地址
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function generatePhone() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); }
@@ -211,6 +215,18 @@
                 createRow("州代号", data.stateCode, "val-state") +
                 createRow("邮编", data.zipCode, "val-zip") +
                 createRow("电话", data.phone, "val-phone");
+            
+            isAddressGenerated = true; // 渲染完成后标示已有数据
+        }
+
+        function handleGenerateClick() {
+            // 如果已经有地址，触发二次确认
+            if (isAddressGenerated) {
+                if (!confirm(siteConfig.confirmText)) {
+                    return; // 点击取消则终止操作
+                }
+            }
+            generateNewAddress();
         }
 
         function generateNewAddress() {
