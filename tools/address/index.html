@@ -54,13 +54,13 @@
             filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
         }
 
-        /* 🚀 紧凑型组件布局 */
         .glass-container { 
             width: 100%; max-width: 480px; 
             background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border); border-radius: 20px; 
             padding: 1.25rem 1.1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            position: relative;
         }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -96,30 +96,41 @@
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
 
         .cta-card {
-            margin-top: 14px;
-            padding: 0.85rem;
-            background: rgba(0, 113, 227, 0.05);
-            border: 1px dashed var(--accent);
-            border-radius: 14px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-            text-align: center;
+            margin-top: 14px; padding: 0.85rem;
+            background: rgba(0, 113, 227, 0.05); border: 1px dashed var(--accent);
+            border-radius: 14px; text-decoration: none; display: block;
+            transition: all 0.3s ease; text-align: center;
         }
         @media (prefers-color-scheme: dark) {
             .cta-card { background: rgba(41, 151, 255, 0.1); border-color: rgba(41, 151, 255, 0.4); }
         }
-        .cta-card:hover {
-            background: rgba(0, 113, 227, 0.1);
-            transform: translateY(-1px);
-            border-style: solid;
+        .cta-card:hover { background: rgba(0, 113, 227, 0.1); transform: translateY(-1px); border-style: solid; }
+        .cta-text { font-size: 0.85rem; font-weight: 600; color: var(--accent); line-height: 1.4; }
+
+        /* 🚀 自定义确认模态框样式 */
+        .modal-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: all 0.2s ease; z-index: 100;
         }
-        .cta-text {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent);
-            line-height: 1.4;
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            background: var(--bg-color); border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 1.2rem; width: 85%; max-width: 320px;
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: scale(0.9); transition: all 0.2s ease;
         }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        .modal-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+        .modal-desc { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.4; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn {
+            flex: 1; padding: 8px; font-size: 0.85rem; font-weight: 600; border-radius: 10px;
+            border: 1px solid var(--glass-border); cursor: pointer; transition: all 0.2s;
+        }
+        .modal-btn-cancel { background: var(--card-bg); color: var(--text-primary); }
+        .modal-btn-confirm { background: var(--text-primary); color: var(--bg-color); border: none; }
     </style>
 </head>
 <body>
@@ -131,6 +142,12 @@
             brandName: "小闻说",
             homeUrl: "https://www.xwsay.com",
             
+            // 再次生成时的二次确认文案
+            confirmTitle: "重新生成地址？",
+            confirmText: "生成新地址后，当前显示的地址信息将被覆盖。",
+            btnConfirmText: "确定生成",
+            btnCancelText: "取消",
+
             // 底部引导卡片配置
             ctaLink: "https://docs.xwsay.com/article/us-apple-id-guide",
             ctaHtml: "👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》",
@@ -157,13 +174,25 @@
     <div class="glass-container">
         <h2 id="main-heading">🇺🇸 美区免税州地址生成器</h2>
         <div class="brand-subtitle"><a href="" id="brand-link" target="_blank">小闻说</a> 专属工具</div>
-        <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
+        <button class="generate-btn" onclick="handleGenerateClick()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
 
         <a href="" target="_blank" id="cta-card-link" class="cta-card">
             <div class="cta-text" id="cta-card-text"></div>
         </a>
+
+        <!-- 自定义确认弹窗组件 -->
+        <div id="confirm-modal" class="modal-overlay">
+            <div class="modal-box">
+                <div class="modal-title" id="modal-title"></div>
+                <div class="modal-desc" id="modal-desc"></div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-cancel" id="modal-btn-cancel" onclick="closeModal()">取消</button>
+                    <button class="modal-btn modal-btn-confirm" id="modal-btn-confirm" onclick="confirmAction()">确定</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -173,6 +202,14 @@
         document.getElementById("brand-link").innerText = siteConfig.brandName;
         document.getElementById("cta-card-link").href = siteConfig.ctaLink;
         document.getElementById("cta-card-text").innerHTML = siteConfig.ctaHtml;
+
+        // 初始化弹窗文案
+        document.getElementById("modal-title").innerText = siteConfig.confirmTitle;
+        document.getElementById("modal-desc").innerText = siteConfig.confirmText;
+        document.getElementById("modal-btn-cancel").innerText = siteConfig.btnCancelText;
+        document.getElementById("modal-btn-confirm").innerText = siteConfig.btnConfirmText;
+
+        var isAddressGenerated = false;
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function generatePhone() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); }
@@ -211,6 +248,26 @@
                 createRow("州代号", data.stateCode, "val-state") +
                 createRow("邮编", data.zipCode, "val-zip") +
                 createRow("电话", data.phone, "val-phone");
+            
+            isAddressGenerated = true;
+        }
+
+        function handleGenerateClick() {
+            if (isAddressGenerated) {
+                // 显示自定义弹窗
+                document.getElementById("confirm-modal").classList.add("active");
+            } else {
+                generateNewAddress();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("confirm-modal").classList.remove("active");
+        }
+
+        function confirmAction() {
+            closeModal();
+            generateNewAddress();
         }
 
         function generateNewAddress() {
