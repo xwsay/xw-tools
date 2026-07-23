@@ -107,7 +107,7 @@
         .cta-card:hover { background: rgba(0, 113, 227, 0.1); transform: translateY(-1px); border-style: solid; }
         .cta-text { font-size: 0.85rem; font-weight: 600; color: var(--accent); line-height: 1.4; }
 
-        /* 🚀 自定义确认模态框样式 */
+        /* 自定义确认模态框样式 */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -245,7 +245,7 @@
                 createRow("全名", data.fullName, "val-name") +
                 createRow("街道", data.fullStreet, "val-street") +
                 createRow("城市", data.cityName, "val-city") +
-                createRow("州代号", data.stateCode, "val-state") +
+                createRow("州全称", data.stateName || data.stateCode, "val-state") +
                 createRow("邮编", data.zipCode, "val-zip") +
                 createRow("电话", data.phone, "val-phone");
             
@@ -254,7 +254,6 @@
 
         function handleGenerateClick() {
             if (isAddressGenerated) {
-                // 显示自定义弹窗
                 document.getElementById("confirm-modal").classList.add("active");
             } else {
                 generateNewAddress();
@@ -277,7 +276,7 @@
                 fullName: getRandom(siteConfig.firstNames) + ' ' + getRandom(siteConfig.lastNames),
                 fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(siteConfig.streetNames),
                 cityName: cityObj.name,
-                stateCode: stateObj.state,
+                stateName: stateObj.stateName,
                 zipCode: cityObj.zip,
                 phone: generatePhone()
             };
