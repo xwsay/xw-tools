@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>美区免税州地址生成器 | 小闻说</title>
+    <title id="page-title">美区免税州地址生成器 | 小闻说</title>
     <style>
         :root {
             --bg-color: #fbfbfd;
@@ -56,14 +56,6 @@
             filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
         }
 
-        .back-link {
-            position: fixed; top: 1.5rem; left: 1.5rem; z-index: 10;
-            padding: 0.5rem 1rem; border-radius: 99px; font-size: 0.85rem; font-weight: 500;
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            color: var(--text-primary); text-decoration: none; backdrop-filter: blur(20px);
-            transition: all 0.2s; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 4px;
-        }
-
         .glass-container { 
             width: 100%; max-width: 480px; 
             background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -104,12 +96,11 @@
         .copy-btn:hover { background: var(--text-primary); color: var(--bg-color); }
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
 
-        /* 🚀 核心：引流卡片样式 */
         .cta-card {
             margin-top: 24px;
             padding: 1.25rem;
-            background: rgba(0, 113, 227, 0.05); /* 淡淡的 Apple 蓝 */
-            border: 1px dashed var(--accent); /* 虚线增加点击暗示 */
+            background: rgba(0, 113, 227, 0.05);
+            border: 1px dashed var(--accent);
             border-radius: 18px;
             text-decoration: none;
             display: block;
@@ -133,32 +124,56 @@
     </style>
 </head>
 <body>
+    <script>
+        // ==================== 🚀 专属配置区（经常变动的内容集中于此） ====================
+        const siteConfig = {
+            // 网页基础配置
+            pageTitle: "美区免税州地址生成器 | 小闻说",
+            brandName: "小闻说",
+            homeUrl: "https://www.xwsay.com",
+            
+            // 底部引导卡片配置
+            ctaLink: "https://docs.xwsay.com/article/us-apple-id-guide",
+            ctaHtml: "👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》",
+
+            // 名字与街道词库
+            firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"],
+            lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"],
+            streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
+
+            // 免税州及城市邮编池
+            taxFreeStates: [
+                { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
+                { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
+                { state: "MT", stateName: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
+                { state: "NH", stateName: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
+                { state: "AK", stateName: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
+            ]
+        };
+        // ==============================================================================
+    </script>
+
     <div class="ambient-bg"></div>
-    <a href="https://www.xwsay.com" class="back-link">返回主页</a>
 
     <div class="glass-container">
-        <h2>🇺🇸 美区免税州地址生成器</h2>
-        <div class="brand-subtitle"><a href="https://www.xwsay.com">小闻说</a> 专属工具</div>
+        <h2 id="main-heading">🇺🇸 美区免税州地址生成器</h2>
+        <div class="brand-subtitle"><a href="" id="brand-link">小闻说</a> 专属工具</div>
         <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
 
-        <a href="https://docs.xwsay.com/article/us-apple-id-guide" target="_blank" class="cta-card">
-            <div class="cta-text">👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》</div>
+        <a href="" target="_blank" id="cta-card-link" class="cta-card">
+            <div class="cta-text" id="cta-card-text"></div>
         </a>
     </div>
 
     <script>
-        var firstNames = ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"];
-        var lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"];
-        var streetNames = ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"];
-        var taxFreeStates = [
-            { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
-            { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
-            { state: "MT", stateName: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
-            { state: "NH", stateName: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
-            { state: "AK", stateName: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
-        ];
+        // 初始化页面配置文案与链接
+        document.getElementById("page-title").innerText = siteConfig.pageTitle;
+        document.getElementById("brand-link").href = siteConfig.homeUrl;
+        document.getElementById("brand-link").innerText = siteConfig.brandName;
+        document.getElementById("cta-card-link").href = siteConfig.ctaLink;
+        document.getElementById("cta-card-text").innerHTML = siteConfig.ctaHtml;
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function generatePhone() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); }
@@ -200,11 +215,11 @@
         }
 
         function generateNewAddress() {
-            var stateObj = getRandom(taxFreeStates);
+            var stateObj = getRandom(siteConfig.taxFreeStates);
             var cityObj = getRandom(stateObj.cities);
             var addressData = {
-                fullName: getRandom(firstNames) + ' ' + getRandom(lastNames),
-                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(streetNames),
+                fullName: getRandom(siteConfig.firstNames) + ' ' + getRandom(siteConfig.lastNames),
+                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(siteConfig.streetNames),
                 cityName: cityObj.name,
                 stateCode: stateObj.state,
                 zipCode: cityObj.zip,
