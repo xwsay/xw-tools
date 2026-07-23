@@ -36,16 +36,15 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* 🚀 针对 iframe 内嵌优化：去除了强制居中与全屏高度约束 */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
-            background-color: var(--bg-color); 
+            background-color: transparent; 
             color: var(--text-primary); 
-            min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center;
-            padding: 20px 15px;
+            padding: 10px 0;
             position: relative;
         }
 
@@ -157,7 +156,7 @@
 
     <div class="glass-container">
         <h2 id="main-heading">🇺🇸 美区免税州地址生成器</h2>
-        <div class="brand-subtitle"><a href="" id="brand-link">小闻说</a> 专属工具</div>
+        <div class="brand-subtitle"><a href="" id="brand-link" target="_blank">小闻说</a> 专属工具</div>
         <button class="generate-btn" onclick="generateNewAddress()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
