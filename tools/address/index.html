@@ -36,7 +36,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* 🚀 针对 iframe 内嵌优化：去除了强制居中与全屏高度约束 */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; 
             background-color: transparent; 
@@ -44,7 +43,7 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 10px 0;
+            padding: 5px 0;
             position: relative;
         }
 
@@ -55,39 +54,40 @@
             filter: blur(80px); opacity: 0.8; z-index: -1; pointer-events: none; 
         }
 
+        /* 🚀 紧凑型组件布局 */
         .glass-container { 
             width: 100%; max-width: 480px; 
             background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border); border-radius: 24px; 
-            padding: 2rem 1.5rem; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            border: 1px solid var(--glass-border); border-radius: 20px; 
+            padding: 1.25rem 1.1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { text-align: center; margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 600; }
-        .brand-subtitle { text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; }
+        h2 { text-align: center; margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 600; }
+        .brand-subtitle { text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
         .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; }
 
         button.generate-btn { 
-            width: 100%; padding: 16px; font-size: 1rem; font-weight: 600; 
+            width: 100%; padding: 12px; font-size: 0.95rem; font-weight: 600; 
             background: var(--text-primary); color: var(--bg-color); 
-            border: none; border-radius: 16px; cursor: pointer; margin-bottom: 16px; 
+            border: none; border-radius: 12px; cursor: pointer; margin-bottom: 12px; 
             transition: all 0.2s; box-shadow: var(--shadow-sm);
         }
-        button.generate-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+        button.generate-btn:hover { transform: translateY(-1px); opacity: 0.9; }
 
-        .info-list { display: flex; flex-direction: column; gap: 10px; }
+        .info-list { display: flex; flex-direction: column; gap: 8px; }
         .info-row { 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 14px 16px; background: var(--card-bg); 
-            border-radius: 16px; border: 1px solid var(--glass-border); 
+            padding: 10px 12px; background: var(--card-bg); 
+            border-radius: 12px; border: 1px solid var(--glass-border); 
         }
-        .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 12px; }
-        .label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 500; text-transform: uppercase; }
-        .value { font-size: 1rem; color: var(--text-primary); font-weight: 600; }
+        .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 8px; }
+        .label { font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 2px; font-weight: 500; text-transform: uppercase; }
+        .value { font-size: 0.95rem; color: var(--text-primary); font-weight: 600; }
         
         .copy-btn { 
-            padding: 6px 14px; font-size: 0.8rem; font-weight: 600; 
+            padding: 5px 12px; font-size: 0.78rem; font-weight: 600; 
             background: var(--bg-color); color: var(--text-primary);
             border: 1px solid var(--glass-border); border-radius: 99px; 
             cursor: pointer; transition: all 0.2s;
@@ -96,11 +96,11 @@
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
 
         .cta-card {
-            margin-top: 24px;
-            padding: 1.25rem;
+            margin-top: 14px;
+            padding: 0.85rem;
             background: rgba(0, 113, 227, 0.05);
             border: 1px dashed var(--accent);
-            border-radius: 18px;
+            border-radius: 14px;
             text-decoration: none;
             display: block;
             transition: all 0.3s ease;
@@ -111,14 +111,14 @@
         }
         .cta-card:hover {
             background: rgba(0, 113, 227, 0.1);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             border-style: solid;
         }
         .cta-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--accent);
-            line-height: 1.5;
+            line-height: 1.4;
         }
     </style>
 </head>
