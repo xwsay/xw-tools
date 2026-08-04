@@ -101,7 +101,7 @@
                 <img id="nav-avatar" src="" alt="" class="nav-avatar">
                 <span id="nav-name" class="nav-name"></span>
             </a>
-            <a id="nav-action" href="#" target="_blank" class="nav-link"></a>
+            <a id="nav-action" href="#" target="_blank" rel="noopener noreferrer" class="nav-link"></a>
         </div>
     </header>
 
@@ -112,7 +112,7 @@
             <p id="hero-desc" class="hero-desc"></p>
         </section>
 
-        <a id="main-cta-link" href="#" target="_blank" class="primary-cta-card">
+        <a id="main-cta-link" href="#" target="_blank" rel="noopener noreferrer" class="primary-cta-card">
             <div id="cta-title" class="cta-title"></div>
             <div class="cta-btn-text">
                 <span id="cta-btn-label"></span>
@@ -135,6 +135,8 @@
            [渲染逻辑区] - 自动将配置文件填入页面，请勿动
         ---------------------------------------------------------- */
         document.addEventListener('DOMContentLoaded', () => {
+            if (typeof siteConfig === 'undefined') return;
+
             // 设置 SEO
             document.title = siteConfig.seo.title;
             const metaDesc = document.createElement('meta');
@@ -152,7 +154,9 @@
             link.href = siteConfig.seo.icon;
 
             // 导航栏
-            document.getElementById('nav-avatar').src = siteConfig.nav.avatar;
+            const navAvatar = document.getElementById('nav-avatar');
+            navAvatar.src = siteConfig.nav.avatar;
+            navAvatar.alt = siteConfig.nav.brandName;
             document.getElementById('nav-name').innerText = siteConfig.nav.brandName;
             document.getElementById('nav-action').innerText = siteConfig.nav.actionText;
             document.getElementById('nav-action').href = siteConfig.nav.actionLink;
@@ -165,7 +169,7 @@
             // 主入口
             document.getElementById('main-cta-link').href = siteConfig.hero.primaryLink;
             document.getElementById('cta-title').innerText = siteConfig.hero.primaryBtn;
-            document.getElementById('cta-btn-label').innerText = "教程即刻开启";
+            document.getElementById('cta-btn-label').innerText = siteConfig.hero.primaryBtnSubtext || "教程即刻开启";
 
             // 特性列表
             const fGrid = document.getElementById('features-grid');
