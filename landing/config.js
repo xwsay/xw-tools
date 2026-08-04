@@ -17,6 +17,7 @@ const siteConfig = {
     subtitle: "数字出海 · 账号网络 · 免费教程",
     desc: "专注于提升个人数字生产力。在这里，我将复杂的网络配置与底层逻辑，拆解为直观的实操指南，助你高效掌握全球前沿的数字工具。",
     primaryBtn: "立即进入教程中心",
+    primaryBtnSubtext: "教程即刻开启",
     primaryLink: "https://ooc.dpdns.org/docs"
   },
 
