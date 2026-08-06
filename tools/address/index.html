@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="page-title">美区免税州地址生成器 | 小闻说</title>
+    <title id="page-title">外区ID地址生成器 | 小闻说</title>
+    
+    <!-- Open Graph 社交卡片与 Favicon 标签 -->
+    <link rel="icon" id="favicon-link" href="" type="image/x-icon">
+    <meta property="og:title" id="og-title" content="">
+    <meta property="og:description" id="og-desc" content="">
+    <meta property="og:type" content="website">
+
     <style>
         :root {
             --bg-color: #fbfbfd;
@@ -25,7 +32,7 @@
                 --text-primary: #f5f5f7;
                 --text-secondary: #a1a1a6;
                 --glass-bg: rgba(28, 28, 30, 0.6);
-                --glass-border: rgba(255, 255, 255, 0.08);
+                --glass-border: rgba(58, 58, 60, 0.8);
                 --card-bg: rgba(44, 44, 46, 0.4);
                 --card-hover: rgba(58, 58, 60, 0.8);
                 --accent: #2997ff;
@@ -68,6 +75,26 @@
         .brand-subtitle { text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
         .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; }
 
+        /* 地区切换选择框样式 */
+        select.region-select {
+            width: 100%; padding: 10px 12px; font-size: 0.88rem; font-weight: 600;
+            background: var(--card-bg); color: var(--text-primary);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            margin-bottom: 10px; outline: none; cursor: pointer;
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2386868b' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 18px;
+            transition: all 0.2s;
+        }
+        @media (prefers-color-scheme: dark) {
+            select.region-select {
+                background-image: url("data:image/svg+xml;utf8,<svg fill='%23a1a1a6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            }
+        }
+        select.region-select:focus { border-color: var(--accent); }
+
         button.generate-btn { 
             width: 100%; padding: 12px; font-size: 0.95rem; font-weight: 600; 
             background: var(--text-primary); color: var(--bg-color); 
@@ -94,18 +121,6 @@
         }
         .copy-btn:hover { background: var(--text-primary); color: var(--bg-color); }
         .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
-
-        .cta-card {
-            margin-top: 14px; padding: 0.85rem;
-            background: rgba(0, 113, 227, 0.05); border: 1px dashed var(--accent);
-            border-radius: 14px; text-decoration: none; display: block;
-            transition: all 0.3s ease; text-align: center;
-        }
-        @media (prefers-color-scheme: dark) {
-            .cta-card { background: rgba(41, 151, 255, 0.1); border-color: rgba(41, 151, 255, 0.4); }
-        }
-        .cta-card:hover { background: rgba(0, 113, 227, 0.1); transform: translateY(-1px); border-style: solid; }
-        .cta-text { font-size: 0.85rem; font-weight: 600; color: var(--accent); line-height: 1.4; }
 
         /* 自定义确认模态框样式 */
         .modal-overlay {
@@ -137,33 +152,124 @@
     <script>
         // ==================== 🚀 专属配置区（经常变动的内容集中于此） ====================
         const siteConfig = {
-            // 网页基础配置
-            pageTitle: "美区免税州地址生成器 | 小闻说",
+            // 网页基础与 SEO 配置
+            pageTitle: "外区ID地址生成器 | 小闻说",
             brandName: "小闻说",
             homeUrl: "https://www.xwsay.com",
-            
+            faviconUrl: "https://www.xwsay.com/favicon.ico",
+            ogDescription: "极简外区ID真实地址生成工具，支持美区免税州、英区、日区、港区、新区与加区，自动保存与一键复制。",
+
             // 再次生成时的二次确认文案
             confirmTitle: "重新生成地址？",
             confirmText: "生成新地址后，当前显示的地址信息将被覆盖。",
             btnConfirmText: "确定生成",
             btnCancelText: "取消",
 
-            // 底部引导卡片配置
-            ctaLink: "https://docs.xwsay.com/article/us-apple-id-guide",
-            ctaHtml: "👉 拿到地址了？点击查看<br>《5分钟零门槛美区 Apple ID 注册保姆级教程》",
-
-            // 名字与街道词库
-            firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"],
-            lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"],
-            streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
-
-            // 免税州及城市邮编池
-            taxFreeStates: [
-                { state: "DE", stateName: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
-                { state: "OR", stateName: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
-                { state: "MT", stateName: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
-                { state: "NH", stateName: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
-                { state: "AK", stateName: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
+            // 多国家/地区数据池
+            regions: [
+                {
+                    id: "US",
+                    name: "🇺🇸 美区免税州",
+                    stateLabel: "州全称",
+                    zipLabel: "邮编",
+                    aptLabel: "房间号 (Line 2)",
+                    firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"],
+                    lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"],
+                    streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
+                    aptList: ["Apt 101", "Apt 2B", "Suite 200", "Ste 305", "Bldg 4", "Unit 12"],
+                    generatePhone: function() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); },
+                    subdivisions: [
+                        { name: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
+                        { name: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
+                        { name: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
+                        { name: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
+                        { name: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
+                    ]
+                },
+                {
+                    id: "UK",
+                    name: "🇬🇧 英国 (United Kingdom)",
+                    stateLabel: "郡/地区",
+                    zipLabel: "邮编",
+                    aptLabel: "房间号 (Line 2)",
+                    firstNames: ["Oliver", "George", "Harry", "Noah", "Jack", "Amelia", "Olivia", "Isla", "Emily", "Ava"],
+                    lastNames: ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies"],
+                    streetNames: ["High St", "Station Rd", "Main St", "London Rd", "Church Ln", "Victoria Rd"],
+                    aptList: ["Flat 1A", "Flat 4", "Suite 2B", "Unit 3", "Apartment 12"],
+                    generatePhone: function() { return "+44 7" + Math.floor(100000000 + Math.random() * 900000000); },
+                    subdivisions: [
+                        { name: "Greater London", cities: [{name: "London", zip: "EC1A 1BB"}, {name: "Westminster", zip: "SW1A 1AA"}] },
+                        { name: "Greater Manchester", cities: [{name: "Manchester", zip: "M1 1AG"}, {name: "Salford", zip: "M5 4WT"}] },
+                        { name: "West Midlands", cities: [{name: "Birmingham", zip: "B1 1BB"}] }
+                    ]
+                },
+                {
+                    id: "JP",
+                    name: "🇯🇵 日本 (Japan)",
+                    stateLabel: "都道府县",
+                    zipLabel: "郵便番号",
+                    aptLabel: "建物名・部屋番号",
+                    firstNames: ["Ren", "Hiroto", "Sota", "Yuma", "Minato", "Hana", "Himari", "Aoi", "Yuna", "Ichika"],
+                    lastNames: ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura"],
+                    streetNames: ["1-2-3 Chome", "2-5-1 Honmachi", "3-12-4 Ginza", "4-1-8 Roppongi", "1-8-2 Shinjuku"],
+                    aptList: ["101号室", "204号室", "301号", "502号室", "703号室"],
+                    generatePhone: function() { return "+81 90-" + Math.floor(1000 + Math.random() * 9000) + "-" + Math.floor(1000 + Math.random() * 9000); },
+                    subdivisions: [
+                        { name: "東京都", cities: [{name: "新宿区", zip: "160-0022"}, {name: "渋谷区", zip: "150-0002"}, {name: "千代田区", zip: "100-0001"}] },
+                        { name: "大阪府", cities: [{name: "大阪市北区", zip: "530-0001"}, {name: "大阪市中央区", zip: "542-0081"}] },
+                        { name: "神奈川県", cities: [{name: "横浜市中区", zip: "231-0001"}] }
+                    ]
+                },
+                {
+                    id: "HK",
+                    name: "🇭🇰 中国香港 (Hong Kong)",
+                    stateLabel: "区域",
+                    zipLabel: "邮编",
+                    aptLabel: "大厦/室 (Line 2)",
+                    firstNames: ["Ka Ho", "Wai Kit", "Sze Man", "Wing Yan", "Chun Kit", "Tsz Ching", "Lok Yi"],
+                    lastNames: ["Chan", "Lee", "Cheung", "Wong", "Lau", "Leung", "Ng", "Lam"],
+                    streetNames: ["Nathan Rd", "Queen's Rd Central", "Hennessy Rd", "King's Rd", "Castle Peak Rd"],
+                    aptList: ["Flat A, 12/F", "Block B, 5/F", "Room 802", "Unit C, 18/F", "Flat 3, 22/F"],
+                    generatePhone: function() { return "+852 " + (Math.floor(Math.random() * 2) === 0 ? "5" : "9") + Math.floor(1000000 + Math.random() * 9000000); },
+                    subdivisions: [
+                        { name: "香港岛", cities: [{name: "中环", zip: "999077"}, {name: "湾仔", zip: "999077"}, {name: "铜锣湾", zip: "999077"}] },
+                        { name: "九龙", cities: [{name: "旺角", zip: "999077"}, {name: "尖沙咀", zip: "999077"}, {name: "观塘", zip: "999077"}] },
+                        { name: "新界", cities: [{name: "沙田", zip: "999077"}, {name: "屯门", zip: "999077"}] }
+                    ]
+                },
+                {
+                    id: "SG",
+                    name: "🇸🇬 新加坡 (Singapore)",
+                    stateLabel: "区域",
+                    zipLabel: "邮编",
+                    aptLabel: "门牌/楼层 (Line 2)",
+                    firstNames: ["Wei Ming", "Jia Jun", "Xing Yu", "Chloe", "Ethan", "Lucas", "Hannah"],
+                    lastNames: ["Tan", "Lim", "Lee", "Ng", "Ong", "Wong", "Chua"],
+                    streetNames: ["Orchard Rd", "Marina Blvd", "Raffles Ave", "Victoria St", "Beach Rd"],
+                    aptList: ["#02-01", "#05-12", "#10-04", "#08-88", "#15-03"],
+                    generatePhone: function() { return "+65 " + (Math.floor(Math.random() * 2) === 0 ? "8" : "9") + Math.floor(1000000 + Math.random() * 9000000); },
+                    subdivisions: [
+                        { name: "Central Region", cities: [{name: "Singapore", zip: "238801"}, {name: "Singapore", zip: "018980"}] },
+                        { name: "East Region", cities: [{name: "Singapore", zip: "529510"}] }
+                    ]
+                },
+                {
+                    id: "CA",
+                    name: "🇨🇦 加拿大 (Canada)",
+                    stateLabel: "省份",
+                    zipLabel: "邮编",
+                    aptLabel: "房间号 (Line 2)",
+                    firstNames: ["Liam", "Noah", "Jackson", "Lucas", "Oliver", "Emma", "Olivia", "Ava"],
+                    lastNames: ["Smith", "Brown", "Tremblay", "Martin", "Roy", "Wilson", "Macdonald"],
+                    streetNames: ["Yonge St", "Robson St", "Banff Ave", "Main St", "Queen St W"],
+                    aptList: ["Apt 302", "Suite 101", "Unit 4B", "Apt 1205", "Ste 200"],
+                    generatePhone: function() { return "+1 416-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 9000) + 1000); },
+                    subdivisions: [
+                        { name: "Ontario", cities: [{name: "Toronto", zip: "M5V 2T6"}, {name: "Ottawa", zip: "K1P 1J1"}] },
+                        { name: "British Columbia", cities: [{name: "Vancouver", zip: "V6B 1A1"}, {name: "Victoria", zip: "V8W 1P6"}] },
+                        { name: "Alberta", cities: [{name: "Calgary", zip: "T2P 1J9"}] }
+                    ]
+                }
             ]
         };
         // ==============================================================================
@@ -172,15 +278,15 @@
     <div class="ambient-bg"></div>
 
     <div class="glass-container">
-        <h2 id="main-heading">🇺🇸 美区免税州地址生成器</h2>
+        <h2>🌐 外区ID地址生成器</h2>
         <div class="brand-subtitle"><a href="" id="brand-link" target="_blank">小闻说</a> 专属工具</div>
+
+        <!-- 地区选择下拉框 -->
+        <select id="region-select" class="region-select" onchange="handleRegionChange()"></select>
+
         <button class="generate-btn" onclick="handleGenerateClick()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
-
-        <a href="" target="_blank" id="cta-card-link" class="cta-card">
-            <div class="cta-text" id="cta-card-text"></div>
-        </a>
 
         <!-- 自定义确认弹窗组件 -->
         <div id="confirm-modal" class="modal-overlay">
@@ -196,38 +302,63 @@
     </div>
 
     <script>
-        // 初始化页面配置文案与链接
+        // 初始化页面基础与 SEO 配置
         document.getElementById("page-title").innerText = siteConfig.pageTitle;
         document.getElementById("brand-link").href = siteConfig.homeUrl;
         document.getElementById("brand-link").innerText = siteConfig.brandName;
-        document.getElementById("cta-card-link").href = siteConfig.ctaLink;
-        document.getElementById("cta-card-text").innerHTML = siteConfig.ctaHtml;
+        document.getElementById("favicon-link").href = siteConfig.faviconUrl;
+        document.getElementById("og-title").content = siteConfig.pageTitle;
+        document.getElementById("og-desc").content = siteConfig.ogDescription;
 
-        // 初始化弹窗文案
+        // 初始化二次确认弹窗文案
         document.getElementById("modal-title").innerText = siteConfig.confirmTitle;
         document.getElementById("modal-desc").innerText = siteConfig.confirmText;
         document.getElementById("modal-btn-cancel").innerText = siteConfig.btnCancelText;
         document.getElementById("modal-btn-confirm").innerText = siteConfig.btnConfirmText;
 
+        // 初始化地区选择下拉框选项
+        var regionSelectEl = document.getElementById("region-select");
+        siteConfig.regions.forEach(function(item) {
+            var opt = document.createElement("option");
+            opt.value = item.id;
+            opt.innerText = item.name;
+            regionSelectEl.appendChild(opt);
+        });
+
         var isAddressGenerated = false;
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-        function generatePhone() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); }
 
+        // 升级的剪贴板 API 函数（现代 Navigator API + 降级兼容 fallback）
         function copyText(elementId, btnElement) {
             var text = document.getElementById(elementId).innerText;
+            
+            var showSuccess = function() {
+                var oldText = btnElement.innerText;
+                btnElement.innerText = "已复制";
+                btnElement.classList.add("copied");
+                setTimeout(function() { btnElement.innerText = oldText; btnElement.classList.remove("copied"); }, 1500);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(showSuccess).catch(function() {
+                    fallbackCopy(text, showSuccess);
+                });
+            } else {
+                fallbackCopy(text, showSuccess);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
             var textarea = document.createElement("textarea");
             textarea.value = text;
-            textarea.style.position = 'fixed'; textarea.style.left = '-9999px';
+            textarea.style.position = 'fixed'; 
+            textarea.style.left = '-9999px';
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand("copy");
             document.body.removeChild(textarea);
-            
-            var oldText = btnElement.innerText;
-            btnElement.innerText = "已复制";
-            btnElement.classList.add("copied");
-            setTimeout(function() { btnElement.innerText = oldText; btnElement.classList.remove("copied"); }, 1500);
+            callback();
         }
 
         function createRow(label, value, id) {
@@ -240,16 +371,29 @@
             </div>`;
         }
 
+        function getRegionConfig(regionId) {
+            for (var i = 0; i < siteConfig.regions.length; i++) {
+                if (siteConfig.regions[i].id === regionId) return siteConfig.regions[i];
+            }
+            return siteConfig.regions[0];
+        }
+
         function renderAddress(data) {
+            var regionCfg = getRegionConfig(data.regionId);
             document.getElementById("output").innerHTML = 
                 createRow("全名", data.fullName, "val-name") +
-                createRow("街道", data.fullStreet, "val-street") +
+                createRow("街道一", data.fullStreet, "val-street") +
+                createRow(regionCfg.aptLabel || "房间号 (Line 2)", data.aptText || "Apt 101", "val-apt") +
                 createRow("城市", data.cityName, "val-city") +
-                createRow("州全称", data.stateName || data.stateCode, "val-state") +
-                createRow("邮编", data.zipCode, "val-zip") +
+                createRow(regionCfg.stateLabel, data.stateName, "val-state") +
+                createRow(regionCfg.zipLabel, data.zipCode, "val-zip") +
                 createRow("电话", data.phone, "val-phone");
             
             isAddressGenerated = true;
+        }
+
+        function handleRegionChange() {
+            generateNewAddress();
         }
 
         function handleGenerateClick() {
@@ -270,25 +414,45 @@
         }
 
         function generateNewAddress() {
-            var stateObj = getRandom(siteConfig.taxFreeStates);
-            var cityObj = getRandom(stateObj.cities);
+            var currentRegionId = document.getElementById("region-select").value;
+            var regionCfg = getRegionConfig(currentRegionId);
+
+            var subObj = getRandom(regionCfg.subdivisions);
+            var cityObj = getRandom(subObj.cities);
+            
             var addressData = {
-                fullName: getRandom(siteConfig.firstNames) + ' ' + getRandom(siteConfig.lastNames),
-                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(siteConfig.streetNames),
+                regionId: currentRegionId,
+                fullName: getRandom(regionCfg.firstNames) + ' ' + getRandom(regionCfg.lastNames),
+                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(regionCfg.streetNames),
+                aptText: getRandom(regionCfg.aptList),
                 cityName: cityObj.name,
-                stateName: stateObj.stateName,
+                stateName: subObj.name,
                 zipCode: cityObj.zip,
-                phone: generatePhone()
+                phone: regionCfg.generatePhone()
             };
-            try { localStorage.setItem('xiaowen_us_address_data', JSON.stringify(addressData)); } catch(e) {}
+
+            try { 
+                localStorage.setItem('xiaowen_address_selected_region', currentRegionId);
+                localStorage.setItem('xiaowen_multi_address_data', JSON.stringify(addressData)); 
+            } catch(e) {}
+            
             renderAddress(addressData);
         }
         
         window.onload = function() {
             try {
-                var savedData = localStorage.getItem('xiaowen_us_address_data');
-                if (savedData) { renderAddress(JSON.parse(savedData)); } 
-                else { generateNewAddress(); }
+                var savedRegion = localStorage.getItem('xiaowen_address_selected_region');
+                if (savedRegion) { document.getElementById("region-select").value = savedRegion; }
+
+                var savedData = localStorage.getItem('xiaowen_multi_address_data');
+                if (savedData) { 
+                    var parsed = JSON.parse(savedData);
+                    if (parsed && parsed.regionId === document.getElementById("region-select").value) {
+                        renderAddress(parsed);
+                        return;
+                    }
+                } 
+                generateNewAddress();
             } catch(e) { generateNewAddress(); }
         };
     </script>
