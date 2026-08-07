@@ -11,7 +11,7 @@ const siteConfig = {
   textMessageFilename: "__SECRET_TEXT_MSG__.txt", 
 
   siteTitle: "SecureDrop", 
-  logoSvgBase64: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzE3MTcxNyIvPjxwYXRoIGQ9Ik0xMTEuNSA5Ny4zbDMxMi42LTQ5LjctNTkuNCAzNDMuN0wyMzggMjc2LjcgMzA4LjcgMTcybC0xMTguNiA4NC40TDExMS41IDk3LjN6IiBmaWxsPSIjZmZmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCA1MCkiLz48L3N2Zz4=",
+  logoSvgBase64: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzE3MTcxNyIvPjxwYXRoIGQ9Ik0xMTEuNSA5Ny4zbDMxMi42LTQ5LjctNTkuNCAzNDMuN0wyMzggMjc2LjcgMzA4LjcgMTcybC0xMTguNiA4NC44TDExMS41IDk3LjN6IiBmaWxsPSIjZmZmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCA1MCkiLz48L3N2Zz4=",
   
   navCodeDownload: "即焚提取",
   navAdminUpload: "控制台",
@@ -153,7 +153,8 @@ async function serveHTMLFromGitHub(mode) {
 
 export default {
   async fetch(request, env, ctx) {
-    if (!env.ADMIN_PASSWORD || !env.S3_ENDPOINT || !env.S3_ACCESS_KEY || !env.S3_SECRET_KEY) {
+    // 移除对 ADMIN_PASSWORD 的强制校验
+    if (!env.S3_ENDPOINT || !env.S3_ACCESS_KEY || !env.S3_SECRET_KEY) {
       return new Response("系统未正确配置环境变量", { status: 500 });
     }
 
@@ -175,10 +176,10 @@ export default {
         if (url.pathname === '/') return serveHTMLFromGitHub('front');
         if (url.pathname === '/admin') return serveHTMLFromGitHub('admin');
         
-        // API 路由
-        if (url.pathname === '/api/new-code') return generateUniqueCode(env, url.searchParams.get('pw'));
+        // API 路由（无密码验证）
+        if (url.pathname === '/api/new-code') return generateUniqueCode();
         if (url.pathname === '/api/find') return findObjects(s3, url.searchParams.get('code'));
-        if (url.pathname === '/api/admin-list') return listAdminObjects(env, s3, url.searchParams.get('pw'));
+        if (url.pathname === '/api/admin-list') return listAdminObjects(s3);
         
         if (url.pathname === '/api/direct') {
           const targetKey = url.searchParams.get('key');
@@ -196,7 +197,7 @@ export default {
       else if (request.method === 'POST') {
         if (url.pathname === '/api/presign-put') {
            const data = await request.json();
-           if (data.pw !== env.ADMIN_PASSWORD) return new Response(siteConfig.msgAuthFailed, { status: 403, headers: corsHeaders });
+           // 移除密码校验 logic
            const { totalSize } = await s3.list();
            if (totalSize + (data.size || 0) > siteConfig.maxStorageBytes) return new Response(siteConfig.msgStorageFull, { status: 507, headers: corsHeaders });
            
@@ -206,7 +207,7 @@ export default {
         }
       }
       else if (request.method === 'DELETE') {
-        if (url.pathname === '/api/delete') return deleteAdminObject(env, s3, url.searchParams.get('key'), url.searchParams.get('pw'));
+        if (url.pathname === '/api/delete') return deleteAdminObject(s3, url.searchParams.get('key'));
         if (url.pathname === '/api/burn') {
            await s3.delete(url.searchParams.get('key'));
            return new Response("OK", { headers: corsHeaders });
@@ -227,8 +228,7 @@ export default {
 
 const CODE_CHARS = "3456789ABCDEFGHJKLMNPQRSTUVWXY"; 
 
-async function generateUniqueCode(env, password) {
-  if (password !== env.ADMIN_PASSWORD) return new Response(siteConfig.msgAuthFailed, { status: 403 });
+async function generateUniqueCode() {
   let code = "";
   for (let i = 0; i < 4; i++) code += CODE_CHARS.charAt(Math.floor(Math.random() * CODE_CHARS.length));
   return new Response(JSON.stringify({ code }), { headers: { "Content-Type": "application/json" } });
@@ -242,14 +242,12 @@ async function findObjects(s3, code) {
   return new Response(JSON.stringify(files), { headers: { "Content-Type": "application/json" } });
 }
 
-async function listAdminObjects(env, s3, password) {
-  if (password !== env.ADMIN_PASSWORD) return new Response(siteConfig.msgAuthFailed, { status: 403 });
+async function listAdminObjects(s3) {
   const { objects } = await s3.list();
   return new Response(JSON.stringify(objects), { headers: { "Content-Type": "application/json" } });
 }
 
-async function deleteAdminObject(env, s3, key, password) {
-  if (password !== env.ADMIN_PASSWORD) return new Response(siteConfig.msgAuthFailed, { status: 403 });
+async function deleteAdminObject(s3, key) {
   if (!key) return new Response(siteConfig.msgFormatError, { status: 400 });
   await s3.delete(key);
   return new Response("OK");
