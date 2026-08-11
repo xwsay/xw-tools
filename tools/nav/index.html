@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>外网常用优质平台导航</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --search-bg: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 20px -4px rgba(0,0,0,0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #334155;
+        --primary: #3b82f6;
+        --primary-light: #1e3a8a;
+        --search-bg: #1e293b;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+        --shadow-hover: 0 8px 20px -4px rgba(0,0,0,0.4);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem 1rem;
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+      line-height: 1.5;
+    }
+    .container { max-width: 1040px; margin: 0 auto; }
+    
+    /* 顶部导航栏 */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* 带主站 Icon 的 Badge */
+    .main-site-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 0.35rem 0.85rem;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .main-site-badge img {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .main-site-badge:hover { background: var(--primary); color: #ffffff; }
+    .main-site-badge:active { transform: scale(0.96); }
+
+    .search-wrapper { position: relative; width: 340px; max-width: 100%; }
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      padding-right: 4.5rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--search-bg);
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .search-clear-btn {
+      position: absolute;
+      right: 2.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem;
+      display: none;
+    }
+    .search-clear-btn:hover { color: var(--text); }
+    .search-tip {
+      position: absolute;
+      right: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+
+    /* 分类吸顶栏 */
+    .nav-tabs-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0.5rem 0;
+      background: var(--bg);
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .nav-tabs-wrapper::-webkit-scrollbar { display: none; }
+    .nav-tabs {
+      display: flex;
+      justify-content: flex-start;
+      gap: 0.4rem;
+      width: max-content;
+    }
+    .tab-btn {
+      padding: 0.35rem 0.85rem;
+      font-size: 0.82rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .tab-btn:active { transform: scale(0.95); }
+    .tab-btn:hover, .tab-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* 卡片展示区 */
+    .category { margin-bottom: 1.8rem; scroll-margin-top: 3.5rem; }
+    .category-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.75rem; }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      height: 100%;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-hover);
+    }
+    .card:active { transform: scale(0.98); }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: var(--primary);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .card-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .card-content { flex: 1; min-width: 0; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.15rem; }
+    .card-title { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .badge { font-size: 0.68rem; background: var(--primary-light); color: var(--primary); padding: 0.08rem 0.35rem; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+    .card-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    
+    .back-to-top {
+      position: fixed;
+      bottom: calc(1.2rem + env(safe-area-inset-bottom));
+      right: 1.2rem;
+      width: 38px;
+      height: 38px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: border-color 0.15s, color 0.15s, transform 0.15s;
+      z-index: 99;
+    }
+    .back-to-top:active { transform: scale(0.9); }
+
+    /* 移动端响应式调整 */
+    @media (max-width: 640px) {
+      body { padding: 1rem 0.75rem; }
+      .top-bar { flex-direction: column; align-items: stretch; gap: 0.7rem; }
+      .main-site-badge { justify-content: center; width: 100%; }
+      .search-wrapper { width: 100%; }
+      .grid { grid-template-columns: 1fr; gap: 0.6rem; }
+      .search-tip { display: none; }
+      .search-clear-btn { right: 0.8rem; }
+      .search-input { padding-right: 2.2rem; }
+    }
+
+    .no-result { text-align: center; color: var(--text-muted); padding: 2rem; display: none; }
+    footer { text-align: center; color: var(--text-muted); font-size: 0.82rem; margin-top: 2.5rem; }
+    footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+  </style>
+</head>
+<body id="top">
+  <div class="container">
+    <header class="top-bar">
+      <!-- 左侧：带主站图标的入口 -->
+      <a id="main-site-badge" class="main-site-badge" href="" target="_blank" rel="home"></a>
+
+      <!-- 右侧：搜索框 -->
+      <div class="search-wrapper">
+        <input type="text" id="search-input" class="search-input" placeholder="搜索 (按 / 聚焦，Enter 谷歌直达)..." autocomplete="off">
+        <button id="search-clear-btn" class="search-clear-btn" title="清空搜索">✕</button>
+        <span class="search-tip">/ 键搜索</span>
+      </div>
+    </header>
+
+    <!-- 分类吸顶导航栏 -->
+    <div class="nav-tabs-wrapper">
+      <div id="nav-tabs" class="nav-tabs"></div>
+    </div>
+
+    <main id="main-content"></main>
+    <div id="no-result" class="no-result">未找到相关卡片，按 Enter 键直接在 Google 中搜索</div>
+
+    <footer>
+      <p id="footer-text"></p>
+    </footer>
+
+    <a href="#top" class="back-to-top" title="返回顶部">↑</a>
+  </div>
+
+  <script>
+    // ==================== 专属配置区（只需修改此处） ====================
+    const siteConfig = {
+      title: "外网常用优质平台导航",
+      mainSite: {
+        name: "小闻说",
+        url: "https://xwsay.com",
+        badgeText: "个人主站 · xwsay.com"
+      },
+      footerText: "© 2026 平台导航 · Powered by",
+      categories: [
+        {
+          id: "stream",
+          name: "🎬 影视与音乐流媒体",
+          items: [
+            { name: "YouTube", desc: "全球最大的视频分享与直播平台", url: "https://www.youtube.com", badge: "常用" },
+            { name: "Netflix", desc: "全球知名高清影视剧集流媒体平台", url: "https://www.netflix.com", badge: "付费" },
+            { name: "Disney+", desc: "迪士尼、漫威、皮克斯等高清影视平台", url: "https://www.disneyplus.com", badge: "付费" },
+            { name: "Spotify", desc: "全球流行的音乐与播客听书平台", url: "https://www.spotify.com", badge: "免费/付费" },
+            { name: "Twitch", desc: "全球游戏直播与实时互动社区平台", url: "https://www.twitch.tv", badge: "直播" }
+          ]
+        },
+        {
+          id: "browser-mail",
+          name: "🌐 浏览器与邮箱",
+          items: [
+            { name: "Google Chrome", desc: "速度极快且生态丰富的通用浏览器", url: "https://www.google.com/chrome/", badge: "推荐" },
+            { name: "Firefox", desc: "主打开源独立与隐私保护的浏览器", url: "https://www.mozilla.org/firefox/", badge: "开源" },
+            { name: "Gmail", desc: "谷歌旗下稳定可靠的全局通用邮箱", url: "https://mail.google.com", badge: "常用" },
+            { name: "ProtonMail", desc: "端到端加密的高安全性隐私邮箱", url: "https://proton.me/mail", badge: "加密" }
+          ]
+        },
+        {
+          id: "ai-tools",
+          name: "🤖 AI 与效率工具",
+          items: [
+            { name: "ChatGPT", desc: "OpenAI 开发的智能对话与写作助手", url: "https://chatgpt.com", badge: "热门" },
+            { name: "Claude", desc: "Anthropic 开发的高效长文本 AI 助手", url: "https://claude.ai", badge: "推荐" },
+            { name: "Google Gemini", desc: "谷歌旗下的高性能多模态 AI 助手", url: "https://gemini.google.com", badge: "推荐" },
+            { name: "Notion", desc: "集笔记、知识库和数据库于一体的工具", url: "https://www.notion.so", badge: "效率" },
+            { name: "DeepL", desc: "翻译准确度极高的多语言翻译工具", url: "https://www.deepl.com", badge: "翻译" }
+          ]
+        },
+        {
+          id: "social",
+          name: "💬 社交与社区资讯",
+          items: [
+            { name: "X (Twitter)", desc: "全球实时资讯与社交讨论平台", url: "https://x.com", badge: "资讯" },
+            { name: "Instagram", desc: "全球热门图片与短视频社交分享平台", url: "https://www.instagram.com", badge: "图片" },
+            { name: "TikTok", desc: "全球流行的短视频创作与社交娱乐平台", url: "https://www.tiktok.com", badge: "短视频" },
+            { name: "Reddit", desc: "全球最大的综合兴趣社区与讨论论坛", url: "https://www.reddit.com", badge: "社区" },
+            { name: "Telegram", desc: "轻量高效且隐私度高的即时通讯软件", url: "https://telegram.org", badge: "通讯" },
+            { name: "Discord", desc: "社群讨论、语音交流与 AI 创作平台", url: "https://discord.com", badge: "社群" }
+          ]
+        },
+        {
+          id: "dev-cloud",
+          name: "🛠️ 开发者与云服务",
+          items: [
+            { name: "GitHub", desc: "全球最大的开源代码托管与协作平台", url: "https://github.com", badge: "必备" },
+            { name: "Cloudflare", desc: "全球 CDN、域名解析及 Serverless 平台", url: "https://www.cloudflare.com", badge: "免费" },
+            { name: "Vercel", desc: "适合前端框架一键部署的云端平台", url: "https://vercel.com", badge: "托管" }
+          ]
+        }
+      ]
+    };
+
+    // ==================== 底层渲染与逻辑（无需改动） ====================
+    document.title = siteConfig.title;
+
+    function handleIconError(img) {
+      const backup = img.getAttribute('data-backup');
+      if (backup && img.src !== backup) {
+        img.src = backup;
+      } else {
+        img.style.display = 'none';
+        if (img.nextElementSibling && img.nextElementSibling.tagName === 'SPAN') {
+          img.nextElementSibling.style.display = 'block';
+        }
+      }
+    }
+
+    // 绑定左上角主站 Badge
+    const badgeEl = document.getElementById("main-site-badge");
+    let mainDomain = "";
+    try { mainDomain = new URL(siteConfig.mainSite.url).hostname; } catch(e) {}
+    const mainIcon = mainDomain ? `https://www.google.com/s2/favicons?domain=${mainDomain}&sz=64` : '';
+    const mainBackupIcon = mainDomain ? `https://api.iowen.cn/api/favicon?url=${mainDomain}` : '';
+
+    badgeEl.href = siteConfig.mainSite.url;
+    badgeEl.innerHTML = `
+      ${mainIcon ? `<img src="${mainIcon}" data-backup="${mainBackupIcon}" alt="icon" onerror="handleIconError(this)">` : ''}
+      <span>${siteConfig.mainSite.badgeText}</span>
+    `;
+
+    document.getElementById("footer-text").innerHTML = `${siteConfig.footerText} <a href="${siteConfig.mainSite.url}" target="_blank" rel="home">${siteConfig.mainSite.name}</a>`;
+
+    const tabsContainer = document.getElementById("nav-tabs");
+    tabsContainer.innerHTML = siteConfig.categories.map(cat => 
+      `<a href="#cat-${cat.id}" class="tab-btn" data-target="${cat.id}">${cat.name}</a>`
+    ).join('');
+
+    const mainContainer = document.getElementById("main-content");
+    mainContainer.innerHTML = siteConfig.categories.map(cat => `
+      <section class="category" id="cat-${cat.id}">
+        <h2 class="category-title">${cat.name}</h2>
+        <div class="grid">
+          ${cat.items.map(item => {
+            let domain = "";
+            try { domain = new URL(item.url).hostname; } catch(e) {}
+            const primaryIcon = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
+            const backupIcon = domain ? `https://api.iowen.cn/api/favicon?url=${domain}` : '';
+            const firstChar = item.name ? item.name.trim().charAt(0).toUpperCase() : '?';
+
+            return `
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="card" data-title="${item.name.toLowerCase()}" data-desc="${item.desc.toLowerCase()}">
+                <div class="card-icon">
+                  ${primaryIcon ? `<img src="${primaryIcon}" alt="${item.name}" data-backup="${backupIcon}" loading="lazy" onerror="handleIconError(this)">` : ''}
+                  <span style="display:none;">${firstChar}</span>
+                </div>
+                <div class="card-content">
+                  <div class="card-header">
+                    <span class="card-title">${item.name}</span>
+                    ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
+                  </div>
+                  <p class="card-desc">${item.desc}</p>
+                </div>
+              </a>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `).join('');
+
+    // 快捷键 / 聚焦搜索框
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    const searchInput = document.getElementById("search-input");
+    const clearBtn = document.getElementById("search-clear-btn");
+    const noResult = document.getElementById("no-result");
+
+    searchInput.addEventListener("input", (e) => {
+      const val = e.target.value.toLowerCase().trim();
+      clearBtn.style.display = val.length > 0 ? "block" : "none";
+      let totalVisible = 0;
+
+      document.querySelectorAll(".category").forEach(cat => {
+        let catVisibleCount = 0;
+        cat.querySelectorAll(".card").forEach(card => {
+          const title = card.getAttribute("data-title") || "";
+          const desc = card.getAttribute("data-desc") || "";
+          if (title.includes(val) || desc.includes(val)) {
+            card.style.display = "flex";
+            catVisibleCount++;
+            totalVisible++;
+          } else {
+            card.style.display = "none";
+          }
+        });
+        cat.style.display = catVisibleCount > 0 ? "block" : "none";
+      });
+
+      noResult.style.display = (totalVisible === 0 && val !== "") ? "block" : "none";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchInput.dispatchEvent(new Event("input"));
+      searchInput.focus();
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const val = searchInput.value.trim();
+        if (val) {
+          window.open(`https://www.google.com/search?q=${encodeURIComponent(val)}`, '_blank');
+        }
+      } else if (e.key === "Escape") {
+        searchInput.value = "";
+        searchInput.dispatchEvent(new Event("input"));
+        searchInput.blur();
+      }
+    });
+
+    // 滚动联动更新高亮标签
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-target') === id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.category').forEach(cat => observer.observe(cat));
+  </script>
+</body>
+</html>
