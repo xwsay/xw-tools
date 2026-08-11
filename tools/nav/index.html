@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>外网常用优质平台导航</title>
+  
+  <!-- SEO 与 社交分享优化 -->
+  <meta name="description" content="精选 ChatGPT、Claude、YouTube、GitHub 等常用外网工具与平台，一页直达，适合站长、自媒体和跨境用户使用。">
+  <meta name="keywords" content="外网导航,ChatGPT,Claude,GitHub,YouTube,效率工具,自媒体工具">
+  <link rel="canonical" href="https://xwsay.com/">
+  <meta property="og:title" content="外网常用优质平台导航">
+  <meta property="og:description" content="精选 ChatGPT、Claude、YouTube、GitHub 等常用外网工具与平台，一页直达。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xwsay.com/">
+
   <style>
     :root {
       --bg: #f8fafc;
@@ -163,6 +173,7 @@
       border-color: var(--primary);
       color: var(--primary);
       background: var(--primary-light);
+      font-weight: 600;
     }
 
     /* 卡片展示区 */
@@ -286,6 +297,8 @@
             { name: "ChatGPT", desc: "OpenAI 开发的智能对话与写作助手", url: "https://chatgpt.com", badge: "热门" },
             { name: "Claude", desc: "Anthropic 开发的高效长文本 AI 助手", url: "https://claude.ai", badge: "推荐" },
             { name: "Google Gemini", desc: "谷歌旗下的高性能多模态 AI 助手", url: "https://gemini.google.com", badge: "推荐" },
+            { name: "Perplexity", desc: "强大的 AI 搜索引擎与信息检索工具", url: "https://www.perplexity.ai", badge: "搜索" },
+            { name: "Midjourney", desc: "顶级的 AI 绘画与图像生成平台", url: "https://www.midjourney.com", badge: "绘画" },
             { name: "Notion", desc: "集笔记、知识库和数据库于一体的工具", url: "https://www.notion.so", badge: "效率" }
           ]
         },
@@ -297,6 +310,7 @@
             { name: "Telegram", desc: "轻量高效且隐私度高的即时通讯软件", url: "https://telegram.org", badge: "通讯" },
             { name: "Discord", desc: "社群讨论、语音交流与 AI 创作平台", url: "https://discord.com", badge: "社群" },
             { name: "Reddit", desc: "全球最大的综合兴趣社区与讨论论坛", url: "https://www.reddit.com", badge: "社区" },
+            { name: "Product Hunt", desc: "全球最新科技产品与独立开发者首发阵地", url: "https://www.producthunt.com", badge: "发现" },
             { name: "Instagram", desc: "全球热门图片与短视频社交分享平台", url: "https://www.instagram.com", badge: "图片" },
             { name: "TikTok", desc: "全球流行的短视频创作与社交娱乐平台", url: "https://www.tiktok.com", badge: "短视频" }
           ]
@@ -328,7 +342,8 @@
           items: [
             { name: "GitHub", desc: "全球最大的开源代码托管与协作平台", url: "https://github.com", badge: "必备" },
             { name: "Cloudflare", desc: "全球 CDN、域名解析及 Serverless 平台", url: "https://www.cloudflare.com", badge: "免费" },
-            { name: "Vercel", desc: "适合前端框架一键部署的云端平台", url: "https://vercel.com", badge: "托管" }
+            { name: "Vercel", desc: "适合前端框架一键部署的云端平台", url: "https://vercel.com", badge: "托管" },
+            { name: "Supabase", desc: "开源的 Firebase 替代品与后端数据库服务", url: "https://supabase.com", badge: "后端" }
           ]
         }
       ]
@@ -456,7 +471,7 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const id = entry.target.id;
+          const id = entry.target.id.replace('cat-', '');
           document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-target') === id);
           });
