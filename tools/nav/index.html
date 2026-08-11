@@ -16,6 +16,11 @@
       --search-bg: #ffffff;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
       --shadow-hover: 0 8px 20px -4px rgba(0,0,0,0.08);
+      
+      --badge-blue-bg: #eff6ff; --badge-blue-text: #2563eb;
+      --badge-orange-bg: #fff7ed; --badge-orange-text: #c2410c;
+      --badge-green-bg: #f0fdf4; --badge-green-text: #15803d;
+      --badge-purple-bg: #faf5ff; --badge-purple-text: #7e22ce;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -30,6 +35,11 @@
         --search-bg: #1e293b;
         --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
         --shadow-hover: 0 8px 20px -4px rgba(0,0,0,0.4);
+
+        --badge-blue-bg: #1e3a8a; --badge-blue-text: #93c5fd;
+        --badge-orange-bg: #431407; --badge-orange-text: #fdba74;
+        --badge-green-bg: #052e16; --badge-green-text: #86efac;
+        --badge-purple-bg: #3b0764; --badge-purple-text: #d8b4fe;
       }
     }
 
@@ -80,11 +90,12 @@
     .main-site-badge:hover { background: var(--primary); color: #ffffff; }
     .main-site-badge:active { transform: scale(0.96); }
 
+    /* 搜索框区域 */
     .search-wrapper { position: relative; width: 340px; max-width: 100%; }
     .search-input {
       width: 100%;
       padding: 0.6rem 0.9rem;
-      padding-right: 4.5rem;
+      padding-right: 2.5rem;
       border-radius: 10px;
       border: 1px solid var(--border);
       background: var(--search-bg);
@@ -100,7 +111,7 @@
     }
     .search-clear-btn {
       position: absolute;
-      right: 2.8rem;
+      right: 0.8rem;
       top: 50%;
       transform: translateY(-50%);
       font-size: 0.9rem;
@@ -112,19 +123,6 @@
       display: none;
     }
     .search-clear-btn:hover { color: var(--text); }
-    .search-tip {
-      position: absolute;
-      right: 0.6rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      background: var(--bg);
-      padding: 0.1rem 0.35rem;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      pointer-events: none;
-    }
 
     /* 分类吸顶栏 */
     .nav-tabs-wrapper {
@@ -138,8 +136,6 @@
       padding: 0.5rem 0;
       background: var(--bg);
       margin-bottom: 1.5rem;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
     }
     .nav-tabs-wrapper::-webkit-scrollbar { display: none; }
     .nav-tabs {
@@ -219,29 +215,14 @@
     .card-content { flex: 1; min-width: 0; }
     .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.15rem; }
     .card-title { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .badge { font-size: 0.68rem; background: var(--primary-light); color: var(--primary); padding: 0.08rem 0.35rem; border-radius: 4px; font-weight: 500; white-space: nowrap; }
-    .card-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     
-    .back-to-top {
-      position: fixed;
-      bottom: calc(1.2rem + env(safe-area-inset-bottom));
-      right: 1.2rem;
-      width: 38px;
-      height: 38px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: border-color 0.15s, color 0.15s, transform 0.15s;
-      z-index: 99;
-    }
-    .back-to-top:active { transform: scale(0.9); }
+    .badge { font-size: 0.68rem; padding: 0.08rem 0.4rem; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+    .badge-blue { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+    .badge-orange { background: var(--badge-orange-bg); color: var(--badge-orange-text); }
+    .badge-green { background: var(--badge-green-bg); color: var(--badge-green-text); }
+    .badge-purple { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+
+    .card-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
     /* 移动端响应式调整 */
     @media (max-width: 640px) {
@@ -250,12 +231,13 @@
       .main-site-badge { justify-content: center; width: 100%; }
       .search-wrapper { width: 100%; }
       .grid { grid-template-columns: 1fr; gap: 0.6rem; }
-      .search-tip { display: none; }
-      .search-clear-btn { right: 0.8rem; }
-      .search-input { padding-right: 2.2rem; }
+      .card-icon { width: 32px; height: 32px; font-size: 0.8rem; border-radius: 6px; }
     }
 
-    .no-result { text-align: center; color: var(--text-muted); padding: 2rem; display: none; }
+    .no-result { text-align: center; color: var(--text-muted); padding: 2rem; display: none; font-size: 0.9rem; }
+    .no-result a { color: var(--primary); text-decoration: none; font-weight: 500; margin-left: 0.2rem; }
+    .no-result a:hover { text-decoration: underline; }
+
     footer { text-align: center; color: var(--text-muted); font-size: 0.82rem; margin-top: 2.5rem; }
     footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
   </style>
@@ -268,9 +250,8 @@
 
       <!-- 右侧：搜索框 -->
       <div class="search-wrapper">
-        <input type="text" id="search-input" class="search-input" placeholder="搜索 (按 / 聚焦，Enter 谷歌直达)..." autocomplete="off">
+        <input type="text" id="search-input" class="search-input" placeholder="输入关键字实时检索..." autocomplete="off">
         <button id="search-clear-btn" class="search-clear-btn" title="清空搜索">✕</button>
-        <span class="search-tip">/ 键搜索</span>
       </div>
     </header>
 
@@ -280,13 +261,11 @@
     </div>
 
     <main id="main-content"></main>
-    <div id="no-result" class="no-result">未找到相关卡片，按 Enter 键直接在 Google 中搜索</div>
+    <div id="no-result" class="no-result"></div>
 
     <footer>
       <p id="footer-text"></p>
     </footer>
-
-    <a href="#top" class="back-to-top" title="返回顶部">↑</a>
   </div>
 
   <script>
@@ -301,13 +280,35 @@
       footerText: "© 2026 平台导航 · Powered by",
       categories: [
         {
+          id: "ai-tools",
+          name: "🤖 AI 与效率工具",
+          items: [
+            { name: "ChatGPT", desc: "OpenAI 开发的智能对话与写作助手", url: "https://chatgpt.com", badge: "热门" },
+            { name: "Claude", desc: "Anthropic 开发的高效长文本 AI 助手", url: "https://claude.ai", badge: "推荐" },
+            { name: "Google Gemini", desc: "谷歌旗下的高性能多模态 AI 助手", url: "https://gemini.google.com", badge: "推荐" },
+            { name: "Notion", desc: "集笔记、知识库和数据库于一体的工具", url: "https://www.notion.so", badge: "效率" }
+          ]
+        },
+        {
+          id: "social",
+          name: "💬 社交与社区资讯",
+          items: [
+            { name: "X (Twitter)", desc: "全球实时资讯与社交讨论平台", url: "https://x.com", badge: "资讯" },
+            { name: "Telegram", desc: "轻量高效且隐私度高的即时通讯软件", url: "https://telegram.org", badge: "通讯" },
+            { name: "Discord", desc: "社群讨论、语音交流与 AI 创作平台", url: "https://discord.com", badge: "社群" },
+            { name: "Reddit", desc: "全球最大的综合兴趣社区与讨论论坛", url: "https://www.reddit.com", badge: "社区" },
+            { name: "Instagram", desc: "全球热门图片与短视频社交分享平台", url: "https://www.instagram.com", badge: "图片" },
+            { name: "TikTok", desc: "全球流行的短视频创作与社交娱乐平台", url: "https://www.tiktok.com", badge: "短视频" }
+          ]
+        },
+        {
           id: "stream",
           name: "🎬 影视与音乐流媒体",
           items: [
             { name: "YouTube", desc: "全球最大的视频分享与直播平台", url: "https://www.youtube.com", badge: "常用" },
             { name: "Netflix", desc: "全球知名高清影视剧集流媒体平台", url: "https://www.netflix.com", badge: "付费" },
-            { name: "Disney+", desc: "迪士尼、漫威、皮克斯等高清影视平台", url: "https://www.disneyplus.com", badge: "付费" },
             { name: "Spotify", desc: "全球流行的音乐与播客听书平台", url: "https://www.spotify.com", badge: "免费/付费" },
+            { name: "Disney+", desc: "迪士尼、漫威、皮克斯等高清影视平台", url: "https://www.disneyplus.com", badge: "付费" },
             { name: "Twitch", desc: "全球游戏直播与实时互动社区平台", url: "https://www.twitch.tv", badge: "直播" }
           ]
         },
@@ -316,32 +317,9 @@
           name: "🌐 浏览器与邮箱",
           items: [
             { name: "Google Chrome", desc: "速度极快且生态丰富的通用浏览器", url: "https://www.google.com/chrome/", badge: "推荐" },
-            { name: "Firefox", desc: "主打开源独立与隐私保护的浏览器", url: "https://www.mozilla.org/firefox/", badge: "开源" },
             { name: "Gmail", desc: "谷歌旗下稳定可靠的全局通用邮箱", url: "https://mail.google.com", badge: "常用" },
+            { name: "Firefox", desc: "主打开源独立与隐私保护的浏览器", url: "https://www.mozilla.org/firefox/", badge: "开源" },
             { name: "ProtonMail", desc: "端到端加密的高安全性隐私邮箱", url: "https://proton.me/mail", badge: "加密" }
-          ]
-        },
-        {
-          id: "ai-tools",
-          name: "🤖 AI 与效率工具",
-          items: [
-            { name: "ChatGPT", desc: "OpenAI 开发的智能对话与写作助手", url: "https://chatgpt.com", badge: "热门" },
-            { name: "Claude", desc: "Anthropic 开发的高效长文本 AI 助手", url: "https://claude.ai", badge: "推荐" },
-            { name: "Google Gemini", desc: "谷歌旗下的高性能多模态 AI 助手", url: "https://gemini.google.com", badge: "推荐" },
-            { name: "Notion", desc: "集笔记、知识库和数据库于一体的工具", url: "https://www.notion.so", badge: "效率" },
-            { name: "DeepL", desc: "翻译准确度极高的多语言翻译工具", url: "https://www.deepl.com", badge: "翻译" }
-          ]
-        },
-        {
-          id: "social",
-          name: "💬 社交与社区资讯",
-          items: [
-            { name: "X (Twitter)", desc: "全球实时资讯与社交讨论平台", url: "https://x.com", badge: "资讯" },
-            { name: "Instagram", desc: "全球热门图片与短视频社交分享平台", url: "https://www.instagram.com", badge: "图片" },
-            { name: "TikTok", desc: "全球流行的短视频创作与社交娱乐平台", url: "https://www.tiktok.com", badge: "短视频" },
-            { name: "Reddit", desc: "全球最大的综合兴趣社区与讨论论坛", url: "https://www.reddit.com", badge: "社区" },
-            { name: "Telegram", desc: "轻量高效且隐私度高的即时通讯软件", url: "https://telegram.org", badge: "通讯" },
-            { name: "Discord", desc: "社群讨论、语音交流与 AI 创作平台", url: "https://discord.com", badge: "社群" }
           ]
         },
         {
@@ -356,7 +334,16 @@
       ]
     };
 
-    // ==================== 底层渲染与逻辑（无需改动） ====================
+    // ==================== 标签颜色分类函数 ====================
+    function getBadgeClass(badgeText) {
+      if (!badgeText) return '';
+      if (['热门', '必备', '推荐', '常用'].includes(badgeText)) return 'badge-orange';
+      if (['开源', '免费', '效率'].includes(badgeText)) return 'badge-green';
+      if (['付费', '加密', '直播'].includes(badgeText)) return 'badge-purple';
+      return 'badge-blue';
+    }
+
+    // ==================== 底层渲染与逻辑 ====================
     document.title = siteConfig.title;
 
     function handleIconError(img) {
@@ -402,6 +389,7 @@
             const primaryIcon = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
             const backupIcon = domain ? `https://api.iowen.cn/api/favicon?url=${domain}` : '';
             const firstChar = item.name ? item.name.trim().charAt(0).toUpperCase() : '?';
+            const badgeClass = getBadgeClass(item.badge);
 
             return `
               <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="card" data-title="${item.name.toLowerCase()}" data-desc="${item.desc.toLowerCase()}">
@@ -412,7 +400,7 @@
                 <div class="card-content">
                   <div class="card-header">
                     <span class="card-title">${item.name}</span>
-                    ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
+                    ${item.badge ? `<span class="badge ${badgeClass}">${item.badge}</span>` : ''}
                   </div>
                   <p class="card-desc">${item.desc}</p>
                 </div>
@@ -423,14 +411,7 @@
       </section>
     `).join('');
 
-    // 快捷键 / 聚焦搜索框
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "/" && document.activeElement !== searchInput) {
-        e.preventDefault();
-        searchInput.focus();
-      }
-    });
-
+    // 搜索过滤与谷歌搜索联动逻辑
     const searchInput = document.getElementById("search-input");
     const clearBtn = document.getElementById("search-clear-btn");
     const noResult = document.getElementById("no-result");
@@ -456,26 +437,19 @@
         cat.style.display = catVisibleCount > 0 ? "block" : "none";
       });
 
-      noResult.style.display = (totalVisible === 0 && val !== "") ? "block" : "none";
+      if (totalVisible === 0 && val !== "") {
+        const encodedVal = encodeURIComponent(val);
+        noResult.innerHTML = `未在导航中找到 "${val}"，您可以去<a href="https://www.google.com/search?q=${encodedVal}" target="_blank" rel="noopener">谷歌搜索 ↗</a>`;
+        noResult.style.display = "block";
+      } else {
+        noResult.style.display = "none";
+      }
     });
 
     clearBtn.addEventListener("click", () => {
       searchInput.value = "";
       searchInput.dispatchEvent(new Event("input"));
       searchInput.focus();
-    });
-
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const val = searchInput.value.trim();
-        if (val) {
-          window.open(`https://www.google.com/search?q=${encodeURIComponent(val)}`, '_blank');
-        }
-      } else if (e.key === "Escape") {
-        searchInput.value = "";
-        searchInput.dispatchEvent(new Event("input"));
-        searchInput.blur();
-      }
     });
 
     // 滚动联动更新高亮标签
