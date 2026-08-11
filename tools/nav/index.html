@@ -283,10 +283,16 @@
     // ==================== 专属配置区（只需修改此处） ====================
     const siteConfig = {
       title: "外网常用优质平台导航",
+      // 图标 API 设置：主接口采用国内极速源，备用为全球节点源
+      iconApi: {
+        primary: "https://api.iowen.cn/api/favicon?url=",
+        secondary: "https://favicon.im/"
+      },
       mainSite: {
         name: "小闻说",
         url: "https://xwsay.com",
-        badgeText: "个人主站 · xwsay.com"
+        badgeText: "个人主站 · xwsay.com",
+        icon: "https://img.xwsay.com/Piclist/20260404224434259.webp"
       },
       footerText: "© 2026 平台导航 · Powered by",
       categories: [
@@ -377,8 +383,9 @@
     const badgeEl = document.getElementById("main-site-badge");
     let mainDomain = "";
     try { mainDomain = new URL(siteConfig.mainSite.url).hostname; } catch(e) {}
-    const mainIcon = mainDomain ? `https://www.google.com/s2/favicons?domain=${mainDomain}&sz=64` : '';
-    const mainBackupIcon = mainDomain ? `https://api.iowen.cn/api/favicon?url=${mainDomain}` : '';
+    
+    const mainIcon = siteConfig.mainSite.icon || (mainDomain ? `${siteConfig.iconApi.primary}${mainDomain}` : '');
+    const mainBackupIcon = siteConfig.mainSite.icon ? '' : (mainDomain ? `${siteConfig.iconApi.secondary}${mainDomain}` : '');
 
     badgeEl.href = siteConfig.mainSite.url;
     badgeEl.innerHTML = `
@@ -401,8 +408,9 @@
           ${cat.items.map(item => {
             let domain = "";
             try { domain = new URL(item.url).hostname; } catch(e) {}
-            const primaryIcon = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
-            const backupIcon = domain ? `https://api.iowen.cn/api/favicon?url=${domain}` : '';
+            
+            const primaryIcon = domain ? `${siteConfig.iconApi.primary}${domain}` : '';
+            const backupIcon = domain ? `${siteConfig.iconApi.secondary}${domain}` : '';
             const firstChar = item.name ? item.name.trim().charAt(0).toUpperCase() : '?';
             const badgeClass = getBadgeClass(item.badge);
 
