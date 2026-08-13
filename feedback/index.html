@@ -1,206 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>留言与赞赏</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: #ffffff; color: #333; padding: 16px; font-size: 14px; line-height: 1.5; }
-    
-    /* 选项卡导航 */
-    .tab-header { display: flex; border-bottom: 2px solid #f0f0f0; margin-bottom: 16px; }
-    .tab-btn { flex: 1; padding: 10px 0; text-align: center; font-weight: 600; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
-    .tab-btn.active { color: #000; border-bottom-color: #000; }
-    
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    
-    /* 表单样式 */
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 4px; }
-    input[type="email"], textarea { width: 100%; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 13px; outline: none; transition: border-color 0.2s; }
-    input[type="email"]:focus, textarea:focus { border-color: #000; }
-    textarea { resize: vertical; height: 90px; }
-    input[type="file"] { font-size: 12px; color: #666; }
-    
-    .submit-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
-    .submit-btn:hover { opacity: 0.85; }
-    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-    
-    .status-msg { margin-top: 10px; font-size: 12px; text-align: center; }
-    .status-msg.success { color: #07c160; }
-    .status-msg.error { color: #e64340; }
-    
-    /* 赞赏区域样式 */
-    .sponsor-desc { text-align: center; color: #666; font-size: 13px; margin-bottom: 16px; }
-    .qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .qr-card { text-align: center; padding: 10px; border: 1px solid #f0f0f0; border-radius: 8px; background: #fafafa; }
-    .qr-card img { width: 100%; max-width: 110px; height: auto; border-radius: 4px; }
-    .qr-card p { font-size: 12px; font-weight: 600; margin-top: 6px; color: #333; }
-    
-    .crypto-box { background: #f8f9fa; border: 1px dashed #d0d0d0; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
-    .crypto-title { font-size: 12px; font-weight: 600; color: #555; margin-bottom: 4px; }
-    .crypto-addr { font-family: monospace; font-size: 11px; word-break: break-all; background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #eee; color: #333; }
-    .copy-btn { display: inline-block; margin-top: 6px; padding: 5px 12px; font-size: 11px; background: #000; color: #fff; border-radius: 4px; cursor: pointer; border: none; }
+    :root { --theme: #000000; } /* 💡 你可以直接在这里改留言板的主题色 */
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #ffffff; color: #1d1d1f; padding: 24px; -webkit-font-smoothing: antialiased; }
+    h3 { font-size: 22px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.5px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #86868b; margin-bottom: 8px; }
+    input, textarea { width: 100%; padding: 14px 16px; background: #f5f5f7; border: 2px solid transparent; border-radius: 12px; font-size: 15px; color: #1d1d1f; outline: none; transition: all 0.25s ease; font-family: inherit; }
+    input:focus, textarea:focus { background: #ffffff; border-color: var(--theme); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+    textarea { height: 120px; resize: none; line-height: 1.5; }
+    .file-area { display: flex; align-items: center; justify-content: space-between; background: #f5f5f7; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; }
+    .link-btn { color: var(--theme); cursor: pointer; font-weight: 500; display: flex; align-items: center; }
+    #removeBtn { color: #ff3b30; }
+    #preview { width: 100%; max-height: 160px; object-fit: cover; border-radius: 12px; display: none; margin-bottom: 20px; border: 1px solid #e5e5ea; }
+    .btn { width: 100%; padding: 16px; background: var(--theme); color: #ffffff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.1s ease, opacity 0.2s ease; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    #status { margin-top: 16px; text-align: center; font-size: 14px; font-weight: 500; }
   </style>
 </head>
 <body>
-
-  <!-- 顶部 Tab 导航 -->
-  <div class="tab-header">
-    <div class="tab-btn active" onclick="switchTab('feedback')">✉️ 在线留言</div>
-    <div class="tab-btn" onclick="switchTab('sponsor')">☕ 赞赏支持</div>
-  </div>
-
-  <!-- Tab 1：在线留言 -->
-  <div id="tab-feedback" class="tab-content active">
-    <form id="feedbackForm" onsubmit="submitForm(event)">
-      <div class="form-group">
-        <label for="email">你的邮箱（方便回复）</label>
-        <input type="email" id="email" name="email" placeholder="name@example.com" required>
-      </div>
-      <div class="form-group">
-        <label for="message">留言内容</label>
-        <textarea id="message" name="message" placeholder="请输入你的问题或建议..." required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="image">上传截图（可选）</label>
-        <input type="file" id="image" name="image" accept="image/*">
-      </div>
-      <button type="submit" id="submitBtn" class="submit-btn">发送留言</button>
-      <div id="statusMsg" class="status-msg"></div>
-    </form>
-  </div>
-
-  <!-- Tab 2：赞赏支持 -->
-  <div id="tab-sponsor" class="tab-content">
-    <p class="sponsor-desc" id="sponsorDesc"></p>
-    
-    <!-- 二维码列表 -->
-    <div class="qr-grid" id="qrContainer"></div>
-
-    <!-- 加密货币/USDT 地址 -->
-    <div class="crypto-box" id="cryptoContainer"></div>
-  </div>
+  <h3>留言反馈</h3>
+  <form id="feedbackForm">
+    <div class="form-group">
+      <label>您的邮箱 (必填)</label>
+      <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label>问题描述 (必填)</label>
+      <textarea id="message" required></textarea>
+    </div>
+    <div class="file-area">
+      <input type="file" id="imageFile" accept="image/*" style="display:none">
+      <span class="link-btn" onclick="document.getElementById('imageFile').click()">📎 添加图片 (小于20MB)</span>
+      <span class="link-btn" id="removeBtn" style="display:none;">删除</span>
+    </div>
+    <img id="preview">
+    <button type="submit" class="btn" id="submitBtn">提 交</button>
+  </form>
+  <div id="status"></div>
 
   <script>
-    // ===================================================================
-    // 💡 专属配置区 - 修改图片链接、文案、USDT地址只需改这里
-    // ===================================================================
-    const siteConfig = {
-      // API 提交接口地址 ({{WORKER_URL}} 会由 Worker 自动替换，不用改)
-      submitApi: "{{WORKER_URL}}api/submit",
+    const form = document.getElementById('feedbackForm');
+    const fileInput = document.getElementById('imageFile');
+    const preview = document.getElementById('preview');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusDiv = document.getElementById('status');
+    const removeBtn = document.getElementById('removeBtn');
 
-      // 赞赏页顶部提示文案
-      sponsorDesc: "如果项目或文章对你有帮助，欢迎赞赏支持！",
-
-      // 收款二维码（填入你的图片 URL，不需要某项可删除对应行或填空）
-      paymentQRs: [
-        { name: "微信支付", url: "https://xwsay.com/wechat-pay.jpg" },
-        { name: "支付宝", url: "https://xwsay.com/alipay.jpg" }
-      ],
-
-      // 加密货币/USDT 打赏地址（不需要可以设 address 为 ""）
-      crypto: {
-        title: "USDT (TRC20)",
-        address: "你的USDT收款地址"
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 20 * 1024 * 1024) {
+          alert("图片太大了，请压缩后再传");
+          fileInput.value = ''; return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        removeBtn.style.display = 'block';
       }
     };
 
-    // ===================================================================
-    // 以下为底层处理逻辑，无需修改
-    // ===================================================================
+    removeBtn.onclick = () => {
+      fileInput.value = ''; preview.src = '';
+      preview.style.display = 'none'; removeBtn.style.display = 'none';
+    };
 
-    document.addEventListener("DOMContentLoaded", function() {
-      // 初始化赞赏文案
-      document.getElementById("sponsorDesc").innerText = siteConfig.sponsorDesc;
-
-      // 初始化渲染二维码
-      const qrContainer = document.getElementById("qrContainer");
-      if (siteConfig.paymentQRs && siteConfig.paymentQRs.length > 0) {
-        qrContainer.innerHTML = siteConfig.paymentQRs.map(qr => `
-          <div class="qr-card">
-            <img src="${qr.url}" alt="${qr.name}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23aaa\'>暂无图片</text></svg>'">
-            <p>${qr.name}</p>
-          </div>
-        `).join('');
-      } else {
-        qrContainer.style.display = "none";
-      }
-
-      // 初始化渲染加密货币地址
-      const cryptoContainer = document.getElementById("cryptoContainer");
-      if (siteConfig.crypto && siteConfig.crypto.address) {
-        cryptoContainer.innerHTML = `
-          <div class="crypto-title">${siteConfig.crypto.title}</div>
-          <div class="crypto-addr" id="cryptoAddr">${siteConfig.crypto.address}</div>
-          <button class="copy-btn" onclick="copyCryptoAddr()">复制地址</button>
-        `;
-      } else {
-        cryptoContainer.style.display = "none";
-      }
-    });
-
-    // 切换 Tab
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-      if (tabName === 'feedback') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('tab-feedback').classList.add('active');
-      } else {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('tab-sponsor').classList.add('active');
-      }
-    }
-
-    // 提交留言表单
-    async function submitForm(event) {
-      event.preventDefault();
-      const submitBtn = document.getElementById("submitBtn");
-      const statusMsg = document.getElementById("statusMsg");
-      const form = document.getElementById("feedbackForm");
-
+    form.onsubmit = async (e) => {
+      e.preventDefault();
       submitBtn.disabled = true;
       submitBtn.innerText = "发送中...";
-      statusMsg.innerText = "";
-      statusMsg.className = "status-msg";
+      
+      const formData = new FormData();
+      formData.append('email', document.getElementById('email').value);
+      formData.append('message', document.getElementById('message').value);
+      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
 
       try {
-        const formData = new FormData(form);
-        const res = await fetch(siteConfig.submitApi, {
-          method: "POST",
-          body: formData
-        });
-
-        const data = await res.json();
-        if (data.ok) {
-          statusMsg.innerText = "✅ 留言发送成功！";
-          statusMsg.classList.add("success");
-          form.reset();
-        } else {
-          throw new Error(data.error || "发送失败，请稍后再试");
-        }
+        // 💡 关键修改：自动定位到 Worker 后端
+        const response = await fetch('{{WORKER_URL}}api/submit', { method: 'POST', body: formData });
+        if (response.ok) {
+          statusDiv.innerText = "✅ 提交成功";
+          statusDiv.style.color = "#34c759";
+          form.reset(); preview.style.display = 'none'; removeBtn.style.display = 'none';
+        } else { throw new Error(); }
       } catch (err) {
-        statusMsg.innerText = "❌ " + err.message;
-        statusMsg.classList.add("error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "发送留言";
+        statusDiv.innerText = "❌ 网络错误，请重试";
+        statusDiv.style.color = "#ff3b30";
       }
-    }
-
-    // 复制 USDT 地址
-    function copyCryptoAddr() {
-      const addr = document.getElementById("cryptoAddr").innerText;
-      navigator.clipboard.writeText(addr).then(() => {
-        alert("已复制地址到剪贴板！");
-      }).catch(() => {
-        alert("复制失败，请手动复制");
-      });
-    }
+      submitBtn.disabled = false;
+      submitBtn.innerText = "提 交";
+    };
   </script>
 </body>
 </html>
