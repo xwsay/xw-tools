@@ -1,9 +1,9 @@
 (function() {
-  // 💡 顶层配置区：改颜色改图标在这里改
+  // 💡 顶层配置区
   const config = {
     themeColor: "#000000", // 悬浮球背景颜色
     iconColor: "#ffffff",  // 图标线条颜色
-    iframeSrc: "{{WORKER_URL}}feedback-ui" // 自动定位到留言界面
+    iframeSrc: "{{WORKER_URL}}" // 💡 统一为根目录地址
   };
 
   if (document.getElementById('fb-widget-container')) return;
@@ -62,7 +62,6 @@
     var isOpen = false;
     var isIframeLoaded = false;
     
-    // 切换展开/收起状态
     function toggleWidget(show) {
       isOpen = (show !== undefined) ? show : !isOpen;
       if (isOpen) {
@@ -80,7 +79,7 @@
 
     button.onclick = function() { toggleWidget(); };
     
-    // 💡 监听来自 iframe 内部发来的关闭指令 (例如 window.parent.postMessage('xw-feedback-close', '*'))
+    // 监听来自 iframe 内部的关闭指令
     window.addEventListener('message', function(e) {
       if (e.data === 'xw-feedback-close') {
         toggleWidget(false);
