@@ -5,24 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>反馈与打赏</title>
   <style>
-    /* ==========================================
-       1. 全局变量与基础复位
-       ========================================== */
     :root {
-      --page-bg: #f2f2f7;        /* 页面背景（浅灰，凸显卡片边界） */
-      --card-bg: #ffffff;        /* 主卡片背景（纯白） */
-      --sub-bg: #f5f5f7;         /* 输入框/二级背景 */
-      --border-color: #e2e2e8;   /* 清晰的边框线 */
-      --text-main: #1d1d1f;      /* 主文本 */
-      --text-sub: #86868b;       /* 次要文本 */
-      --primary: #0071e3;        /* 主主题色 */
-      --danger: #ff3b30;         /* 警示色 */
-      --success: #34c759;        /* 成功色 */
-      --radius: 10px;            /* 圆角 */
-      --shadow: 0 8px 24px rgba(0,0,0,0.08); /* 凸显边界的阴影 */
+      --page-bg: #f2f2f7;
+      --card-bg: #ffffff;
+      --sub-bg: #f5f5f7;
+      --border-color: #e2e2e8;
+      --text-main: #1d1d1f;
+      --text-sub: #86868b;
+      --primary: #0071e3;
+      --danger: #ff3b30;
+      --success: #34c759;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
 
-    /* 深色模式适配 */
     @media (prefers-color-scheme: dark) {
       :root {
         --page-bg: #121212;
@@ -31,7 +27,7 @@
         --border-color: #38383a;
         --text-main: #f2f2f7;
         --text-sub: #98989d;
-        --shadow: 0 8px 24px rgba(0,0,0,0.4);
+        --shadow: 0 10px 30px rgba(0,0,0,0.4);
       }
     }
 
@@ -53,35 +49,29 @@
       align-items: center; 
     }
 
-    /* ==========================================
-       2. 独立卡片容器（锁定统一固定高度）
-       ========================================== */
     .container { 
       width: 100%; 
-      max-width: 380px; 
-      height: 360px; /* 锁定总高度，杜绝任何页面拉伸 */
+      max-width: 440px; 
+      height: 420px; 
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 18px;
       box-shadow: var(--shadow);
-      padding: 16px 20px; 
+      padding: 20px 24px; 
       display: flex;
       flex-direction: column;
     }
 
-    /* ==========================================
-       3. 顶部 Tab 导航
-       ========================================== */
     .header-nav { 
       display: flex; 
-      gap: 24px; 
-      height: 32px;
-      margin-bottom: 12px; 
+      gap: 28px; 
+      height: 36px;
+      margin-bottom: 14px; 
       border-bottom: 1px solid var(--border-color); 
       flex-shrink: 0;
     }
     .header-title { 
-      font-size: 15px; 
+      font-size: 16px; 
       font-weight: 600; 
       color: var(--text-sub); 
       cursor: pointer; 
@@ -103,9 +93,8 @@
       border-radius: 2px 2px 0 0; 
     }
 
-    /* 主体内容包裹器：统一高度 284px */
     .content-body {
-      height: 284px;
+      height: 330px;
       width: 100%;
       position: relative;
     }
@@ -113,39 +102,38 @@
     .tab-content { display: none; height: 100%; }
     .tab-content.active { display: block; }
 
-    /* ==========================================
-       4. 留言反馈模块
-       ========================================== */
-    .form-group { margin-bottom: 8px; }
-    .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    label { font-size: 12px; font-weight: 500; color: var(--text-sub); }
-    .char-count { font-size: 11px; color: var(--text-sub); font-family: monospace; }
+    .form-group { margin-bottom: 10px; }
+    .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    label { font-size: 13px; font-weight: 500; color: var(--text-sub); }
+    .char-count { font-size: 12px; color: var(--text-sub); font-family: monospace; }
     
     input[type="email"] { 
       width: 100%; 
-      height: 34px;
-      padding: 0 10px; 
+      height: 38px;
+      padding: 0 12px; 
       background: var(--sub-bg); 
       border: 1px solid transparent; 
       border-radius: var(--radius); 
-      font-size: 13px; 
+      font-size: 14px; 
       color: var(--text-main); 
       outline: none; 
       font-family: inherit; 
+      transition: border-color 0.2s;
     }
     
     textarea { 
       width: 100%; 
-      height: 80px !important; 
-      padding: 8px 10px; 
+      height: 95px !important; 
+      padding: 10px 12px; 
       background: var(--sub-bg); 
       border: 1px solid transparent; 
       border-radius: var(--radius); 
-      font-size: 13px; 
+      font-size: 14px; 
       color: var(--text-main); 
       outline: none; 
       font-family: inherit; 
       resize: none !important; 
+      transition: border-color 0.2s;
     }
     input:focus, textarea:focus { background: var(--card-bg); border-color: var(--text-sub); }
     
@@ -154,56 +142,52 @@
       justify-content: space-between; 
       align-items: center; 
       background: var(--sub-bg); 
-      height: 30px;
-      padding: 0 10px; 
+      height: 34px;
+      padding: 0 12px; 
       border: 1px dashed transparent;
       border-radius: var(--radius); 
-      margin-bottom: 8px; 
+      margin-bottom: 10px; 
     }
     .file-area.dragover { border-color: var(--text-main); background: var(--card-bg); }
-    .link-btn { color: var(--text-main); cursor: pointer; font-weight: 500; background: none; border: none; font-size: 11px; }
+    .link-btn { color: var(--text-main); cursor: pointer; font-weight: 500; background: none; border: none; font-size: 12px; }
     #removeBtn { color: var(--danger); display: none; }
-    #preview { width: 100%; height: 32px; object-fit: contain; border-radius: var(--radius); display: none; margin-bottom: 6px; border: 1px solid var(--border-color); }
+    #preview { width: 100%; height: 36px; object-fit: contain; border-radius: var(--radius); display: none; margin-bottom: 8px; border: 1px solid var(--border-color); }
     
     .btn { 
       width: 100%; 
-      height: 36px; 
+      height: 40px; 
       background: var(--text-main); 
       color: var(--card-bg); 
       border: none; 
       border-radius: var(--radius); 
-      font-size: 13px; 
+      font-size: 14px; 
       font-weight: 600; 
       cursor: pointer; 
       transition: opacity 0.2s;
     }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    #status { margin-top: 4px; text-align: center; font-size: 11px; font-weight: 500; height: 14px; }
+    #status { margin-top: 6px; text-align: center; font-size: 12px; font-weight: 500; height: 16px; }
 
-    /* ==========================================
-       5. 打赏支持模块（锁死高度，消除跳变）
-       ========================================== */
     .sponsor-wrapper {
       height: 100%;
       display: flex;
       flex-direction: column;
     }
-    .sponsor-header { text-align: center; margin-bottom: 12px; height: 20px; }
-    .sponsor-main-title { font-size: 14px; font-weight: 700; color: var(--text-main); }
+    .sponsor-header { text-align: center; margin-bottom: 14px; height: 22px; }
+    .sponsor-main-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
     
-    /* 步骤 1：选择支付网格 (固定高度 250px) */
     .pay-grid-box { 
       display: grid; 
       grid-template-columns: repeat(2, 1fr); 
-      gap: 12px; 
-      height: 250px;
+      gap: 14px; 
+      height: 290px;
       align-content: start;
     }
     .pay-grid-card { 
       background: var(--sub-bg); 
       border: 1px solid var(--border-color); 
-      border-radius: 12px; 
-      height: 110px;
+      border-radius: 14px; 
+      height: 130px;
       display: flex; 
       flex-direction: column; 
       align-items: center; 
@@ -215,80 +199,73 @@
       background: var(--card-bg);
       border-color: var(--text-sub);
     }
-    .pay-icon { width: 36px; height: 36px; margin-bottom: 8px; }
-    .pay-grid-label { font-size: 12px; font-weight: 600; }
+    .pay-icon { width: 42px; height: 42px; margin-bottom: 10px; }
+    .pay-grid-label { font-size: 13px; font-weight: 600; }
     
-    /* 步骤 2：详情展示卡片 (固定高度 250px) */
-    .pay-detail-view { display: none; height: 250px; }
+    .pay-detail-view { display: none; height: 290px; }
     .pay-detail-view.active { display: block; }
     
     .pay-detail-card { 
       background: var(--sub-bg); 
       border: 1px solid var(--border-color); 
-      border-radius: 12px; 
+      border-radius: 14px; 
       height: 100%;
-      padding: 12px; 
+      padding: 14px; 
       text-align: center; 
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
     }
-    .card-pay-title { font-size: 13px; font-weight: 600; }
+    .card-pay-title { font-size: 14px; font-weight: 600; }
     
     .qr-img-wrapper { 
-      width: 105px; 
-      height: 105px; 
+      width: 120px; 
+      height: 120px; 
       background: #fff; 
-      border-radius: 8px; 
+      border-radius: 10px; 
       padding: 4px; 
       border: 1px solid var(--border-color);
     }
     .qr-img-wrapper img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
-    .pay-subtext { font-size: 11px; color: var(--text-sub); }
+    .pay-subtext { font-size: 12px; color: var(--text-sub); }
     
     .crypto-addr-box { 
       width: 100%;
       display: flex; 
       align-items: center; 
-      gap: 6px; 
+      gap: 8px; 
     }
     .crypto-addr-text { 
       flex: 1; 
       font-family: monospace; 
-      font-size: 10px; 
+      font-size: 11px; 
       background: var(--card-bg); 
       border: 1px solid var(--border-color); 
-      border-radius: 4px; 
-      padding: 4px 6px; 
+      border-radius: 6px; 
+      padding: 5px 8px; 
       overflow: hidden; 
       text-overflow: ellipsis; 
       white-space: nowrap; 
       text-align: left; 
     }
-    .copy-btn-sm { padding: 4px 8px; font-size: 10px; background: var(--text-main); color: var(--card-bg); border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
-    .btn-secondary { width: 100%; height: 28px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 500; }
+    .copy-btn-sm { padding: 5px 10px; font-size: 11px; background: var(--text-main); color: var(--card-bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-secondary { width: 100%; height: 32px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 500; }
 
-    /* ==========================================
-       6. 放大 Modal 弹窗
-       ========================================== */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.2s; cursor: zoom-out; }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .modal-img { max-width: 80vw; max-height: 70vh; border-radius: 12px; }
+    .modal-img { max-width: 80vw; max-height: 70vh; border-radius: 14px; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- 1. 头部 Tab 导航 -->
     <div class="header-nav">
       <button class="header-title active" id="titleFeedback" onclick="App.switchTab('feedback')">留言反馈</button>
       <button class="header-title" id="titleSponsor" onclick="App.switchTab('sponsor')">打赏支持</button>
     </div>
 
-    <!-- 主体内容固定容器 -->
     <div class="content-body">
-      <!-- 2. 反馈模块 -->
       <div id="tabFeedback" class="tab-content active">
         <form id="feedbackForm" novalidate>
           <div class="form-group">
@@ -313,14 +290,12 @@
         <div id="status"></div>
       </div>
 
-      <!-- 3. 打赏模块 -->
       <div id="tabSponsor" class="tab-content">
         <div class="sponsor-wrapper">
           <div class="sponsor-header">
             <h2 class="sponsor-main-title">感谢您的支持</h2>
           </div>
 
-          <!-- 选择步骤 -->
           <div id="paySelectStep" class="pay-grid-box">
             <div class="pay-grid-card" onclick="App.showPayDetail('wechat')">
               <div class="pay-icon">
@@ -337,7 +312,6 @@
             </div>
           </div>
 
-          <!-- 详情步骤 -->
           <div id="payDetailStep" class="pay-detail-view">
             <div class="pay-detail-card">
               <div class="card-pay-title" id="cardPayTitle">微信支付</div>
@@ -359,24 +333,19 @@
     </div>
   </div>
 
-  <!-- 放大图片 Modal -->
   <div id="imageModal" class="modal-overlay" onclick="App.closeModal()">
     <img id="modalImg" class="modal-img" src="" alt="放大二维码">
   </div>
 
-  <!-- JavaScript 结构化重构 -->
   <script>
     const $ = id => document.getElementById(id);
 
-    // 配置数据
     const SITE_CONFIG = {
       wechat: { title: "微信支付", subtext: "点击二维码放大扫描", qrUrl: "https://img.xwsay.com/Piclist/20260813203611045.webp" },
       crypto: { title: "USDT (TRC20)", subtext: "点击放大 / 复制地址", address: "TTuW4MxPkUAEcTWVgwdybPYdjGqci4BzCq", qrUrl: "https://img.xwsay.com/Piclist/20260813201229581.webp" }
     };
 
-    // 应用逻辑模块
     const App = {
-      // Tab 切换
       switchTab(type) {
         const isFb = type === 'feedback';
         $('titleFeedback').classList.toggle('active', isFb);
@@ -386,7 +355,6 @@
         if (!isFb) this.resetPaySelection();
       },
 
-      // 展示支付详情（无高度跳变）
       showPayDetail(type) {
         const cfg = SITE_CONFIG[type];
         if (!cfg) return;
@@ -405,7 +373,6 @@
         $('paySelectStep').style.display = 'grid';
       },
 
-      // Modal 控制
       openModal(src) {
         if (!src) return;
         $('modalImg').src = src;
@@ -415,7 +382,6 @@
         $('imageModal').classList.remove('active');
       },
 
-      // 复制地址
       async copyAddress() {
         const btn = $('copyBtn'), addr = SITE_CONFIG.crypto.address;
         try {
@@ -429,7 +395,6 @@
         setTimeout(() => btn.innerText = "复制", 1500);
       },
 
-      // 清除图片预览
       clearPreview() {
         if ($('preview').src.startsWith('blob:')) URL.revokeObjectURL($('preview').src);
         $('preview').src = '';
@@ -437,7 +402,6 @@
         $('uploadBtn').innerText = '添加图片 (支持拖拽/小于10MB)';
       },
 
-      // 处理选择的文件
       handleFile(file) {
         if (!file) return;
         if (!file.type.startsWith('image/')) return alert("只能上传图片文件");
@@ -448,24 +412,25 @@
         $('preview').style.display = 'block';
         $('removeBtn').style.display = 'inline-block';
         $('uploadBtn').innerText = '更换图片';
+      },
+
+      validateEmail(emailStr) {
+        const emailEl = $('email');
+        if (emailEl.checkValidity && emailEl.checkValidity()) return true;
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailStr);
       }
     };
 
-    // 事件绑定与初始化
     window.addEventListener('DOMContentLoaded', () => {
-      // ESC 键关闭 Modal
       window.onkeydown = e => { if (e.key === 'Escape') App.closeModal(); };
 
-      // 动态字数统计
       $('message').oninput = e => {
         $('charCount').innerText = `${e.target.value.length}/500`;
       };
 
-      // 文件上传监听
       $('imageFile').onchange = e => App.handleFile(e.target.files[0]);
       $('removeBtn').onclick = () => { $('imageFile').value = ''; App.clearPreview(); };
 
-      // 拖拽文件监听
       const dropArea = $('dropArea');
       ['dragenter', 'dragover'].forEach(evt => dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.classList.add('dragover'); }));
       ['dragleave', 'drop'].forEach(evt => dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.classList.remove('dragover'); }));
@@ -476,16 +441,15 @@
         }
       });
 
-      // 表单提交 logic
       $('feedbackForm').onsubmit = async e => {
         e.preventDefault();
-        const email = $('email').value.trim(), message = $('message').value.trim();
+        const emailVal = $('email').value.trim(), messageVal = $('message').value.trim();
         const statusDiv = $('status'), submitBtn = $('submitBtn');
 
-        if (!email || !message) {
+        if (!emailVal || !messageVal) {
           statusDiv.innerText = "请填写完整必填项"; statusDiv.style.color = "var(--danger)"; return;
         }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (!App.validateEmail(emailVal)) {
           statusDiv.innerText = "邮箱格式不正确"; statusDiv.style.color = "var(--danger)"; return;
         }
 
@@ -494,8 +458,8 @@
         statusDiv.innerText = "";
 
         const formData = new FormData();
-        formData.append('email', email);
-        formData.append('message', message);
+        formData.append('email', emailVal);
+        formData.append('message', messageVal);
         if ($('imageFile').files[0]) formData.append('image', $('imageFile').files[0]);
 
         try {
