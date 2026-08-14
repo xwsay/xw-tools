@@ -118,7 +118,7 @@
       color: var(--text-main); 
       outline: none; 
       font-family: inherit; 
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
     }
     
     textarea { 
@@ -133,7 +133,7 @@
       outline: none; 
       font-family: inherit; 
       resize: none !important; 
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
     }
     input:focus, textarea:focus { background: var(--card-bg); border-color: var(--text-sub); }
     
@@ -163,9 +163,10 @@
       font-size: 14px; 
       font-weight: 600; 
       cursor: pointer; 
-      transition: opacity 0.2s;
+      transition: all 0.2s ease;
     }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:active { transform: scale(0.99); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     #status { margin-top: 6px; text-align: center; font-size: 12px; font-weight: 500; height: 16px; }
 
     .sponsor-wrapper {
@@ -193,11 +194,12 @@
       align-items: center; 
       justify-content: center;
       cursor: pointer; 
-      transition: background 0.2s, border-color 0.2s;
+      transition: all 0.2s ease;
     }
     .pay-grid-card:hover { 
       background: var(--card-bg);
       border-color: var(--text-sub);
+      transform: translateY(-2px);
     }
     .pay-icon { width: 42px; height: 42px; margin-bottom: 10px; }
     .pay-grid-label { font-size: 13px; font-weight: 600; }
@@ -206,29 +208,56 @@
     .pay-detail-view.active { display: block; }
     
     .pay-detail-card { 
+      position: relative;
       background: var(--sub-bg); 
       border: 1px solid var(--border-color); 
       border-radius: 14px; 
       height: 100%;
-      padding: 14px; 
+      padding: 16px 16px 14px; 
       text-align: center; 
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
     }
-    .card-pay-title { font-size: 14px; font-weight: 600; }
+
+    .close-x-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .close-x-btn:hover {
+      color: var(--text-main);
+      border-color: var(--text-sub);
+    }
+
+    .card-pay-title { font-size: 15px; font-weight: 600; margin-top: 2px; }
     
     .qr-img-wrapper { 
-      width: 120px; 
-      height: 120px; 
+      width: 135px; 
+      height: 135px; 
       background: #fff; 
       border-radius: 10px; 
-      padding: 4px; 
+      padding: 5px; 
       border: 1px solid var(--border-color);
+      transition: transform 0.2s ease;
     }
+    .qr-img-wrapper:hover { transform: scale(1.02); }
     .qr-img-wrapper img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
-    .pay-subtext { font-size: 12px; color: var(--text-sub); }
+    .pay-subtext { font-size: 12px; color: var(--text-sub); margin-bottom: 2px; }
     
     .crypto-addr-box { 
       width: 100%;
@@ -243,14 +272,27 @@
       background: var(--card-bg); 
       border: 1px solid var(--border-color); 
       border-radius: 6px; 
-      padding: 5px 8px; 
+      padding: 6px 8px; 
       overflow: hidden; 
       text-overflow: ellipsis; 
       white-space: nowrap; 
       text-align: left; 
     }
-    .copy-btn-sm { padding: 5px 10px; font-size: 11px; background: var(--text-main); color: var(--card-bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
-    .btn-secondary { width: 100%; height: 32px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 500; }
+    .copy-btn-sm { 
+      padding: 6px 12px; 
+      font-size: 11px; 
+      background: var(--text-main); 
+      color: var(--card-bg); 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      transition: all 0.2s ease;
+    }
+    .copy-btn-sm.copied {
+      background: var(--success);
+      color: #fff;
+    }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.2s; cursor: zoom-out; }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -270,7 +312,7 @@
         <form id="feedbackForm" novalidate>
           <div class="form-group">
             <div class="label-row"><label for="email">您的邮箱 (必填)</label></div>
-            <input type="email" id="email" placeholder="例如QQ邮箱等" required autocomplete="email">
+            <input type="email" id="email" placeholder="例如：your@email.com" required autocomplete="email">
           </div>
           <div class="form-group">
             <div class="label-row">
@@ -314,6 +356,8 @@
 
           <div id="payDetailStep" class="pay-detail-view">
             <div class="pay-detail-card">
+              <button type="button" class="close-x-btn" onclick="App.resetPaySelection()" aria-label="关闭">✕</button>
+              
               <div class="card-pay-title" id="cardPayTitle">微信支付</div>
               <div class="qr-img-wrapper">
                 <img id="cardQrImg" src="" alt="收款二维码" onclick="App.openModal(this.src)">
@@ -324,8 +368,6 @@
                 <div class="crypto-addr-text" id="cryptoAddressText"></div>
                 <button type="button" class="copy-btn-sm" id="copyBtn" onclick="App.copyAddress()">复制</button>
               </div>
-
-              <button type="button" class="btn-secondary" onclick="App.resetPaySelection()">返回选择</button>
             </div>
           </div>
         </div>
@@ -392,7 +434,11 @@
           document.execCommand('copy'); ta.remove();
         }
         btn.innerText = "已复制";
-        setTimeout(() => btn.innerText = "复制", 1500);
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerText = "复制";
+          btn.classList.remove('copied');
+        }, 1500);
       },
 
       clearPreview() {
