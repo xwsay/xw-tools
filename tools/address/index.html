@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="page-title">外区ID地址生成器 | 小闻说</title>
     
-    <!-- Open Graph 社交卡片与 Favicon 标签 -->
     <link rel="icon" id="favicon-link" href="" type="image/x-icon">
     <meta property="og:title" id="og-title" content="">
     <meta property="og:description" id="og-desc" content="">
@@ -24,6 +23,27 @@
             --accent: #0071e3;
             --glow-1: #e0eaff;
             --glow-2: #fce7f3;
+            --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2386868b' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --text-primary: #f5f5f7;
+                --text-secondary: #86868b;
+                --glass-bg: rgba(28, 28, 30, 0.82);
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --card-bg: #2c2c2e;
+                --card-hover: #3a3a3c;
+                --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
+                --accent: #0a84ff;
+                --glow-1: #1a2a40;
+                --glow-2: #3a1a28;
+                --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2398989d' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            }
+            .modal-box { background: #2c2c2e !important; }
+            .modal-btn-cancel { background: #3a3a3c !important; color: #f5f5f7 !important; }
+            .modal-btn-confirm { background: #0a84ff !important; color: #ffffff !important; }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,16 +53,16 @@
             background-color: var(--bg-color); 
             color: var(--text-primary); 
             min-height: 100vh;
-            min-height: 100dvh; /* 适配移动端动态视口 */
+            min-height: 100dvh;
             display: flex; 
             justify-content: center;
             align-items: center; 
             padding: 12px;
             position: relative;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* 背景渐变光晕 */
         .ambient-bg { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background: radial-gradient(circle at 20% 20%, var(--glow-1) 0%, transparent 40%), 
@@ -50,7 +70,6 @@
             filter: blur(60px); opacity: 0.85; z-index: -1; pointer-events: none; 
         }
 
-        /* 基础玻璃容器（移动端优先的紧凑布局） */
         .glass-container { 
             width: 100%; 
             max-width: 420px; 
@@ -71,37 +90,34 @@
         .brand-subtitle a { color: var(--text-primary); text-decoration: none; font-weight: 600; }
         .brand-subtitle a:hover { text-decoration: underline; }
 
-        /* 地区切换选择框 */
         select.region-select {
             width: 100%; padding: 8px 10px; font-size: 0.85rem; font-weight: 600;
             background: var(--card-bg); color: var(--text-primary);
-            border: 1px solid rgba(0,0,0,0.08); border-radius: 10px;
+            border: 1px solid var(--glass-border); border-radius: 10px;
             margin-bottom: 8px; outline: none; cursor: pointer;
             appearance: none; -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg fill='%2386868b' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-image: var(--select-arrow);
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 16px;
             transition: all 0.2s ease;
         }
-        select.region-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12); }
+        select.region-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15); }
 
-        /* 生成按钮 */
         button.generate-btn { 
             width: 100%; padding: 10px; font-size: 0.9rem; font-weight: 600; 
-            background: var(--text-primary); color: #ffffff; 
+            background: var(--text-primary); color: var(--bg-color); 
             border: none; border-radius: 10px; cursor: pointer; margin-bottom: 8px; 
             transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        button.generate-btn:hover { background: #2d2d2f; transform: translateY(-1px); }
-        button.generate-btn:active { transform: scale(0.98); opacity: 0.9; }
+        button.generate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        button.generate-btn:active { transform: scale(0.98); }
 
-        /* 信息列表区 */
         .info-list { display: flex; flex-direction: column; gap: 6px; }
         .info-row { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 7px 10px; background: var(--card-bg); 
-            border-radius: 10px; border: 1px solid rgba(0,0,0,0.04); 
+            border-radius: 10px; border: 1px solid var(--glass-border); 
             transition: background-color 0.2s ease;
         }
         .info-row:hover { background: var(--card-hover); }
@@ -109,30 +125,28 @@
         .label { font-size: 0.62rem; color: var(--text-secondary); margin-bottom: 1px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
         .value { font-size: 0.88rem; color: var(--text-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* 复制按钮 */
         .copy-btn { 
             padding: 4px 11px; font-size: 0.72rem; font-weight: 600; 
             background: var(--bg-color); color: var(--text-primary);
-            border: 1px solid rgba(0,0,0,0.06); border-radius: 99px; 
+            border: 1px solid var(--glass-border); border-radius: 99px; 
             cursor: pointer; transition: all 0.15s ease; flex-shrink: 0;
         }
-        .copy-btn:hover { background: var(--text-primary); color: #ffffff; border-color: var(--text-primary); }
+        .copy-btn:hover { background: var(--text-primary); color: var(--bg-color); }
         .copy-btn:active { transform: scale(0.95); }
-        .copy-btn.copied { background: #34c759; border-color: #34c759; color: white; }
+        .copy-btn.copied { background: #34c759 !important; border-color: #34c759 !important; color: white !important; }
 
-        /* 自定义确认模态框 */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.18); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: all 0.2s ease; z-index: 100;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 100;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-box {
             background: #ffffff; border: 1px solid var(--glass-border);
             border-radius: 14px; padding: 1.1rem; width: 85%; max-width: 290px;
-            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-            transform: scale(0.92); transition: all 0.2s ease;
+            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: scale(0.92); transition: transform 0.2s ease;
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
         .modal-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
@@ -140,19 +154,18 @@
         .modal-actions { display: flex; gap: 8px; }
         .modal-btn {
             flex: 1; padding: 8px; font-size: 0.82rem; font-weight: 600; border-radius: 8px;
-            border: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s;
+            border: 1px solid var(--glass-border); cursor: pointer; transition: all 0.2s;
         }
         .modal-btn-cancel { background: var(--bg-color); color: var(--text-primary); }
-        .modal-btn-cancel:hover { background: #e5e5ea; }
-        .modal-btn-confirm { background: var(--text-primary); color: #ffffff; border: none; }
-        .modal-btn-confirm:hover { background: #2d2d2f; }
+        .modal-btn-cancel:hover { opacity: 0.85; }
+        .modal-btn-confirm { background: var(--text-primary); color: var(--bg-color); border: none; }
+        .modal-btn-confirm:hover { opacity: 0.9; }
 
-        /* ==================== 🖥️ 电脑端大屏（PC）专项适配优化 ==================== */
         @media (min-width: 640px) {
             body { padding: 24px; }
             .glass-container {
                 max-width: 450px;
-                padding: 1.25rem 1.25rem 1.15rem 1.25rem;
+                padding: 1.25rem;
                 border-radius: 22px;
             }
             h2 { font-size: 1.2rem; margin-bottom: 3px; }
@@ -171,10 +184,7 @@
                 border-radius: 12px; 
             }
             .info-list { gap: 8px; }
-            .info-row { 
-                padding: 9px 14px; 
-                border-radius: 12px; 
-            }
+            .info-row { padding: 9px 14px; border-radius: 12px; }
             .label { font-size: 0.65rem; margin-bottom: 2px; }
             .value { font-size: 0.95rem; }
             .copy-btn { padding: 5px 14px; font-size: 0.78rem; }
@@ -182,23 +192,20 @@
     </style>
 </head>
 <body>
+
     <script>
-        // ==================== 🚀 专属配置区（经常变动的内容集中于此） ====================
         const siteConfig = {
-            // 网页基础与 SEO 配置
             pageTitle: "外区ID地址生成器 | 小闻说",
             brandName: "小闻说",
             homeUrl: "https://www.xwsay.com",
             faviconUrl: "https://www.xwsay.com/favicon.ico",
             ogDescription: "极简外区ID真实地址生成工具，支持美区免税州、英区、日区、港区、新区与加区，自动保存与一键复制。",
 
-            // 再次生成时的二次确认文案
             confirmTitle: "重新生成地址？",
             confirmText: "生成新地址后，当前显示的地址信息将被覆盖。",
             btnConfirmText: "确定生成",
             btnCancelText: "取消",
 
-            // 多国家/地区数据池（彻底移除了房间号）
             regions: [
                 {
                     id: "US",
@@ -208,7 +215,7 @@
                     firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"],
                     lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"],
                     streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
-                    generatePhone: function() { return "+1-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 900) + 100) + "-" + (Math.floor(Math.random() * 9000) + 1000); },
+                    generatePhone: () => `+1-${Math.floor(Math.random() * 800) + 200}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
                     subdivisions: [
                         { name: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
                         { name: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
@@ -225,7 +232,7 @@
                     firstNames: ["Oliver", "George", "Harry", "Noah", "Jack", "Amelia", "Olivia", "Isla", "Emily", "Ava"],
                     lastNames: ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies"],
                     streetNames: ["High St", "Station Rd", "Main St", "London Rd", "Church Ln", "Victoria Rd"],
-                    generatePhone: function() { return "+44 7" + Math.floor(100000000 + Math.random() * 900000000); },
+                    generatePhone: () => `+44 7${Math.floor(100000000 + Math.random() * 900000000)}`,
                     subdivisions: [
                         { name: "Greater London", cities: [{name: "London", zip: "EC1A 1BB"}, {name: "Westminster", zip: "SW1A 1AA"}] },
                         { name: "Greater Manchester", cities: [{name: "Manchester", zip: "M1 1AG"}, {name: "Salford", zip: "M5 4WT"}] },
@@ -240,7 +247,7 @@
                     firstNames: ["Ren", "Hiroto", "Sota", "Yuma", "Minato", "Hana", "Himari", "Aoi", "Yuna", "Ichika"],
                     lastNames: ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura"],
                     streetNames: ["1-2-3 Chome", "2-5-1 Honmachi", "3-12-4 Ginza", "4-1-8 Roppongi", "1-8-2 Shinjuku"],
-                    generatePhone: function() { return "+81 90-" + Math.floor(1000 + Math.random() * 9000) + "-" + Math.floor(1000 + Math.random() * 9000); },
+                    generatePhone: () => `+81 90-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`,
                     subdivisions: [
                         { name: "東京都", cities: [{name: "新宿区", zip: "160-0022"}, {name: "渋谷区", zip: "150-0002"}, {name: "千代田区", zip: "100-0001"}] },
                         { name: "大阪府", cities: [{name: "大阪市北区", zip: "530-0001"}, {name: "大阪市中央区", zip: "542-0081"}] },
@@ -255,7 +262,7 @@
                     firstNames: ["Ka Ho", "Wai Kit", "Sze Man", "Wing Yan", "Chun Kit", "Tsz Ching", "Lok Yi"],
                     lastNames: ["Chan", "Lee", "Cheung", "Wong", "Lau", "Leung", "Ng", "Lam"],
                     streetNames: ["Nathan Rd", "Queen's Rd Central", "Hennessy Rd", "King's Rd", "Castle Peak Rd"],
-                    generatePhone: function() { return "+852 " + (Math.floor(Math.random() * 2) === 0 ? "5" : "9") + Math.floor(1000000 + Math.random() * 9000000); },
+                    generatePhone: () => `+852 ${Math.random() < 0.5 ? "5" : "9"}${Math.floor(1000000 + Math.random() * 9000000)}`,
                     subdivisions: [
                         { name: "香港岛", cities: [{name: "中环", zip: "999077"}, {name: "湾仔", zip: "999077"}, {name: "铜锣湾", zip: "999077"}] },
                         { name: "九龙", cities: [{name: "旺角", zip: "999077"}, {name: "尖沙咀", zip: "999077"}, {name: "观塘", zip: "999077"}] },
@@ -270,7 +277,7 @@
                     firstNames: ["Wei Ming", "Jia Jun", "Xing Yu", "Chloe", "Ethan", "Lucas", "Hannah"],
                     lastNames: ["Tan", "Lim", "Lee", "Ng", "Ong", "Wong", "Chua"],
                     streetNames: ["Orchard Rd", "Marina Blvd", "Raffles Ave", "Victoria St", "Beach Rd"],
-                    generatePhone: function() { return "+65 " + (Math.floor(Math.random() * 2) === 0 ? "8" : "9") + Math.floor(1000000 + Math.random() * 9000000); },
+                    generatePhone: () => `+65 ${Math.random() < 0.5 ? "8" : "9"}${Math.floor(1000000 + Math.random() * 9000000)}`,
                     subdivisions: [
                         { name: "Central Region", cities: [{name: "Singapore", zip: "238801"}, {name: "Singapore", zip: "018980"}] },
                         { name: "East Region", cities: [{name: "Singapore", zip: "529510"}] }
@@ -284,7 +291,7 @@
                     firstNames: ["Liam", "Noah", "Jackson", "Lucas", "Oliver", "Emma", "Olivia", "Ava"],
                     lastNames: ["Smith", "Brown", "Tremblay", "Martin", "Roy", "Wilson", "Macdonald"],
                     streetNames: ["Yonge St", "Robson St", "Banff Ave", "Main St", "Queen St W"],
-                    generatePhone: function() { return "+1 416-" + (Math.floor(Math.random() * 800) + 200) + "-" + (Math.floor(Math.random() * 9000) + 1000); },
+                    generatePhone: () => `+1 416-${Math.floor(Math.random() * 800) + 200}-${Math.floor(Math.random() * 9000) + 1000}`,
                     subdivisions: [
                         { name: "Ontario", cities: [{name: "Toronto", zip: "M5V 2T6"}, {name: "Ottawa", zip: "K1P 1J1"}] },
                         { name: "British Columbia", cities: [{name: "Vancouver", zip: "V6B 1A1"}, {name: "Victoria", zip: "V8W 1P6"}] },
@@ -293,7 +300,6 @@
                 }
             ]
         };
-        // ==============================================================================
     </script>
 
     <div class="ambient-bg"></div>
@@ -302,76 +308,73 @@
         <h2>🌐 外区ID地址生成器</h2>
         <div class="brand-subtitle"><a href="" id="brand-link" target="_blank">小闻说</a> 专属工具</div>
 
-        <!-- 地区选择下拉框 -->
         <select id="region-select" class="region-select" onchange="handleRegionChange()"></select>
 
         <button class="generate-btn" onclick="handleGenerateClick()">一键生成新地址</button>
         
         <div id="output" class="info-list"></div>
 
-        <!-- 自定义确认弹窗组件 -->
-        <div id="confirm-modal" class="modal-overlay">
-            <div class="modal-box">
+        <div id="confirm-modal" class="modal-overlay" onclick="closeModal(event)">
+            <div class="modal-box" onclick="event.stopPropagation()">
                 <div class="modal-title" id="modal-title"></div>
                 <div class="modal-desc" id="modal-desc"></div>
                 <div class="modal-actions">
-                    <button class="modal-btn modal-btn-cancel" id="modal-btn-cancel" onclick="closeModal()">取消</button>
-                    <button class="modal-btn modal-btn-confirm" id="modal-btn-confirm" onclick="confirmAction()">确定</button>
+                    <button class="modal-btn modal-btn-cancel" onclick="closeModal()">取消</button>
+                    <button class="modal-btn modal-btn-confirm" onclick="confirmAction()">确定</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 初始化页面基础与 SEO 配置
-        document.getElementById("page-title").innerText = siteConfig.pageTitle;
-        document.getElementById("brand-link").href = siteConfig.homeUrl;
-        document.getElementById("brand-link").innerText = siteConfig.brandName;
-        document.getElementById("favicon-link").href = siteConfig.faviconUrl;
-        document.getElementById("og-title").content = siteConfig.pageTitle;
-        document.getElementById("og-desc").content = siteConfig.ogDescription;
+        const $ = id => document.getElementById(id);
 
-        // 初始化二次确认弹窗文案
-        document.getElementById("modal-title").innerText = siteConfig.confirmTitle;
-        document.getElementById("modal-desc").innerText = siteConfig.confirmText;
-        document.getElementById("modal-btn-cancel").innerText = siteConfig.btnCancelText;
-        document.getElementById("modal-btn-confirm").innerText = siteConfig.btnConfirmText;
+        $("page-title").innerText = siteConfig.pageTitle;
+        $("brand-link").href = siteConfig.homeUrl;
+        $("brand-link").innerText = siteConfig.brandName;
+        $("favicon-link").href = siteConfig.faviconUrl;
+        $("og-title").content = siteConfig.pageTitle;
+        $("og-desc").content = siteConfig.ogDescription;
 
-        // 初始化地区选择下拉框选项
-        var regionSelectEl = document.getElementById("region-select");
-        siteConfig.regions.forEach(function(item) {
-            var opt = document.createElement("option");
+        $("modal-title").innerText = siteConfig.confirmTitle;
+        $("modal-desc").innerText = siteConfig.confirmText;
+
+        const regionSelectEl = $("region-select");
+        siteConfig.regions.forEach(item => {
+            const opt = document.createElement("option");
             opt.value = item.id;
             opt.innerText = item.name;
             regionSelectEl.appendChild(opt);
         });
 
-        var isAddressGenerated = false;
+        let isAddressGenerated = false;
 
-        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        const getRandom = arr => arr[Math.floor(Math.random() * arr.length)];
 
-        // 剪贴板复制 API（支持现代 API & 兼容兜底）
-        function copyText(elementId, btnElement) {
-            var text = document.getElementById(elementId).innerText;
-            
-            var showSuccess = function() {
-                var oldText = btnElement.innerText;
+        async function copyText(elementId, btnElement) {
+            const text = $(elementId).innerText;
+            const showSuccess = () => {
+                const oldText = btnElement.innerText;
                 btnElement.innerText = "已复制";
                 btnElement.classList.add("copied");
-                setTimeout(function() { btnElement.innerText = oldText; btnElement.classList.remove("copied"); }, 1200);
+                setTimeout(() => { btnElement.innerText = oldText; btnElement.classList.remove("copied"); }, 1200);
             };
 
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(showSuccess).catch(function() {
-                    fallbackCopy(text, showSuccess);
-                });
-            } else {
-                fallbackCopy(text, showSuccess);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    fallbackCopy(text);
+                }
+                showSuccess();
+            } catch {
+                fallbackCopy(text);
+                showSuccess();
             }
         }
 
-        function fallbackCopy(text, callback) {
-            var textarea = document.createElement("textarea");
+        function fallbackCopy(text) {
+            const textarea = document.createElement("textarea");
             textarea.value = text;
             textarea.style.position = 'fixed'; 
             textarea.style.left = '-9999px';
@@ -379,29 +382,22 @@
             textarea.select();
             document.execCommand("copy");
             document.body.removeChild(textarea);
-            callback();
         }
 
-        function createRow(label, value, id) {
-            return `<div class="info-row">
+        const createRow = (label, value, id) => `
+            <div class="info-row">
                 <div class="info-content">
                     <div class="label">${label}</div>
                     <div class="value" id="${id}">${value}</div>
                 </div>
                 <button class="copy-btn" onclick="copyText('${id}', this)">复制</button>
             </div>`;
-        }
 
-        function getRegionConfig(regionId) {
-            for (var i = 0; i < siteConfig.regions.length; i++) {
-                if (siteConfig.regions[i].id === regionId) return siteConfig.regions[i];
-            }
-            return siteConfig.regions[0];
-        }
+        const getRegionConfig = regionId => siteConfig.regions.find(r => r.id === regionId) || siteConfig.regions[0];
 
         function renderAddress(data) {
-            var regionCfg = getRegionConfig(data.regionId);
-            document.getElementById("output").innerHTML = 
+            const regionCfg = getRegionConfig(data.regionId);
+            $("output").innerHTML = 
                 createRow("全名", data.fullName, "val-name") +
                 createRow("街道", data.fullStreet, "val-street") +
                 createRow("城市", data.cityName, "val-city") +
@@ -418,32 +414,38 @@
 
         function handleGenerateClick() {
             if (isAddressGenerated) {
-                document.getElementById("confirm-modal").classList.add("active");
+                $("confirm-modal").classList.add("active");
             } else {
                 generateNewAddress();
             }
         }
 
-        function closeModal() {
-            document.getElementById("confirm-modal").classList.remove("active");
+        function closeModal(e) {
+            if (!e || e.target === $("confirm-modal") || e.target.classList.contains("modal-btn-cancel")) {
+                $("confirm-modal").classList.remove("active");
+            }
         }
 
+        window.addEventListener("keydown", e => {
+            if (e.key === "Escape") closeModal();
+        });
+
         function confirmAction() {
-            closeModal();
+            $("confirm-modal").classList.remove("active");
             generateNewAddress();
         }
 
         function generateNewAddress() {
-            var currentRegionId = document.getElementById("region-select").value;
-            var regionCfg = getRegionConfig(currentRegionId);
+            const currentRegionId = $("region-select").value;
+            const regionCfg = getRegionConfig(currentRegionId);
 
-            var subObj = getRandom(regionCfg.subdivisions);
-            var cityObj = getRandom(subObj.cities);
+            const subObj = getRandom(regionCfg.subdivisions);
+            const cityObj = getRandom(subObj.cities);
             
-            var addressData = {
+            const addressData = {
                 regionId: currentRegionId,
-                fullName: getRandom(regionCfg.firstNames) + ' ' + getRandom(regionCfg.lastNames),
-                fullStreet: (Math.floor(Math.random() * 9000) + 100) + ' ' + getRandom(regionCfg.streetNames),
+                fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
+                fullStreet: `${Math.floor(Math.random() * 9000) + 100} ${getRandom(regionCfg.streetNames)}`,
                 cityName: cityObj.name,
                 stateName: subObj.name,
                 zipCode: cityObj.zip,
@@ -458,22 +460,24 @@
             renderAddress(addressData);
         }
         
-        window.onload = function() {
+        window.addEventListener("DOMContentLoaded", () => {
             try {
-                var savedRegion = localStorage.getItem('xiaowen_address_selected_region');
-                if (savedRegion) { document.getElementById("region-select").value = savedRegion; }
+                const savedRegion = localStorage.getItem('xiaowen_address_selected_region');
+                if (savedRegion) $("region-select").value = savedRegion;
 
-                var savedData = localStorage.getItem('xiaowen_multi_address_data');
+                const savedData = localStorage.getItem('xiaowen_multi_address_data');
                 if (savedData) { 
-                    var parsed = JSON.parse(savedData);
-                    if (parsed && parsed.regionId === document.getElementById("region-select").value) {
+                    const parsed = JSON.parse(savedData);
+                    if (parsed && parsed.regionId === $("region-select").value) {
                         renderAddress(parsed);
                         return;
                     }
                 } 
                 generateNewAddress();
-            } catch(e) { generateNewAddress(); }
-        };
+            } catch(e) { 
+                generateNewAddress(); 
+            }
+        });
     </script>
 </body>
 </html>
