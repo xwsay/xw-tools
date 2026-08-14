@@ -11,12 +11,24 @@
       --danger: #ff3b30; --success: #34c759; --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; display: flex; justify-content: center; padding: 32px 16px; -webkit-font-smoothing: antialiased; }
-    .container { width: 100%; max-width: 440px; }
+    
+    /* 针对 Notion 嵌入窗口的边距与自适应优化 */
+    html, body { width: 100%; background: var(--bg); }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; 
+      color: var(--text); 
+      line-height: 1.5; 
+      display: flex; 
+      justify-content: center; 
+      padding: 16px 12px; 
+      -webkit-font-smoothing: antialiased; 
+      overflow-x: hidden;
+    }
+    .container { width: 100%; max-width: 440px; margin: 0 auto; }
     
     /* Nav & Tabs */
     .header-nav { display: flex; gap: 24px; margin-bottom: 20px; border-bottom: 1px solid #f0f0f2; padding-bottom: 10px; }
-    .header-title { font-size: 19px; font-weight: 600; color: #c7c7cc; cursor: pointer; background: none; border: none; position: relative; transition: color 0.2s; }
+    .header-title { font-size: 18px; font-weight: 600; color: #c7c7cc; cursor: pointer; background: none; border: none; position: relative; transition: color 0.2s; }
     .header-title.active { color: var(--text); }
     .header-title.active::after { content: ''; position: absolute; bottom: -11px; left: 0; right: 0; height: 2px; background: var(--text); border-radius: 2px 2px 0 0; }
     .tab-content, .pay-detail-view { display: none; animation: fadeIn 0.25s ease; }
@@ -28,7 +40,7 @@
     label { display: block; font-size: 13px; font-weight: 500; color: var(--text-sub); margin-bottom: 6px; }
     input, textarea { width: 100%; padding: 12px 14px; background: var(--bg-sub); border: 1px solid transparent; border-radius: var(--radius); font-size: 15px; color: var(--text); outline: none; transition: all 0.2s; font-family: inherit; }
     input:focus, textarea:focus { background: var(--bg); border-color: var(--text); box-shadow: 0 0 0 4px rgba(0,0,0,0.04); }
-    textarea { height: 120px; resize: none; }
+    textarea { height: 110px; resize: none; }
     .file-area { display: flex; justify-content: space-between; align-items: center; background: var(--bg-sub); padding: 10px 14px; border-radius: var(--radius); margin-bottom: 16px; font-size: 13px; }
     .link-btn { color: var(--text); cursor: pointer; font-weight: 500; background: none; border: none; }
     #removeBtn { color: var(--danger); display: none; }
@@ -40,22 +52,22 @@
 
     /* Sponsor Module */
     .sponsor-header { text-align: center; margin-bottom: 18px; }
-    .sponsor-main-title { font-size: 22px; font-weight: 700; }
+    .sponsor-main-title { font-size: 20px; font-weight: 700; }
     .pay-grid-box { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .pay-grid-card { background: var(--bg-sub); border: 1px solid var(--border); border-radius: 20px; padding: 24px 12px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; }
+    .pay-grid-card { background: var(--bg-sub); border: 1px solid var(--border); border-radius: 16px; padding: 20px 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; }
     .pay-grid-card:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.05); }
-    .pay-icon { width: 46px; height: 46px; margin-bottom: 10px; }
-    .pay-grid-label { font-size: 15px; font-weight: 600; }
+    .pay-icon { width: 42px; height: 42px; margin-bottom: 8px; }
+    .pay-grid-label { font-size: 14px; font-weight: 600; }
     
-    .pay-detail-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 22px 18px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
-    .card-pay-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; }
-    .qr-img-wrapper { width: 160px; height: 160px; margin: 0 auto 12px; background: var(--bg-sub); border-radius: 12px; padding: 8px; }
+    .pay-detail-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .card-pay-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+    .qr-img-wrapper { width: 150px; height: 150px; margin: 0 auto 12px; background: var(--bg-sub); border-radius: 12px; padding: 8px; }
     .qr-img-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; cursor: zoom-in; }
-    .pay-subtext { font-size: 13px; color: var(--text-sub); }
+    .pay-subtext { font-size: 12px; color: var(--text-sub); }
     .crypto-addr-box { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); display: flex; align-items: center; gap: 8px; }
     .crypto-addr-text { flex: 1; font-family: monospace; font-size: 12px; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
-    .copy-btn-sm { padding: 8px 14px; font-size: 13px; background: var(--text); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; flex-shrink: 0; }
-    .btn-secondary { width: 100%; margin-top: 16px; padding: 10px 0; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; }
+    .copy-btn-sm { padding: 8px 12px; font-size: 12px; background: var(--text); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; flex-shrink: 0; }
+    .btn-secondary { width: 100%; margin-top: 14px; padding: 10px 0; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; }
 
     /* Modal */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.25s; cursor: zoom-out; }
@@ -105,14 +117,14 @@
       <div id="paySelectStep" class="pay-grid-box">
         <div class="pay-grid-card" onclick="showPayDetail('wechat')">
           <div class="pay-icon">
-            <svg width="46" height="46" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#07C160"/><path d="M20.5 14C15.25 14 11 17.58 11 22C11 24.38 12.24 26.51 14.21 27.99L13.5 31L16.8 29.3C17.9 29.75 19.16 30 20.5 30C20.84 30 21.17 29.98 21.5 29.95C21.17 29.04 21 28.04 21 27C21 21.47 25.47 17 31 17C31.84 17 32.67 17.1 33.46 17.3C32.12 15.34 26.63 14 20.5 14ZM17.5 18A1.5 1.5 0 1 1 17.5 21A1.5 1.5 0 0 1 17.5 18ZM23.5 18A1.5 1.5 0 1 1 23.5 21A1.5 1.5 0 0 1 23.5 18Z" fill="white"/><path d="M31 19C26.58 19 23 22.13 23 26C23 29.86 26.58 33 31 33C32.06 33 33.08 32.82 34 32.5L36.5 34L35.9 31.6C37.8 30.3 39 28.3 39 26C39 22.13 35.41 19 31 19ZM28.5 23.5A1 1 0 1 1 28.5 25.5A1 1 0 0 1 28.5 23.5ZM33.5 23.5A1 1 0 1 1 33.5 25.5A1 1 0 0 1 33.5 23.5Z" fill="white"/></svg>
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#07C160"/><path d="M20.5 14C15.25 14 11 17.58 11 22C11 24.38 12.24 26.51 14.21 27.99L13.5 31L16.8 29.3C17.9 29.75 19.16 30 20.5 30C20.84 30 21.17 29.98 21.5 29.95C21.17 29.04 21 28.04 21 27C21 21.47 25.47 17 31 17C31.84 17 32.67 17.1 33.46 17.3C32.12 15.34 26.63 14 20.5 14ZM17.5 18A1.5 1.5 0 1 1 17.5 21A1.5 1.5 0 0 1 17.5 18ZM23.5 18A1.5 1.5 0 1 1 23.5 21A1.5 1.5 0 0 1 23.5 18Z" fill="white"/><path d="M31 19C26.58 19 23 22.13 23 26C23 29.86 26.58 33 31 33C32.06 33 33.08 32.82 34 32.5L36.5 34L35.9 31.6C37.8 30.3 39 28.3 39 26C39 22.13 35.41 19 31 19ZM28.5 23.5A1 1 0 1 1 28.5 25.5A1 1 0 0 1 28.5 23.5ZM33.5 23.5A1 1 0 1 1 33.5 25.5A1 1 0 0 1 33.5 23.5Z" fill="white"/></svg>
           </div>
           <div class="pay-grid-label">微信支付</div>
         </div>
 
         <div class="pay-grid-card" onclick="showPayDetail('crypto')">
           <div class="pay-icon">
-            <svg width="46" height="46" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#26A17B"/><path d="M25.7 26.2V26.19C25.4 26.22 24.7 26.26 24 26.26C23.2 26.26 22.5 26.21 22.3 26.19V26.2C17.9 26 14.6 24.9 14.6 23.6C14.6 22.3 17.9 21.2 22.3 21V23.7C22.5 23.8 23.2 23.9 24 23.9C24.8 23.9 25.5 23.8 25.7 23.7V21C30.1 21.2 33.4 22.3 33.4 23.6C33.4 24.9 30.1 26 25.7 26.2ZM25.7 20.3V18.1H32.5V14H15.5V18.1H22.3V20.3C17.1 20.6 13 21.9 13 23.6C13 25.3 17.1 26.6 22.3 26.9V34H25.7V26.9C30.9 26.6 35 25.3 35 23.6C35 21.9 30.9 20.6 25.7 20.3Z" fill="white"/></svg>
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#26A17B"/><path d="M25.7 26.2V26.19C25.4 26.22 24.7 26.26 24 26.26C23.2 26.26 22.5 26.21 22.3 26.19V26.2C17.9 26 14.6 24.9 14.6 23.6C14.6 22.3 17.9 21.2 22.3 21V23.7C22.5 23.8 23.2 23.9 24 23.9C24.8 23.9 25.5 23.8 25.7 23.7V21C30.1 21.2 33.4 22.3 33.4 23.6C33.4 24.9 30.1 26 25.7 26.2ZM25.7 20.3V18.1H32.5V14H15.5V18.1H22.3V20.3C17.1 20.6 13 21.9 13 23.6C13 25.3 17.1 26.6 22.3 26.9V34H25.7V26.9C30.9 26.6 35 25.3 35 23.6C35 21.9 30.9 20.6 25.7 20.3Z" fill="white"/></svg>
           </div>
           <div class="pay-grid-label">USDT</div>
         </div>
