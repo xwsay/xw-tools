@@ -19,8 +19,6 @@
       --accent: #3b82f6;
       --accent-hover: #2563eb;
       --danger: #ef4444;
-      --toast-bg: #f9fafb;
-      --toast-text: #090d16;
     }
 
     @media (prefers-color-scheme: light) {
@@ -34,8 +32,6 @@
         --accent: #2563eb;
         --accent-hover: #1d4ed8;
         --danger: #dc2626;
-        --toast-bg: #0f172a;
-        --toast-text: #ffffff;
       }
     }
 
@@ -46,7 +42,6 @@
       min-height: 100dvh; 
       display: flex; 
       flex-direction: column;
-      -webkit-font-smoothing: antialiased;
     }
 
     .bg-grid {
@@ -61,7 +56,6 @@
       background: var(--bg-card); 
       border: 1px solid var(--border-color); 
       border-radius: 12px;
-      transition: all 0.2s ease-in-out;
     }
 
     .ui-input { 
@@ -70,12 +64,10 @@
       color: var(--text-main); 
       border-radius: 8px; 
       outline: none;
-      transition: all 0.2s;
     }
     .ui-input:focus { 
       background: var(--bg-card); 
       border-color: var(--accent); 
-      box-shadow: 0 0 0 1px var(--accent);
     }
 
     .btn-primary { 
@@ -83,10 +75,9 @@
       color: #ffffff; 
       font-weight: 600; 
       border-radius: 8px; 
-      transition: background-color 0.15s, transform 0.1s; 
+      transition: background-color 0.15s; 
     }
     .btn-primary:hover { background: var(--accent-hover); }
-    .btn-primary:active { transform: scale(0.98); }
     .btn-primary:disabled { opacity: 0.5; pointer-events: none; }
 
     .btn-secondary { 
@@ -95,9 +86,8 @@
       border: 1px solid var(--border-color); 
       font-weight: 600; 
       border-radius: 8px; 
-      transition: all 0.15s; 
     }
-    .btn-secondary:hover { background: var(--bg-hover); border-color: var(--text-main); }
+    .btn-secondary:hover { background: var(--bg-hover); }
 
     .letter-spacing-code { 
       letter-spacing: 0.4em; 
@@ -111,7 +101,7 @@
       background-color: var(--bg-hover) !important; 
     }
 
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
   </style>
 </head>
@@ -119,35 +109,33 @@
   <div class="bg-grid"></div>
 
   <!-- 页头 -->
-  <header class="w-full flex items-center justify-between px-6 md:px-12 py-4 shrink-0 bg-[var(--bg-body)]/80 backdrop-blur-md border-b border-[var(--border-color)]">
+  <header class="w-full flex items-center justify-between px-6 py-4 border-b border-[var(--border-color)] bg-[var(--bg-body)]/80 backdrop-blur-md">
      <div class="flex items-center gap-3">
        <div class="w-8 h-8 bg-[var(--accent)] rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
        </div>
-       <span class="text-base font-bold tracking-tight text-[var(--text-main)]" id="site-title-text"></span>
+       <span class="text-base font-bold text-[var(--text-main)]" id="site-title-text"></span>
      </div>
      <nav id="main-nav" class="text-xs font-semibold text-[var(--text-sec)]"></nav>
   </header>
 
   <!-- 主内容区 -->
-  <main id="main-content" class="w-full flex-1 flex flex-col items-center p-4 md:p-12 relative z-10"></main>
+  <main id="main-content" class="w-full flex-1 flex flex-col items-center p-4 md:p-12 z-10"></main>
 
-  <!-- 全局轻提示 Toast -->
-  <div id="toast" class="fixed bottom-8 z-[100] px-4 py-2 rounded-lg bg-[var(--toast-bg)] text-[var(--toast-text)] text-xs font-medium shadow-xl transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none">
+  <!-- 全局 Toast 提示 -->
+  <div id="toast" class="fixed bottom-8 z-[100] px-4 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white text-xs font-medium shadow-xl transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none">
      <span id="toast-msg"></span>
   </div>
 
   <script>
     /* ==========================================
-     * 1. 顶部集中配置区 (数据与代码彻底分离)
+     * 1. 配置与初始化
      * ========================================== */
     const siteConfig = {
-      // 模板变量注入
       title: "{{SITE_TITLE}}",
       mode: "{{MODE}}", 
       serverCfg: {{CFG_JSON}},
 
-      // API 路由
       api: {
         find: '/api/find',
         presignGet: '/api/presign-get',
@@ -159,19 +147,18 @@
         direct: '/api/direct'
       },
 
-      // 界面文案与提示语
       i18n: {
         codePlaceholder: "••••",
         fetchTitle: "验证提取",
-        fetchDesc: "输入 4 位提取码，提取后数据将立即销毁。",
+        fetchDesc: "输入 4 位提取码，提取后数据立即销毁。",
         fetchBtn: "提取数据",
         fetchingBtn: "校验中...",
         emptyCodeMsg: "请输入 4 位有效提取码",
         burnTextTitle: "阅后即焚文本",
         burnTextWarning: "此文本已从服务端同步抹除，关闭窗口后不可二次查看。",
-        exitBtn: "关闭并退出",
+        exitBtn: "关闭退出",
         listTitle: "待提取清单",
-        downloadAllBtn: "一键提取并销毁",
+        downloadAllBtn: "提取并销毁",
         uploadTitle: "数据分发中心",
         tabUpload: "数据分发",
         tabManage: "存储管理",
@@ -180,40 +167,37 @@
         typeFile: "文件",
         typeText: "文本",
         execUploadBtn: "执行上传",
-        dragDropHint: "点击选择文件，或拖拽文件至此区域",
-        textInputPlaceholder: "粘贴或输入加密文本内容...",
-        successTitle: "已成功分发",
-        successCopyHint: "点击下方卡片复制凭证",
+        dragDropHint: "点击选择或拖拽文件至此区域",
+        textInputPlaceholder: "输入文本内容...",
+        successTitle: "成功分发",
         continueUploadBtn: "继续分发",
         refreshBtn: "刷新",
         emptyManageList: "当前无存储文件",
-        copySuccess: "复制成功",
+        copySuccess: "已复制到剪贴板",
         deleteConfirm: "确定彻底销毁此文件？",
         deleteSuccess: "已彻底销毁",
         deleteFailed: "删除失败"
       }
     };
 
-    /* ==========================================
-     * 2. 全局状态管理
-     * ========================================== */
     const State = {
       selectedFiles: [],
       downloadList: [],
-      uploadMode: 'file',    // 'file' | 'text'
-      uploadTarget: 'burn',  // 'burn' | 'public'
+      uploadMode: 'file',
+      uploadTarget: 'burn',
       isUploading: false
     };
 
     const $ = id => document.getElementById(id);
 
-    window.addEventListener('beforeunload', (e) => {
-      if (State.isUploading) { e.preventDefault(); e.returnValue = ''; }
-    });
-
     /* ==========================================
-     * 3. 通用工具函数
+     * 2. 工具函数
      * ========================================== */
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     function formatBytes(bytes) {
       if (!bytes || bytes === 0) return '0 B';
       const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
@@ -221,15 +205,23 @@
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
+    function copyText(str) {
+      if (!str) return;
+      navigator.clipboard.writeText(str);
+      showToast(siteConfig.i18n.copySuccess);
+    }
+
+    let toastTimer = null;
     function showToast(msg) {
       const el = $('toast');
       $('toast-msg').innerText = msg;
       el.classList.remove('opacity-0', 'translate-y-8');
-      setTimeout(() => el.classList.add('opacity-0', 'translate-y-8'), 3000);
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-8'), 2500);
     }
 
     /* ==========================================
-     * 4. 视图渲染与 UI 初始化
+     * 3. 视图渲染
      * ========================================== */
     function initApp() {
       $('site-title-text').innerText = siteConfig.title;
@@ -249,45 +241,41 @@
     function renderFrontView() {
       const { i18n } = siteConfig;
       return `
-      <div class="w-full max-w-md mt-6 md:mt-12 flex flex-col items-center">
-         <!-- 输入提码页 -->
+      <div class="w-full max-w-md mt-6 flex flex-col items-center">
          <div id="view-input" class="w-full flex flex-col items-center">
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text-main)] mb-2">${i18n.fetchTitle}</h1>
-            <p class="text-[var(--text-sec)] text-xs mb-6 text-center">${i18n.fetchDesc}</p>
+            <h1 class="text-2xl font-bold mb-1">${i18n.fetchTitle}</h1>
+            <p class="text-[var(--text-sec)] text-xs mb-6">${i18n.fetchDesc}</p>
             <div class="w-full flex flex-col gap-3">
-              <input type="text" id="input-code" maxlength="4" placeholder="${i18n.codePlaceholder}" class="ui-input w-full text-center text-4xl letter-spacing-code py-4 uppercase placeholder-gray-500">
+              <input type="text" id="input-code" maxlength="4" placeholder="${i18n.codePlaceholder}" autocomplete="off" class="ui-input w-full text-center text-4xl letter-spacing-code py-3 uppercase">
               <button onclick="handleFindFiles()" id="btn-fetch" class="btn-primary w-full py-3 text-sm">${i18n.fetchBtn}</button>
             </div>
          </div>
 
-         <!-- 文件提取下载页 -->
          <div id="view-result" class="hidden w-full flex-col">
             <div class="flex justify-between items-center mb-3">
-               <h2 class="text-base font-bold text-[var(--text-main)]">${i18n.listTitle}</h2>
-               <span class="text-xs font-mono text-[var(--text-sec)]" id="text-dl-count">0 个文件</span>
+               <h2 class="text-sm font-bold">${i18n.listTitle}</h2>
+               <span class="text-xs font-mono text-[var(--text-sec)]" id="text-dl-count"></span>
             </div>
-            
-            <div class="ui-card w-full flex flex-col overflow-hidden">
-               <div id="dl-item-list" class="flex-1 overflow-y-auto max-h-[40vh] divide-y divide-[var(--border-color)]"></div>
+            <div class="ui-card w-full overflow-hidden">
+               <div id="dl-item-list" class="divide-y divide-[var(--border-color)] max-h-[40vh] overflow-y-auto"></div>
                <div class="p-3 bg-[var(--bg-hover)] border-t border-[var(--border-color)]">
                    <div id="box-dl-progress" class="hidden items-center gap-2 mb-2">
                       <span id="text-dl-filename" class="text-xs text-[var(--text-sec)] truncate flex-1">准备中</span>
-                      <div class="w-24 bg-[var(--border-color)] rounded-full h-1.5"><div id="bar-dl-progress" class="bg-[var(--accent)] h-full rounded-full w-0 transition-all"></div></div>
+                      <div class="w-20 bg-[var(--border-color)] rounded-full h-1.5"><div id="bar-dl-progress" class="bg-[var(--accent)] h-full rounded-full w-0"></div></div>
                    </div>
-                   <button onclick="handleDownloadAll()" id="btn-dl-all" class="btn-primary w-full py-2.5 text-sm">${i18n.downloadAllBtn}</button>
+                   <button onclick="handleDownloadAll()" id="btn-dl-all" class="btn-primary w-full py-2 text-sm">${i18n.downloadAllBtn}</button>
                </div>
             </div>
          </div>
          
-         <!-- 阅后即焚文本弹窗 -->
-         <div id="modal-text-view" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur-md z-[200] flex-col p-6 md:p-12">
+         <div id="modal-text-view" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur-md z-[200] flex-col p-6">
             <div class="w-full max-w-xl mx-auto flex flex-col h-full">
                <div class="flex justify-between items-center mb-4">
-                  <h3 class="text-lg font-bold text-[var(--text-main)]">${i18n.burnTextTitle}</h3>
-                  <button onclick="location.reload()" class="btn-secondary px-3 py-1.5 text-xs">${i18n.exitBtn}</button>
+                  <h3 class="text-base font-bold">${i18n.burnTextTitle}</h3>
+                  <button onclick="location.reload()" class="btn-secondary px-3 py-1 text-xs">${i18n.exitBtn}</button>
                </div>
-               <p class="text-xs text-red-400 bg-red-500/10 border border-red-500/20 p-2.5 rounded-lg mb-3">${i18n.burnTextWarning}</p>
-               <textarea id="area-text-display" readonly class="flex-1 ui-input p-4 resize-none font-mono text-xs leading-relaxed"></textarea>
+               <p class="text-xs text-red-400 bg-red-500/10 border border-red-500/20 p-2 rounded mb-3">${i18n.burnTextWarning}</p>
+               <textarea id="area-text-display" readonly class="flex-1 ui-input p-3 font-mono text-xs resize-none"></textarea>
             </div>
          </div>
       </div>`;
@@ -296,83 +284,78 @@
     function renderAdminView() {
       const { i18n, serverCfg } = siteConfig;
       return `
-      <div class="w-full max-w-4xl flex flex-col gap-6">
-         <!-- 顶部 Header Tab -->
-         <div class="flex justify-between items-end border-b border-[var(--border-color)] pb-4">
+      <div class="w-full max-w-3xl flex flex-col gap-5">
+         <div class="flex justify-between items-end border-b border-[var(--border-color)] pb-3">
             <div>
-               <h2 class="text-xl font-bold text-[var(--text-main)]">${serverCfg.navAdminUpload || i18n.uploadTitle}</h2>
+               <h2 class="text-lg font-bold">${escapeHtml(serverCfg.navAdminUpload || i18n.uploadTitle)}</h2>
                <p class="text-xs text-[var(--text-sec)] font-mono">容量上限：${formatBytes(serverCfg.maxStorageBytes)}</p>
             </div>
             <div class="flex bg-[var(--border-color)] p-0.5 rounded-lg">
-               <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="px-3 py-1 bg-[var(--bg-card)] shadow-sm rounded text-xs font-semibold text-[var(--text-main)]">${i18n.tabUpload}</button>
-               <button onclick="switchAdminTab('manage')" id="tab-btn-manage" class="px-3 py-1 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-xs font-semibold">${i18n.tabManage}</button>
+               <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold">${i18n.tabUpload}</button>
+               <button onclick="switchAdminTab('manage')" id="tab-btn-manage" class="px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold">${i18n.tabManage}</button>
             </div>
          </div>
          
-         <!-- 分发面板 -->
-         <div id="panel-admin-upload" class="flex flex-col md:flex-row gap-6">
-            <div class="w-full md:w-56 shrink-0 flex flex-col gap-4">
+         <div id="panel-admin-upload" class="flex flex-col md:flex-row gap-5">
+            <div class="w-full md:w-48 shrink-0 flex flex-col gap-3">
                <div>
-                  <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1.5">模式</span>
-                  <div class="flex flex-col gap-1.5">
-                     <label class="ui-card p-2.5 flex items-center gap-2 cursor-pointer border-[var(--accent)]" id="label-tgt-burn">
+                  <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1">模式</span>
+                  <div class="flex flex-col gap-1">
+                     <label class="ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" id="label-tgt-burn">
                        <input type="radio" name="tgt" value="burn" onchange="setTarget('burn')" checked class="accent-[var(--accent)]">
                        <span class="text-xs font-semibold">${i18n.modeBurn}</span>
                      </label>
-                     <label class="ui-card p-2.5 flex items-center gap-2 cursor-pointer opacity-60" id="label-tgt-pub">
+                     <label class="ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60" id="label-tgt-pub">
                        <input type="radio" name="tgt" value="public" onchange="setTarget('public')" class="accent-[var(--accent)]">
                        <span class="text-xs font-semibold">${i18n.modePublic}</span>
                      </label>
                   </div>
                </div>
                <div>
-                  <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1.5">类型</span>
+                  <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1">类型</span>
                   <div class="flex bg-[var(--border-color)] rounded-lg p-0.5">
-                     <button onclick="setMode('file')" id="mode-btn-file" class="flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold text-[var(--text-main)]">${i18n.typeFile}</button>
+                     <button onclick="setMode('file')" id="mode-btn-file" class="flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold">${i18n.typeFile}</button>
                      <button onclick="setMode('text')" id="mode-btn-text" class="flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold">${i18n.typeText}</button>
                   </div>
                </div>
-               <button onclick="handleStartUpload()" id="btn-upload" class="btn-primary w-full py-2.5 text-xs">${i18n.execUploadBtn}</button>
+               <button onclick="handleStartUpload()" id="btn-upload" class="btn-primary w-full py-2 text-xs">${i18n.execUploadBtn}</button>
             </div>
 
-            <!-- 右侧拖拽与输入区 -->
-            <div class="flex-1 min-h-[220px] relative">
+            <div class="flex-1 min-h-[200px] relative">
                <div id="area-upload-file" class="absolute inset-0 flex flex-col">
                   <input type="file" id="file-input" multiple class="hidden" onchange="handleFileSelected(this.files)">
-                  <div id="drop-zone" class="border border-dashed border-[var(--border-color)] bg-[var(--bg-card)] rounded-xl flex-1 flex flex-col items-center justify-center text-[var(--text-sec)] hover:border-[var(--accent)] transition-colors cursor-pointer p-4" onclick="$('file-input').click()">
+                  <div id="drop-zone" class="border border-dashed border-[var(--border-color)] bg-[var(--bg-card)] rounded-xl flex-1 flex flex-col items-center justify-center text-[var(--text-sec)] cursor-pointer p-4" onclick="$('file-input').click()">
                      <svg class="w-6 h-6 mb-1 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                     <span class="text-xs font-medium">${i18n.dragDropHint}</span>
+                     <span class="text-xs">${i18n.dragDropHint}</span>
                   </div>
-                  <div id="file-preview-list" class="mt-2 overflow-y-auto max-h-[100px] grid grid-cols-2 gap-1.5"></div>
+                  <div id="file-preview-list" class="mt-2 max-h-[80px] overflow-y-auto grid grid-cols-2 gap-1"></div>
                </div>
                
                <div id="area-upload-text" class="hidden absolute inset-0">
                   <textarea id="text-input" class="ui-input w-full h-full p-3 text-xs font-mono" placeholder="${i18n.textInputPlaceholder}"></textarea>
                </div>
                
-               <div id="box-up-progress" class="absolute bottom-0 inset-x-0 bg-[var(--bg-card)] border-t border-[var(--border-color)] p-2.5 hidden items-center gap-2 rounded-b-xl">
+               <div id="box-up-progress" class="absolute bottom-0 inset-x-0 bg-[var(--bg-card)] border-t border-[var(--border-color)] p-2 hidden items-center gap-2 rounded-b-xl">
                   <span id="text-up-filename" class="text-xs text-[var(--text-sec)] truncate w-1/3">上传中...</span>
-                  <div class="flex-1 bg-[var(--border-color)] rounded-full h-1.5"><div id="bar-up-progress" class="bg-[var(--accent)] h-full rounded-full w-0 transition-all"></div></div>
+                  <div class="flex-1 bg-[var(--border-color)] rounded-full h-1.5"><div id="bar-up-progress" class="bg-[var(--accent)] h-full rounded-full w-0"></div></div>
                   <span id="text-up-pct" class="text-xs font-mono font-bold w-8 text-right">0%</span>
                </div>
             </div>
          </div>
 
-         <!-- 管理列表面板 -->
          <div id="panel-admin-manage" class="hidden flex-col gap-3">
             <div class="flex justify-between items-center">
                <span class="text-xs font-mono text-[var(--text-sec)]" id="text-manage-count">0 个文件</span>
-               <button onclick="fetchAdminFileList()" class="btn-secondary px-2.5 py-1 text-xs">${i18n.refreshBtn}</button>
+               <button onclick="fetchAdminFileList()" class="btn-secondary px-2 py-1 text-xs">${i18n.refreshBtn}</button>
             </div>
-            <div id="admin-grid-list" class="grid grid-cols-1 md:grid-cols-3 gap-2.5"></div>
+            <div id="admin-grid-list" class="grid grid-cols-1 md:grid-cols-2 gap-2.5"></div>
          </div>
 
-         <!-- 完成弹窗 -->
          <div id="modal-upload-success" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur-md z-[200] flex-col items-center justify-center p-4">
             <div class="w-full max-w-sm flex flex-col items-center text-center">
-               <h3 class="text-lg font-bold text-[var(--text-main)] mb-1">${i18n.successTitle}</h3>
-               <p id="text-result-hint" class="text-xs text-[var(--text-sec)] mb-4 font-mono">${i18n.successCopyHint}</p>
-               <div id="box-result-card" data-link="" onclick="copyResult()" class="w-full border-2 border-[var(--accent)] bg-[var(--bg-card)] p-4 rounded-xl text-2xl font-mono font-extrabold text-[var(--text-main)] cursor-pointer hover:border-[var(--accent-hover)] transition-colors mb-4 select-none">---</div>
+               <h3 class="text-base font-bold mb-1">${i18n.successTitle}</h3>
+               <p id="text-result-hint" class="text-xs text-[var(--text-sec)] mb-3 font-mono"></p>
+               <div id="box-result-card" data-copy="" onclick="copyText(this.dataset.copy)" class="w-full border-2 border-[var(--accent)] bg-[var(--bg-card)] p-3 rounded-xl text-xl font-mono font-extrabold cursor-pointer hover:border-[var(--accent-hover)] mb-4 select-none">---</div>
                <button onclick="resetAdminForm()" class="btn-secondary w-full py-2 text-xs">${i18n.continueUploadBtn}</button>
             </div>
          </div>
@@ -380,11 +363,13 @@
     }
 
     /* ==========================================
-     * 5. 事件绑定模块
+     * 4. 事件处理与逻辑
      * ========================================== */
     function bindFrontEvents() {
       const codeIn = $('input-code');
       if (!codeIn) return;
+      codeIn.focus();
+      codeIn.addEventListener('input', e => e.target.value = e.target.value.toUpperCase());
       codeIn.addEventListener('keypress', e => { if (e.key === 'Enter') handleFindFiles(); });
       
       const codeParam = new URLSearchParams(window.location.search).get('code');
@@ -409,43 +394,40 @@
       const isUp = tab === 'upload';
       $('panel-admin-upload').classList.toggle('hidden', !isUp);
       $('panel-admin-manage').classList.toggle('hidden', isUp);
-      
-      $('tab-btn-upload').className = isUp ? "px-3 py-1 bg-[var(--bg-card)] shadow-sm rounded text-xs font-semibold text-[var(--text-main)]" : "px-3 py-1 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-xs font-semibold";
-      $('tab-btn-manage').className = !isUp ? "px-3 py-1 bg-[var(--bg-card)] shadow-sm rounded text-xs font-semibold text-[var(--text-main)]" : "px-3 py-1 text-[var(--text-sec)] hover:text-[var(--text-main)] rounded text-xs font-semibold";
-
+      $('tab-btn-upload').className = isUp ? "px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
+      $('tab-btn-manage').className = !isUp ? "px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
       if (!isUp) fetchAdminFileList();
     }
 
     function setTarget(tgt) {
       State.uploadTarget = tgt;
-      $('label-tgt-burn').className = tgt === 'burn' ? "ui-card p-2.5 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2.5 flex items-center gap-2 cursor-pointer opacity-60";
-      $('label-tgt-pub').className = tgt === 'public' ? "ui-card p-2.5 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2.5 flex items-center gap-2 cursor-pointer opacity-60";
+      $('label-tgt-burn').className = tgt === 'burn' ? "ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60";
+      $('label-tgt-pub').className = tgt === 'public' ? "ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60";
     }
 
     function setMode(mode) {
       State.uploadMode = mode;
       $('area-upload-file').classList.toggle('hidden', mode !== 'file');
       $('area-upload-text').classList.toggle('hidden', mode !== 'text');
-      $('mode-btn-file').className = mode === 'file' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold text-[var(--text-main)]" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
-      $('mode-btn-text').className = mode === 'text' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold text-[var(--text-main)]" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
+      $('mode-btn-file').className = mode === 'file' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
+      $('mode-btn-text').className = mode === 'text' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
     }
 
     function handleFileSelected(files) {
       State.selectedFiles = [...State.selectedFiles, ...Array.from(files)];
       $('file-preview-list').innerHTML = State.selectedFiles.map((f, i) => `
-        <div class="ui-card p-1.5 px-2.5 flex justify-between items-center text-xs">
-           <span class="truncate mr-1">${f.name}</span>
-           <button onclick="State.selectedFiles.splice(${i},1); handleFileSelected([])" class="text-[var(--text-sec)] hover:text-[var(--danger)]">✕</button>
+        <div class="ui-card p-1 px-2 flex justify-between items-center text-xs">
+           <span class="truncate pr-1">${escapeHtml(f.name)}</span>
+           <button onclick="State.selectedFiles.splice(${i},1); handleFileSelected([])" class="text-[var(--text-sec)] hover:text-red-400">✕</button>
         </div>
       `).join('');
     }
 
     /* ==========================================
-     * 6. API 通信与底层逻辑解耦模块
+     * 5. API 交互
      * ========================================== */
     async function handleFindFiles() {
-      const codeIn = $('input-code');
-      const code = codeIn.value.trim().toUpperCase();
+      const code = $('input-code').value.trim().toUpperCase();
       if (code.length !== 4) return showToast(siteConfig.i18n.emptyCodeMsg);
 
       const btn = $('btn-fetch');
@@ -469,14 +451,14 @@
           $('view-result').classList.replace('hidden', 'flex');
           $('text-dl-count').innerText = `${State.downloadList.length} 个文件`;
           $('dl-item-list').innerHTML = State.downloadList.map(f => `
-            <div class="p-3 flex justify-between items-center text-xs">
-               <span class="font-medium truncate pr-2">${f.name}</span>
+            <div class="p-2.5 flex justify-between items-center text-xs">
+               <span class="font-medium truncate pr-2">${escapeHtml(f.name)}</span>
                <span class="font-mono text-[var(--text-sec)] shrink-0">${formatBytes(f.size)}</span>
             </div>
           `).join('');
         }
       } catch (e) { showToast(siteConfig.serverCfg.msgNotFound || '未找到有效数据'); }
-      finally { btn.disabled = false; btn.innerText = siteConfig.i18n.fetchBtn; codeIn.value = ''; }
+      finally { btn.disabled = false; btn.innerText = siteConfig.i18n.fetchBtn; }
     }
 
     async function handleStartUpload() {
@@ -484,9 +466,9 @@
       let queue = [];
 
       if (State.uploadMode === 'text') {
-        const val = $('text-input').value;
+        const val = $('text-input').value.trim();
         if (!val) return showToast('请输入文本内容');
-        queue = [new File([new Blob([val])], siteConfig.serverCfg.textMessageFilename)];
+        queue = [new File([new Blob([val], { type: 'text/plain;charset=utf-8' })], siteConfig.serverCfg.textMessageFilename)];
       } else {
         if (State.selectedFiles.length === 0) return showToast('请选择文件');
         queue = State.selectedFiles;
@@ -533,19 +515,18 @@
 
           if (isPublic) {
             const link = `${window.location.origin}${siteConfig.api.direct}?key=${encodeURIComponent(key)}`;
-            card.innerText = "LINK";
-            card.classList.remove('letter-spacing-code');
-            $('text-result-hint').innerHTML = `固定直链：<br><span class="text-[var(--accent)] underline break-all">${link}</span>`;
-            card.dataset.link = link;
+            card.innerText = "直连链接";
+            card.dataset.copy = link;
+            $('text-result-hint').innerHTML = `<span class="text-[var(--accent)] break-all">${escapeHtml(link)}</span>`;
           } else {
             card.innerText = code;
+            card.dataset.copy = code;
             card.classList.add('letter-spacing-code');
             const link = `${window.location.origin}/?code=${code}`;
-            $('text-result-hint').innerHTML = `提取链接：<br><span class="text-[var(--accent)] underline">${link}</span>`;
-            card.dataset.link = link;
+            $('text-result-hint').innerHTML = `提取链接：<span class="text-[var(--accent)] font-semibold">${escapeHtml(link)}</span>`;
           }
         }
-      } catch (e) { showToast(e.message); }
+      } catch (e) { showToast(e.message || '上传过程出错'); }
       finally {
         State.isUploading = false; btn.disabled = false;
         box.classList.replace('flex', 'hidden'); bar.style.width = '0%';
@@ -553,8 +534,7 @@
     }
 
     async function handleDownloadAll() {
-      const btn = $('btn-dl-all');
-      btn.disabled = true;
+      $('btn-dl-all').disabled = true;
       for (let f of State.downloadList) {
         await streamDownload(`${siteConfig.api.presignGet}?key=${encodeURIComponent(f.key)}`, f.name, f.key);
       }
@@ -562,8 +542,8 @@
     }
 
     async function streamDownload(apiUrl, filename, originKey) {
-      const box = $('box-dl-progress'), bar = $('bar-dl-progress'), name = $('text-dl-filename');
-      name.innerText = filename;
+      const box = $('box-dl-progress'), bar = $('bar-dl-progress');
+      $('text-dl-filename').innerText = filename;
       box.classList.replace('hidden', 'flex');
 
       try {
@@ -581,48 +561,56 @@
           if (total > 0) bar.style.width = Math.min(Math.round((loaded / total) * 100), 100) + '%';
         }
 
+        const blobUrl = URL.createObjectURL(new Blob(chunks));
         const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob(chunks));
-        a.download = filename; a.click();
+        a.href = blobUrl; a.download = filename; a.click();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        
         await fetch(`${siteConfig.api.burn}?key=${encodeURIComponent(originKey)}`, { method: 'DELETE' });
       } finally { box.classList.replace('flex', 'hidden'); }
     }
 
     async function fetchAdminFileList() {
       const grid = $('admin-grid-list');
-      grid.innerHTML = '<div class="col-span-full py-8 text-center text-xs text-[var(--text-sec)] font-mono">加载列表中...</div>';
+      grid.innerHTML = '<div class="col-span-full py-6 text-center text-xs text-[var(--text-sec)] font-mono">加载中...</div>';
       try {
         const res = await fetch(siteConfig.api.adminList);
         const files = await res.json();
         $('text-manage-count').innerText = `${files.length} 个文件`;
 
         if (files.length === 0) {
-          grid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-[var(--text-sec)]">${siteConfig.i18n.emptyManageList}</div>`;
+          grid.innerHTML = `<div class="col-span-full py-6 text-center text-xs text-[var(--text-sec)]">${siteConfig.i18n.emptyManageList}</div>`;
           return;
         }
 
         files.sort((a, b) => new Date(b.uploaded) - new Date(a.uploaded));
         grid.innerHTML = files.map(f => {
           const isPub = f.key.startsWith(siteConfig.serverCfg.fixedDownloadPrefix);
-          const fname = f.key.split('/').pop();
+          const parts = f.key.split('/');
+          const fname = parts.length > 1 ? parts.slice(1).join('/') : parts[0];
+          const code = isPub ? '' : parts[0];
           const link = isPub 
             ? `${window.location.origin}${siteConfig.api.direct}?key=${encodeURIComponent(f.key)}`
-            : `${window.location.origin}/?code=${f.key.split('/')[0]}`;
+            : `${window.location.origin}/?code=${code}`;
 
           return `
           <div class="ui-card p-3 flex flex-col justify-between gap-2">
              <div class="flex flex-col gap-1">
-                <span class="text-[9px] font-bold px-1.5 py-0.5 border rounded w-max ${isPub ? 'border-[var(--border-color)] text-[var(--text-sec)]' : 'bg-[var(--accent)] text-white border-[var(--accent)]'}">${isPub ? '直连' : '即焚'}</span>
-                <span class="text-xs font-bold truncate" title="${fname}">${fname}</span>
+                <div class="flex items-center justify-between">
+                   <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${isPub ? 'bg-gray-700 text-gray-300' : 'bg-blue-600 text-white'}">${isPub ? '直连' : '即焚'}</span>
+                   ${!isPub ? `<span class="text-xs font-mono font-bold text-[var(--accent)]">码: ${escapeHtml(code)}</span>` : ''}
+                </div>
+                <span class="text-xs font-bold truncate mt-0.5" title="${escapeHtml(fname)}">${escapeHtml(fname)}</span>
                 <span class="text-[10px] text-[var(--text-sec)] font-mono">${formatBytes(f.size)}</span>
              </div>
-             <div class="flex gap-1.5 mt-1">
-                <button onclick="navigator.clipboard.writeText('${link}'); showToast('${siteConfig.i18n.copySuccess}')" class="flex-1 text-[11px] font-semibold border border-[var(--border-color)] py-1 rounded hover:border-[var(--text-main)] transition-colors">复制</button>
-                <button onclick="deleteFile('${f.key}')" class="text-[11px] font-semibold text-[var(--danger)] border border-red-500/20 py-1 px-2 rounded hover:bg-red-500 hover:text-white transition-colors">销毁</button>
+             <div class="flex gap-1 mt-1">
+                <button onclick="copyText('${escapeHtml(link)}')" class="flex-1 text-[10px] font-semibold border border-[var(--border-color)] py-1 rounded hover:border-[var(--text-main)]">复制链接</button>
+                ${!isPub ? `<button onclick="copyText('${escapeHtml(code)}')" class="text-[10px] font-semibold border border-[var(--border-color)] py-1 px-2 rounded hover:border-[var(--text-main)]">复制码</button>` : ''}
+                <button onclick="deleteFile('${escapeHtml(f.key)}')" class="text-[10px] font-semibold text-[var(--danger)] border border-red-500/20 py-1 px-2 rounded hover:bg-red-500 hover:text-white">销毁</button>
              </div>
           </div>`;
         }).join('');
-      } catch (e) { grid.innerHTML = '<div class="col-span-full py-8 text-center text-xs text-red-400">数据拉取失败</div>'; }
+      } catch (e) { grid.innerHTML = '<div class="col-span-full py-6 text-center text-xs text-red-400">拉取列表失败</div>'; }
     }
 
     async function deleteFile(key) {
@@ -640,18 +628,7 @@
       $('modal-upload-success').classList.replace('flex', 'hidden');
     }
 
-    function copyResult() {
-      const card = $('box-result-card');
-      if (card.innerText === 'LINK') {
-        navigator.clipboard.writeText(card.dataset.link);
-        showToast(siteConfig.i18n.copySuccess);
-      } else if (card.innerText !== '---') {
-        navigator.clipboard.writeText(card.innerText);
-        showToast(siteConfig.i18n.copySuccess);
-      }
-    }
-
-    // 初始化应用
+    // 启动 App
     initApp();
   </script>
 </body>
