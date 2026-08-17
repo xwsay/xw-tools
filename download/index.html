@@ -169,11 +169,11 @@
         execUploadBtn: "执行上传",
         dragDropHint: "点击选择或拖拽文件至此区域",
         textInputPlaceholder: "输入文本内容...",
-        successTitle: "成功分发",
+        successTitle: "分发成功",
         continueUploadBtn: "继续分发",
         refreshBtn: "刷新",
         emptyManageList: "当前无存储文件",
-        copySuccess: "已复制到剪贴板",
+        copySuccess: "复制成功",
         deleteConfirm: "确定彻底销毁此文件？",
         deleteSuccess: "已彻底销毁",
         deleteFailed: "删除失败"
@@ -218,6 +218,30 @@
       el.classList.remove('opacity-0', 'translate-y-8');
       if (toastTimer) clearTimeout(toastTimer);
       toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-8'), 2500);
+    }
+
+    // 智能提取码解析器
+    function extractCodeFromFile(f, isPub) {
+      if (isPub) return null;
+      // 1. 如果后端直接返回了 code/customCode 属性
+      if (f.code) return f.code.toUpperCase();
+      if (f.customCode) return f.customCode.toUpperCase();
+
+      // 2. 解析文件 key (路径)
+      const key = f.key || '';
+      const parts = key.split('/');
+
+      // 常见格式 A: "A1B2/filename.ext" -> A1B2
+      if (parts.length >= 2 && parts[0].length === 4) return parts[0].toUpperCase();
+
+      // 常见格式 B: "burn/A1B2/filename.ext" -> A1B2
+      if (parts.length >= 3 && parts[1].length === 4) return parts[1].toUpperCase();
+
+      // 兜底正则提取：寻找路径中的 4 位字母数字组合
+      const match = key.match(/\b([A-Za-0-9]{4})\b/);
+      if (match) return match[1].toUpperCase();
+
+      return parts[0] ? parts[0].toUpperCase() : '未知';
     }
 
     /* ==========================================
@@ -583,12 +607,11 @@
           return;
         }
 
-        files.sort((a, b) => new Date(b.uploaded) - new Date(a.uploaded));
+        files.sort((a, b) => new Date(b.uploaded || 0) - new Date(a.uploaded || 0));
         grid.innerHTML = files.map(f => {
-          const isPub = f.key.startsWith(siteConfig.serverCfg.fixedDownloadPrefix);
-          const parts = f.key.split('/');
-          const fname = parts.length > 1 ? parts.slice(1).join('/') : parts[0];
-          const code = isPub ? '' : parts[0];
+          const isPub = f.isPublic || (siteConfig.serverCfg.fixedDownloadPrefix && f.key.startsWith(siteConfig.serverCfg.fixedDownloadPrefix));
+          const code = extractCodeFromFile(f, isPub);
+          const fname = f.name || f.key.split('/').pop();
           const link = isPub 
             ? `${window.location.origin}${siteConfig.api.direct}?key=${encodeURIComponent(f.key)}`
             : `${window.location.origin}/?code=${code}`;
@@ -596,16 +619,16 @@
           return `
           <div class="ui-card p-3 flex flex-col justify-between gap-2">
              <div class="flex flex-col gap-1">
-                <div class="flex items-center justify-between">
-                   <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${isPub ? 'bg-gray-700 text-gray-300' : 'bg-blue-600 text-white'}">${isPub ? '直连' : '即焚'}</span>
-                   ${!isPub ? `<span class="text-xs font-mono font-bold text-[var(--accent)]">码: ${escapeHtml(code)}</span>` : ''}
+                <div class="flex items-center justify-between gap-2">
+                   <span class="text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0 ${isPub ? 'bg-gray-700 text-gray-300' : 'bg-blue-600 text-white'}">${isPub ? '直连' : '即焚'}</span>
+                   ${code ? `<span class="text-xs font-mono font-extrabold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded border border-[var(--accent)]/30 truncate">提取码: ${escapeHtml(code)}</span>` : '<span class="text-[10px] text-[var(--text-sec)]">无提取码</span>'}
                 </div>
-                <span class="text-xs font-bold truncate mt-0.5" title="${escapeHtml(fname)}">${escapeHtml(fname)}</span>
+                <span class="text-xs font-bold truncate mt-1" title="${escapeHtml(fname)}">${escapeHtml(fname)}</span>
                 <span class="text-[10px] text-[var(--text-sec)] font-mono">${formatBytes(f.size)}</span>
              </div>
              <div class="flex gap-1 mt-1">
                 <button onclick="copyText('${escapeHtml(link)}')" class="flex-1 text-[10px] font-semibold border border-[var(--border-color)] py-1 rounded hover:border-[var(--text-main)]">复制链接</button>
-                ${!isPub ? `<button onclick="copyText('${escapeHtml(code)}')" class="text-[10px] font-semibold border border-[var(--border-color)] py-1 px-2 rounded hover:border-[var(--text-main)]">复制码</button>` : ''}
+                ${code ? `<button onclick="copyText('${escapeHtml(code)}')" class="text-[10px] font-semibold bg-[var(--accent)] text-white py-1 px-2 rounded hover:bg-[var(--accent-hover)]">复制提取码</button>` : ''}
                 <button onclick="deleteFile('${escapeHtml(f.key)}')" class="text-[10px] font-semibold text-[var(--danger)] border border-red-500/20 py-1 px-2 rounded hover:bg-red-500 hover:text-white">销毁</button>
              </div>
           </div>`;
