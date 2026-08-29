@@ -183,8 +183,6 @@
 <body>
 
     <script>
-        // 【专属配置区】如需修改中文翻译，直接在下面对应的 cnName 里更改即可
-// 【专属配置区】如需修改中文翻译，直接在下面对应的 cnName 里更改即可
         const siteConfig = {
             pageTitle: "外区ID地址生成器 | 小闻说",
             brandName: "小闻说",
@@ -377,7 +375,6 @@
             document.body.removeChild(textarea);
         }
 
-        // 修改点：新增了 displayHtml 参数，用来渲染带中文的富文本。copyValue 参数只保留纯英文
         const createRow = (label, copyValue, id, displayHtml) => `
             <div class="info-row">
                 <div class="info-content">
@@ -392,7 +389,6 @@
         function renderAddress(data) {
             const regionCfg = getRegionConfig(data.regionId);
             
-            // 修改点：拼接州/省份的展示文本（英文 + 浅色不参与选中的中文）
             let stateDisplayHtml = data.stateName;
             if (data.stateCnName) {
                 stateDisplayHtml = `${data.stateName} <span class="cn-badge">(${data.stateCnName})</span>`;
@@ -448,7 +444,6 @@
                 const subObj = getRandom(regionCfg.subdivisions);
                 const cityObj = getRandom(subObj.cities);
                 
-                // 修改点：在生成的随机数据包中，一并带出中文名（如果存在的话）
                 addressData = {
                     regionId: currentRegionId,
                     fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
