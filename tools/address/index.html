@@ -122,9 +122,13 @@
         }
         .info-row:hover { background: var(--card-hover); }
         .info-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; padding-right: 8px; }
-        .label { font-size: 0.62rem; color: var(--text-secondary); margin-bottom: 1px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-        .value { font-size: 0.88rem; color: var(--text-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
+        .label { font-size: 0.62rem; color: var(--text-secondary); margin-bottom: 1px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .value { font-size: 0.88rem; color: var(--text-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
+        
+        /* 新增：浅色中文标识，且禁止鼠标划选选中 */
+        .cn-badge { color: var(--text-secondary); font-size: 0.85em; font-weight: 400; margin-left: 6px; user-select: none; -webkit-user-select: none; }
+
         .copy-btn { 
             padding: 4px 11px; font-size: 0.72rem; font-weight: 600; 
             background: var(--bg-color); color: var(--text-primary);
@@ -163,26 +167,11 @@
 
         @media (min-width: 640px) {
             body { padding: 24px; }
-            .glass-container {
-                max-width: 450px;
-                padding: 1.25rem;
-                border-radius: 22px;
-            }
+            .glass-container { max-width: 450px; padding: 1.25rem; border-radius: 22px; }
             h2 { font-size: 1.2rem; margin-bottom: 3px; }
             .brand-subtitle { font-size: 0.8rem; margin-bottom: 12px; }
-            select.region-select { 
-                padding: 10px 12px; 
-                font-size: 0.88rem; 
-                margin-bottom: 10px; 
-                border-radius: 12px; 
-                background-position: right 10px center;
-            }
-            button.generate-btn { 
-                padding: 11px; 
-                font-size: 0.95rem; 
-                margin-bottom: 12px; 
-                border-radius: 12px; 
-            }
+            select.region-select { padding: 10px 12px; font-size: 0.88rem; margin-bottom: 10px; border-radius: 12px; background-position: right 10px center; }
+            button.generate-btn { padding: 11px; font-size: 0.95rem; margin-bottom: 12px; border-radius: 12px; }
             .info-list { gap: 8px; }
             .info-row { padding: 9px 14px; border-radius: 12px; }
             .label { font-size: 0.65rem; margin-bottom: 2px; }
@@ -194,6 +183,7 @@
 <body>
 
     <script>
+        // 【专属配置区】如需修改中文翻译，直接在下面对应的 cnName 里更改即可
         const siteConfig = {
             pageTitle: "外区ID地址生成器 | 小闻说",
             brandName: "小闻说",
@@ -217,11 +207,9 @@
                     streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
                     generatePhone: () => `+1-${Math.floor(Math.random() * 800) + 200}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
                     subdivisions: [
-                        { name: "Delaware", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
-                        { name: "Oregon", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
-                        { name: "Montana", cities: [{name: "Billings", zip: "59101"}, {name: "Missoula", zip: "59801"}] },
-                        { name: "New Hampshire", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] },
-                        { name: "Alaska", cities: [{name: "Anchorage", zip: "99501"}, {name: "Fairbanks", zip: "99701"}] }
+                        { name: "Delaware", cnName: "特拉华州", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
+                        { name: "Oregon", cnName: "俄勒冈州", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
+                        { name: "New Hampshire", cnName: "新罕布什尔州", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] }
                     ]
                 },
                 {
@@ -234,9 +222,9 @@
                     streetNames: ["High St", "Station Rd", "Main St", "London Rd", "Church Ln", "Victoria Rd"],
                     generatePhone: () => `+44 7${Math.floor(100000000 + Math.random() * 900000000)}`,
                     subdivisions: [
-                        { name: "Greater London", cities: [{name: "London", zip: "EC1A 1BB"}, {name: "Westminster", zip: "SW1A 1AA"}] },
-                        { name: "Greater Manchester", cities: [{name: "Manchester", zip: "M1 1AG"}, {name: "Salford", zip: "M5 4WT"}] },
-                        { name: "West Midlands", cities: [{name: "Birmingham", zip: "B1 1BB"}] }
+                        { name: "Greater London", cnName: "大伦敦", cities: [{name: "London", zip: "EC1A 1BB"}, {name: "Westminster", zip: "SW1A 1AA"}] },
+                        { name: "Greater Manchester", cnName: "大曼彻斯特", cities: [{name: "Manchester", zip: "M1 1AG"}, {name: "Salford", zip: "M5 4WT"}] },
+                        { name: "West Midlands", cnName: "西米德兰兹", cities: [{name: "Birmingham", zip: "B1 1BB"}] }
                     ]
                 },
                 {
@@ -279,8 +267,8 @@
                     streetNames: ["Orchard Rd", "Marina Blvd", "Raffles Ave", "Victoria St", "Beach Rd"],
                     generatePhone: () => `+65 ${Math.random() < 0.5 ? "8" : "9"}${Math.floor(1000000 + Math.random() * 9000000)}`,
                     subdivisions: [
-                        { name: "Central Region", cities: [{name: "Singapore", zip: "238801"}, {name: "Singapore", zip: "018980"}] },
-                        { name: "East Region", cities: [{name: "Singapore", zip: "529510"}] }
+                        { name: "Central Region", cnName: "中部地区", cities: [{name: "Singapore", zip: "238801"}, {name: "Singapore", zip: "018980"}] },
+                        { name: "East Region", cnName: "东部地区", cities: [{name: "Singapore", zip: "529510"}] }
                     ]
                 },
                 {
@@ -293,9 +281,9 @@
                     streetNames: ["Yonge St", "Robson St", "Banff Ave", "Main St", "Queen St W"],
                     generatePhone: () => `+1 416-${Math.floor(Math.random() * 800) + 200}-${Math.floor(Math.random() * 9000) + 1000}`,
                     subdivisions: [
-                        { name: "Ontario", cities: [{name: "Toronto", zip: "M5V 2T6"}, {name: "Ottawa", zip: "K1P 1J1"}] },
-                        { name: "British Columbia", cities: [{name: "Vancouver", zip: "V6B 1A1"}, {name: "Victoria", zip: "V8W 1P6"}] },
-                        { name: "Alberta", cities: [{name: "Calgary", zip: "T2P 1J9"}] }
+                        { name: "Ontario", cnName: "安大略省", cities: [{name: "Toronto", zip: "M5V 2T6"}, {name: "Ottawa", zip: "K1P 1J1"}] },
+                        { name: "British Columbia", cnName: "不列颠哥伦比亚省", cities: [{name: "Vancouver", zip: "V6B 1A1"}, {name: "Victoria", zip: "V8W 1P6"}] },
+                        { name: "Alberta", cnName: "艾伯塔省", cities: [{name: "Calgary", zip: "T2P 1J9"}] }
                     ]
                 }
             ]
@@ -351,8 +339,11 @@
 
         const getRandom = arr => arr[Math.floor(Math.random() * arr.length)];
 
+        // 修改点：强制读取 data-copy-val 属性，该属性中仅保存了纯英文内容
         async function copyText(elementId, btnElement) {
-            const text = $(elementId).innerText;
+            const el = $(elementId);
+            const text = el.getAttribute('data-copy-val') || el.innerText; 
+            
             const showSuccess = () => {
                 const oldText = btnElement.innerText;
                 btnElement.innerText = "已复制";
@@ -384,11 +375,12 @@
             document.body.removeChild(textarea);
         }
 
-        const createRow = (label, value, id) => `
+        // 修改点：新增了 displayHtml 参数，用来渲染带中文的富文本。copyValue 参数只保留纯英文
+        const createRow = (label, copyValue, id, displayHtml) => `
             <div class="info-row">
                 <div class="info-content">
                     <div class="label">${label}</div>
-                    <div class="value" id="${id}">${value}</div>
+                    <div class="value" id="${id}" data-copy-val="${copyValue}">${displayHtml || copyValue}</div>
                 </div>
                 <button class="copy-btn" onclick="copyText('${id}', this)">复制</button>
             </div>`;
@@ -397,11 +389,18 @@
 
         function renderAddress(data) {
             const regionCfg = getRegionConfig(data.regionId);
+            
+            // 修改点：拼接州/省份的展示文本（英文 + 浅色不参与选中的中文）
+            let stateDisplayHtml = data.stateName;
+            if (data.stateCnName) {
+                stateDisplayHtml = `${data.stateName} <span class="cn-badge">(${data.stateCnName})</span>`;
+            }
+
             $("output").innerHTML = 
                 createRow("全名", data.fullName, "val-name") +
                 createRow("街道", data.fullStreet, "val-street") +
                 createRow("城市", data.cityName, "val-city") +
-                createRow(regionCfg.stateLabel, data.stateName, "val-state") +
+                createRow(regionCfg.stateLabel, data.stateName, "val-state", stateDisplayHtml) +
                 createRow(regionCfg.zipLabel, data.zipCode, "val-zip") +
                 createRow("电话", data.phone, "val-phone");
             
@@ -438,19 +437,29 @@
         function generateNewAddress() {
             const currentRegionId = $("region-select").value;
             const regionCfg = getRegionConfig(currentRegionId);
-
-            const subObj = getRandom(regionCfg.subdivisions);
-            const cityObj = getRandom(subObj.cities);
             
-            const addressData = {
-                regionId: currentRegionId,
-                fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
-                fullStreet: `${Math.floor(Math.random() * 9000) + 100} ${getRandom(regionCfg.streetNames)}`,
-                cityName: cityObj.name,
-                stateName: subObj.name,
-                zipCode: cityObj.zip,
-                phone: regionCfg.generatePhone()
-            };
+            let addressData;
+            let isDuplicate;
+            const currentDataStr = localStorage.getItem('xiaowen_multi_address_data');
+
+            do {
+                const subObj = getRandom(regionCfg.subdivisions);
+                const cityObj = getRandom(subObj.cities);
+                
+                // 修改点：在生成的随机数据包中，一并带出中文名（如果存在的话）
+                addressData = {
+                    regionId: currentRegionId,
+                    fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
+                    fullStreet: `${Math.floor(Math.random() * 9000) + 100} ${getRandom(regionCfg.streetNames)}`,
+                    cityName: cityObj.name,
+                    stateName: subObj.name,
+                    stateCnName: subObj.cnName || "", 
+                    zipCode: cityObj.zip,
+                    phone: regionCfg.generatePhone()
+                };
+                
+                isDuplicate = currentDataStr === JSON.stringify(addressData);
+            } while (isDuplicate);
 
             try { 
                 localStorage.setItem('xiaowen_address_selected_region', currentRegionId);
