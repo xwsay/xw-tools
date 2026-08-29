@@ -41,6 +41,7 @@
                 --glow-2: #3a1a28;
                 --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2398989d' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
             }
+            .modal-overlay { background: rgba(0, 0, 0, 0.6) !important; }
             .modal-box { background: #2c2c2e !important; }
             .modal-btn-cancel { background: #3a3a3c !important; color: #f5f5f7 !important; }
             .modal-btn-confirm { background: #0a84ff !important; color: #ffffff !important; }
@@ -126,7 +127,6 @@
         .label { font-size: 0.62rem; color: var(--text-secondary); margin-bottom: 1px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
         .value { font-size: 0.88rem; color: var(--text-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
         
-        /* 新增：浅色中文标识，且禁止鼠标划选选中 */
         .cn-badge { color: var(--text-secondary); font-size: 0.85em; font-weight: 400; margin-left: 6px; user-select: none; -webkit-user-select: none; }
 
         .copy-btn { 
@@ -339,7 +339,6 @@
 
         const getRandom = arr => arr[Math.floor(Math.random() * arr.length)];
 
-        // 修改点：强制读取 data-copy-val 属性，该属性中仅保存了纯英文内容
         async function copyText(elementId, btnElement) {
             const el = $(elementId);
             const text = el.getAttribute('data-copy-val') || el.innerText; 
@@ -436,53 +435,25 @@
             const currentRegionId = $("region-select").value;
             const regionCfg = getRegionConfig(currentRegionId);
             
-            let addressData;
-            let isDuplicate;
-            const currentDataStr = localStorage.getItem('xiaowen_multi_address_data');
-
-            do {
-                const subObj = getRandom(regionCfg.subdivisions);
-                const cityObj = getRandom(subObj.cities);
-                
-                addressData = {
-                    regionId: currentRegionId,
-                    fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
-                    fullStreet: `${Math.floor(Math.random() * 9000) + 100} ${getRandom(regionCfg.streetNames)}`,
-                    cityName: cityObj.name,
-                    stateName: subObj.name,
-                    stateCnName: subObj.cnName || "", 
-                    zipCode: cityObj.zip,
-                    phone: regionCfg.generatePhone()
-                };
-                
-                isDuplicate = currentDataStr === JSON.stringify(addressData);
-            } while (isDuplicate);
-
-            try { 
-                localStorage.setItem('xiaowen_address_selected_region', currentRegionId);
-                localStorage.setItem('xiaowen_multi_address_data', JSON.stringify(addressData)); 
-            } catch(e) {}
+            const subObj = getRandom(regionCfg.subdivisions);
+            const cityObj = getRandom(subObj.cities);
+            
+            const addressData = {
+                regionId: currentRegionId,
+                fullName: `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`,
+                fullStreet: `${Math.floor(Math.random() * 9000) + 100} ${getRandom(regionCfg.streetNames)}`,
+                cityName: cityObj.name,
+                stateName: subObj.name,
+                stateCnName: subObj.cnName || "", 
+                zipCode: cityObj.zip,
+                phone: regionCfg.generatePhone()
+            };
             
             renderAddress(addressData);
         }
         
         window.addEventListener("DOMContentLoaded", () => {
-            try {
-                const savedRegion = localStorage.getItem('xiaowen_address_selected_region');
-                if (savedRegion) $("region-select").value = savedRegion;
-
-                const savedData = localStorage.getItem('xiaowen_multi_address_data');
-                if (savedData) { 
-                    const parsed = JSON.parse(savedData);
-                    if (parsed && parsed.regionId === $("region-select").value) {
-                        renderAddress(parsed);
-                        return;
-                    }
-                } 
-                generateNewAddress();
-            } catch(e) { 
-                generateNewAddress(); 
-            }
+            generateNewAddress();
         });
     </script>
 </body>
