@@ -184,6 +184,7 @@
 
     <script>
         // 【专属配置区】如需修改中文翻译，直接在下面对应的 cnName 里更改即可
+// 【专属配置区】如需修改中文翻译，直接在下面对应的 cnName 里更改即可
         const siteConfig = {
             pageTitle: "外区ID地址生成器 | 小闻说",
             brandName: "小闻说",
@@ -202,14 +203,16 @@
                     name: "🇺🇸 美区免税州",
                     stateLabel: "州全称",
                     zipLabel: "邮编",
-                    firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Mary", "Patricia", "Jennifer", "Linda"],
-                    lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez"],
-                    streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd"],
+                    firstNames: ["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles", "Christopher", "Daniel", "Matthew", "Anthony", "Mark", "Donald", "Steven", "Paul", "Andrew", "Joshua", "Kenneth", "Kevin", "Brian", "George", "Edward", "Ronald", "Timothy", "Jason", "Jeffrey", "Ryan", "Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Karen", "Nancy", "Lisa", "Betty", "Margaret", "Sandra", "Ashley", "Kimberly", "Emily", "Donna", "Michelle", "Dorothy", "Carol", "Amanda", "Melissa", "Deborah", "Stephanie", "Rebecca", "Sharon", "Laura", "Cynthia"],
+                    lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts", "Gomez", "Phillips", "Evans", "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins", "Reyes"],
+                    streetNames: ["Oak St", "Pine St", "Maple Ave", "Cedar Ln", "Elm St", "Washington Blvd", "Park Ave", "Main St", "Highland Dr", "Lake Rd", "Hill St", "Central Ave", "Riverside Dr", "Spring St", "Court St", "Mill St", "Water St", "Broad St", "Front St", "Cherry Ln", "Walnut St", "Jackson St", "Spruce St", "Ridge Rd", "Meadow Ln", "Church St", "North St", "South St", "West St", "East St", "Chestnut St", "Adams St", "Jefferson Ave", "Lincoln Blvd", "Madison St", "Lexington Ave", "Valley Rd", "Forest Ave", "Grove St", "Willow Ln", "Sunset Blvd", "Broadway", "Second St", "Third St", "First St", "Fourth Ave", "Fifth Ave", "Sixth St", "Seventh St", "Eighth Ave", "Ninth St", "Tenth Ave", "Grand Blvd", "Pearl St", "Ocean Ave", "Sunset Dr", "Liberty St", "Union St", "State St", "School St"],
                     generatePhone: () => `+1-${Math.floor(Math.random() * 800) + 200}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
                     subdivisions: [
-                        { name: "Delaware", cnName: "特拉华州", cities: [{name: "Wilmington", zip: "19801"}, {name: "Newark", zip: "19711"}] },
-                        { name: "Oregon", cnName: "俄勒冈州", cities: [{name: "Portland", zip: "97204"}, {name: "Salem", zip: "97301"}] },
-                        { name: "New Hampshire", cnName: "新罕布什尔州", cities: [{name: "Manchester", zip: "03101"}, {name: "Nashua", zip: "03060"}] }
+                        { name: "Delaware", cnName: "特拉华州", cities: [{name: "Wilmington", zip: "19801"}, {name: "Wilmington", zip: "19805"}, {name: "Newark", zip: "19711"}, {name: "Newark", zip: "19713"}, {name: "Dover", zip: "19901"}, {name: "Dover", zip: "19904"}, {name: "Middletown", zip: "19709"}, {name: "Bear", zip: "19701"}] },
+                        { name: "Oregon", cnName: "俄勒冈州", cities: [{name: "Portland", zip: "97204"}, {name: "Portland", zip: "97209"}, {name: "Portland", zip: "97214"}, {name: "Salem", zip: "97301"}, {name: "Salem", zip: "97302"}, {name: "Eugene", zip: "97401"}, {name: "Eugene", zip: "97402"}, {name: "Gresham", zip: "97030"}, {name: "Hillsboro", zip: "97124"}, {name: "Beaverton", zip: "97005"}] },
+                        { name: "New Hampshire", cnName: "新罕布什尔州", cities: [{name: "Manchester", zip: "03101"}, {name: "Manchester", zip: "03103"}, {name: "Nashua", zip: "03060"}, {name: "Nashua", zip: "03062"}, {name: "Concord", zip: "03301"}, {name: "Derry", zip: "03038"}, {name: "Rochester", zip: "03867"}] },
+                        { name: "Montana", cnName: "蒙大拿州", cities: [{name: "Billings", zip: "59101"}, {name: "Billings", zip: "59102"}, {name: "Missoula", zip: "59801"}, {name: "Great Falls", zip: "59401"}, {name: "Bozeman", zip: "59715"}, {name: "Butte", zip: "59701"}] },
+                        { name: "Alaska", cnName: "阿拉斯加州", cities: [{name: "Anchorage", zip: "99501"}, {name: "Anchorage", zip: "99503"}, {name: "Fairbanks", zip: "99701"}, {name: "Fairbanks", zip: "99709"}, {name: "Juneau", zip: "99801"}] }
                     ]
                 },
                 {
@@ -237,9 +240,9 @@
                     streetNames: ["1-2-3 Chome", "2-5-1 Honmachi", "3-12-4 Ginza", "4-1-8 Roppongi", "1-8-2 Shinjuku"],
                     generatePhone: () => `+81 90-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`,
                     subdivisions: [
-                        { name: "東京都", cities: [{name: "新宿区", zip: "160-0022"}, {name: "渋谷区", zip: "150-0002"}, {name: "千代田区", zip: "100-0001"}] },
-                        { name: "大阪府", cities: [{name: "大阪市北区", zip: "530-0001"}, {name: "大阪市中央区", zip: "542-0081"}] },
-                        { name: "神奈川県", cities: [{name: "横浜市中区", zip: "231-0001"}] }
+                        { name: "東京都", cnName: "东京都", cities: [{name: "新宿区", zip: "160-0022"}, {name: "渋谷区", zip: "150-0002"}, {name: "千代田区", zip: "100-0001"}] },
+                        { name: "大阪府", cnName: "大阪府", cities: [{name: "大阪市北区", zip: "530-0001"}, {name: "大阪市中央区", zip: "542-0081"}] },
+                        { name: "神奈川県", cnName: "神奈川县", cities: [{name: "横浜市中区", zip: "231-0001"}] }
                     ]
                 },
                 {
@@ -252,9 +255,9 @@
                     streetNames: ["Nathan Rd", "Queen's Rd Central", "Hennessy Rd", "King's Rd", "Castle Peak Rd"],
                     generatePhone: () => `+852 ${Math.random() < 0.5 ? "5" : "9"}${Math.floor(1000000 + Math.random() * 9000000)}`,
                     subdivisions: [
-                        { name: "香港岛", cities: [{name: "中环", zip: "999077"}, {name: "湾仔", zip: "999077"}, {name: "铜锣湾", zip: "999077"}] },
-                        { name: "九龙", cities: [{name: "旺角", zip: "999077"}, {name: "尖沙咀", zip: "999077"}, {name: "观塘", zip: "999077"}] },
-                        { name: "新界", cities: [{name: "沙田", zip: "999077"}, {name: "屯门", zip: "999077"}] }
+                        { name: "香港岛", cnName: "香港岛", cities: [{name: "中环", zip: "999077"}, {name: "湾仔", zip: "999077"}, {name: "铜锣湾", zip: "999077"}] },
+                        { name: "九龙", cnName: "九龙", cities: [{name: "旺角", zip: "999077"}, {name: "尖沙咀", zip: "999077"}, {name: "观塘", zip: "999077"}] },
+                        { name: "新界", cnName: "新界", cities: [{name: "沙田", zip: "999077"}, {name: "屯门", zip: "999077"}] }
                     ]
                 },
                 {
