@@ -380,12 +380,22 @@
   </div>
 
   <script>
-    const $ = id => document.getElementById(id);
-
+    // 顶部专属配置区 (可直接改这里的图片链接或打赏地址)
     const SITE_CONFIG = {
-      wechat: { title: "微信支付", subtext: "点击二维码放大扫描", qrUrl: "https://img.xwsay.com/Piclist/20260813203611045.webp" },
-      crypto: { title: "USDT (TRC20)", subtext: "点击放大 / 复制地址", address: "TTuW4MxPkUAEcTWVgwdybPYdjGqci4BzCq", qrUrl: "https://img.xwsay.com/Piclist/20260813201229581.webp" }
+      wechat: { 
+        title: "微信支付", 
+        subtext: "点击二维码放大扫描", 
+        qrUrl: "https://img.xwsay.com/Piclist/20260813203611045.webp" 
+      },
+      crypto: { 
+        title: "USDT (TRC20)", 
+        subtext: "点击放大 / 复制地址", 
+        address: "TTuW4MxPkUAEcTWVgwdybPYdjGqci4BzCq", 
+        qrUrl: "https://img.xwsay.com/Piclist/20260813201229581.webp" 
+      }
     };
+
+    const $ = id => document.getElementById(id);
 
     const App = {
       switchTab(type) {
