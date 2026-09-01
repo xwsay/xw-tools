@@ -380,8 +380,11 @@
   </div>
 
   <script>
-    // 顶部专属配置区 (可直接改这里的图片链接或打赏地址)
+    // 顶部专属配置区 (变动内容集中在此修改，修改时只需在下方替换文本)
     const SITE_CONFIG = {
+      // Cloudflare Worker 后台接口域名 (末尾需带有斜杠 /)
+      workerUrl: "https://feedback.hiax.help/",
+
       wechat: { 
         title: "微信支付", 
         subtext: "点击二维码放大扫描", 
@@ -519,7 +522,8 @@
         if ($('imageFile').files[0]) formData.append('image', $('imageFile').files[0]);
 
         try {
-          const res = await fetch('{{WORKER_URL}}api/submit', { method: 'POST', body: formData });
+          const submitApiUrl = SITE_CONFIG.workerUrl.endsWith('/') ? `${SITE_CONFIG.workerUrl}api/submit` : `${SITE_CONFIG.workerUrl}/api/submit`;
+          const res = await fetch(submitApiUrl, { method: 'POST', body: formData });
           const data = await res.json().catch(() => ({}));
 
           if (res.ok && data.ok) {
