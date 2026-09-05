@@ -2,78 +2,145 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>{{SITE_TITLE}}</title>
   <link rel="icon" type="image/svg+xml" href="{{LOGO_SVG}}">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
     
     :root {
-      --bg-body: #090d16;
-      --bg-card: #111827;
-      --bg-hover: #1f2937;
-      --text-main: #f9fafb;
-      --text-sec: #9ca3af;
-      --border: #1f2937;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
-      --danger: #ef4444;
+      --bg: #0b0f19;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-hover: rgba(59, 130, 246, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.25);
     }
 
     @media (prefers-color-scheme: light) {
       :root {
-        --bg-body: #f8fafc;
-        --bg-card: #ffffff;
-        --bg-hover: #f1f5f9;
+        --bg: #f8fafc;
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --card-border: rgba(0, 0, 0, 0.08);
+        --card-border-hover: rgba(37, 99, 235, 0.4);
         --text-main: #0f172a;
-        --text-sec: #64748b;
-        --border: #e2e8f0;
-        --accent: #2563eb;
-        --accent-hover: #1d4ed8;
-        --danger: #dc2626;
+        --text-muted: #64748b;
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --primary-glow: rgba(37, 99, 235, 0.15);
       }
     }
 
-    body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); min-height: 100dvh; display: flex; flex-direction: column; }
-    .bg-grid { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(var(--border) 1px, transparent 1px); background-size: 24px 24px; mask-image: linear-gradient(to bottom, white 15%, transparent 85%); -webkit-mask-image: linear-gradient(to bottom, white 15%, transparent 85%); }
-    .ui-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
-    .ui-input { background: var(--bg-body); border: 1px solid var(--border); color: var(--text-main); border-radius: 8px; outline: none; }
-    .ui-input:focus { border-color: var(--accent); }
-    .btn-primary { background: var(--accent); color: #fff; font-weight: 600; border-radius: 8px; transition: background 0.15s; }
-    .btn-primary:hover { background: var(--accent-hover); }
-    .btn-primary:disabled { opacity: 0.5; pointer-events: none; }
-    .btn-secondary { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); font-weight: 600; border-radius: 8px; }
-    .btn-secondary:hover { background: var(--bg-hover); }
-    .letter-spacing-code { letter-spacing: 0.4em; padding-left: 0.4em; font-family: 'JetBrains Mono', monospace; font-weight: 800; }
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    * { -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* 炫光网格背景 */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(var(--card-border) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-input {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s;
+    }
+    @media (prefers-color-scheme: dark) {
+      .glass-input { background: rgba(255, 255, 255, 0.03); }
+    }
+    .glass-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px var(--primary-glow);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-glow:active { transform: scale(0.98); }
+    .btn-glow:hover { box-shadow: 0 6px 20px var(--primary-glow); filter: brightness(1.05); }
+    .btn-glow:disabled { opacity: 0.5; pointer-events: none; filter: none; }
+
+    .code-input {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.35em;
+      text-indent: 0.35em;
+      font-weight: 800;
+    }
+
+    /* 拖拽态动画 */
+    .drop-active {
+      border-color: var(--primary) !important;
+      background: var(--primary-glow) !important;
+      transform: scale(1.01);
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 99px; }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
+  <div class="bg-canvas"></div>
 
-  <!-- 页头 -->
-  <header class="w-full flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-body)]/80 backdrop-blur-md">
-     <div class="flex items-center gap-3">
-       <div class="w-8 h-8 bg-[var(--accent)] rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-       </div>
-       <span class="text-base font-bold" id="site-title-text"></span>
-     </div>
-     <nav id="main-nav" class="text-xs font-semibold text-[var(--text-sec)]"></nav>
+  <!-- 顶部导航 -->
+  <header class="w-full sticky top-0 z-40 border-b border-[var(--card-border)] bg-[var(--bg)]/80 backdrop-blur-xl transition-all">
+    <div class="max-w-5xl mx-auto px-5 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-1 bg-gradient-to-tr from-blue-600 to-indigo-500">
+          <img src="{{LOGO_SVG}}" alt="Logo" class="w-full h-full object-contain filter invert dark:invert-0">
+        </div>
+        <span class="text-base font-extrabold tracking-tight" id="site-title-text">{{SITE_TITLE}}</span>
+      </div>
+      <div id="main-nav" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-[var(--card-border)] text-[var(--text-muted)] flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="nav-text">在线</span>
+      </div>
+    </div>
   </header>
 
-  <!-- 主内容区 -->
-  <main id="main-content" class="w-full flex-1 flex flex-col items-center p-4 md:p-12 z-10"></main>
+  <!-- 主体内容 -->
+  <main id="main-content" class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:py-16 flex flex-col items-center justify-center z-10"></main>
 
-  <!-- 轻提示 Toast -->
-  <div id="toast" class="fixed bottom-8 z-[100] px-4 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white text-xs font-medium shadow-xl transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none">
-     <span id="toast-msg"></span>
+  <!-- 全局轻提示 Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 py-2.5 rounded-full bg-slate-900/90 text-white dark:bg-white/95 dark:text-slate-900 text-xs font-semibold shadow-2xl backdrop-blur-md flex items-center gap-2 transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none">
+     <span class="text-blue-400 dark:text-blue-600">●</span>
+     <span id="toast-msg">提示信息</span>
   </div>
 
   <script>
-    /* 配置数据 */
     const siteConfig = {
       title: "{{SITE_TITLE}}",
       mode: "{{MODE}}", 
@@ -106,8 +173,7 @@
 
     function copyText(str) {
       if (!str) return;
-      navigator.clipboard.writeText(str);
-      showToast("复制成功");
+      navigator.clipboard.writeText(str).then(() => showToast("已复制到剪贴板")).catch(() => showToast("复制失败，请手动复制"));
     }
 
     let toastTimer = null;
@@ -119,49 +185,78 @@
       toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-8'), 2500);
     }
 
-    /* 初始化 */
+    /* 应用启动入口 */
     function initApp() {
       $('site-title-text').innerText = siteConfig.title;
-      const nav = $('main-nav'), main = $('main-content');
+      const navText = $('nav-text'), main = $('main-content');
       
       if (siteConfig.mode === 'front') {
-        nav.innerText = siteConfig.serverCfg.navCodeDownload || "验证提取";
+        navText.innerText = siteConfig.serverCfg.navCodeDownload || "阅后即焚提取";
         main.innerHTML = `
-        <div class="w-full max-w-md mt-6 flex flex-col items-center">
-           <div id="view-input" class="w-full flex flex-col items-center">
-              <h1 class="text-2xl font-bold mb-1">验证提取</h1>
-              <p class="text-[var(--text-sec)] text-xs mb-6">输入 4 位提取码，提取后数据立即销毁。</p>
-              <div class="w-full flex flex-col gap-3">
-                <input type="text" id="input-code" maxlength="4" placeholder="••••" autocomplete="off" class="ui-input w-full text-center text-4xl letter-spacing-code py-3 uppercase">
-                <button onclick="handleFindFiles()" id="btn-fetch" class="btn-primary w-full py-3 text-sm">提取数据</button>
+        <div class="w-full max-w-sm flex flex-col items-center">
+           <!-- 输入状态 -->
+           <div id="view-input" class="w-full glass-card p-6 md:p-8 flex flex-col items-center text-center">
+              <div class="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-5 ring-1 ring-blue-500/20">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+              </div>
+              <h1 class="text-xl font-bold mb-1.5">提取加密数据</h1>
+              <p class="text-xs text-[var(--text-muted)] mb-6">请输入 4 位有效提取码，数据提取后将彻底销毁</p>
+              
+              <div class="w-full flex flex-col gap-3.5">
+                <div class="relative w-full">
+                  <input type="text" id="input-code" maxlength="4" placeholder="••••" autocomplete="off" class="glass-input code-input w-full text-center text-3xl py-3.5 rounded-xl uppercase font-bold text-blue-500 placeholder-slate-400/50">
+                </div>
+                <button onclick="handleFindFiles()" id="btn-fetch" class="btn-glow w-full py-3.5 text-sm flex items-center justify-center gap-2">
+                   <span>立刻提取</span>
+                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
               </div>
            </div>
 
-           <div id="view-result" class="hidden w-full flex-col">
-              <div class="flex justify-between items-center mb-3">
-                 <h2 class="text-sm font-bold">待提取清单</h2>
-                 <span class="text-xs font-mono text-[var(--text-sec)]" id="text-dl-count"></span>
+           <!-- 结果待下载状态 -->
+           <div id="view-result" class="hidden w-full glass-card overflow-hidden flex-col">
+              <div class="px-5 py-4 border-b border-[var(--card-border)] flex justify-between items-center bg-black/5 dark:bg-white/5">
+                 <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    <h2 class="text-xs font-bold uppercase tracking-wider">待提取文件</h2>
+                 </div>
+                 <span class="text-xs font-mono font-bold text-blue-500" id="text-dl-count"></span>
               </div>
-              <div class="ui-card w-full overflow-hidden">
-                 <div id="dl-item-list" class="divide-y divide-[var(--border)] max-h-[40vh] overflow-y-auto"></div>
-                 <div class="p-3 bg-[var(--bg-hover)] border-t border-[var(--border)]">
-                     <div id="box-dl-progress" class="hidden items-center gap-2 mb-2">
-                        <span id="text-dl-filename" class="text-xs text-[var(--text-sec)] truncate flex-1">准备中</span>
-                        <div class="w-20 bg-[var(--border)] rounded-full h-1.5"><div id="bar-dl-progress" class="bg-[var(--accent)] h-full rounded-full w-0"></div></div>
+
+              <div id="dl-item-list" class="divide-y divide-[var(--card-border)] max-h-[45vh] overflow-y-auto p-2"></div>
+              
+              <div class="p-4 bg-[var(--card-border)]/30 border-t border-[var(--card-border)]">
+                  <div id="box-dl-progress" class="hidden flex-col gap-1.5 mb-3">
+                     <div class="flex justify-between text-xs font-mono">
+                        <span id="text-dl-filename" class="text-[var(--text-muted)] truncate max-w-[200px]">准备中...</span>
+                        <span id="text-dl-pct" class="font-bold text-blue-500">0%</span>
                      </div>
-                     <button onclick="handleDownloadAll()" id="btn-dl-all" class="btn-primary w-full py-2 text-sm">提取并销毁</button>
-                 </div>
+                     <div class="w-full bg-[var(--card-border)] rounded-full h-1.5 overflow-hidden">
+                        <div id="bar-dl-progress" class="bg-blue-500 h-full rounded-full transition-all duration-150 w-0"></div>
+                     </div>
+                  </div>
+                  <button onclick="handleDownloadAll()" id="btn-dl-all" class="btn-glow w-full py-3 text-xs flex items-center justify-center gap-2">
+                     <span>下载并彻底销毁</span>
+                  </button>
               </div>
            </div>
 
-           <div id="modal-text-view" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur-md z-[200] flex-col p-6">
-              <div class="w-full max-w-xl mx-auto flex flex-col h-full">
-                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-base font-bold">阅后即焚文本</h3>
-                    <button onclick="location.reload()" class="btn-secondary px-3 py-1 text-xs">关闭退出</button>
+           <!-- 阅后即焚纯文本弹窗 -->
+           <div id="modal-text-view" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl z-[200] flex items-center justify-center p-4">
+              <div class="w-full max-w-lg glass-card overflow-hidden flex flex-col max-h-[80vh]">
+                 <div class="p-4 border-b border-[var(--card-border)] flex justify-between items-center">
+                    <h3 class="text-sm font-bold flex items-center gap-2">
+                       <span class="text-amber-500">🔥</span> 阅后即焚文本内容
+                    </h3>
+                    <button onclick="location.reload()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--card-border)] hover:bg-[var(--card-border-hover)]">关闭</button>
                  </div>
-                 <p class="text-xs text-red-400 bg-red-500/10 border border-red-500/20 p-2 rounded mb-3">此文本已同步从服务端抹除，关闭窗口后不可二次查看。</p>
-                 <textarea id="area-text-display" readonly class="flex-1 ui-input p-3 font-mono text-xs resize-none"></textarea>
+                 <div class="p-4 flex-1 flex flex-col gap-2 overflow-hidden">
+                    <p class="text-[11px] text-amber-500/90 font-medium">⚠️ 提示：服务端对应密文已自动抹除，关闭窗口后将无法找回。</p>
+                    <textarea id="area-text-display" readonly class="flex-1 glass-input p-3.5 font-mono text-xs rounded-xl resize-none min-h-[220px]"></textarea>
+                 </div>
+                 <div class="p-3 border-t border-[var(--card-border)] bg-black/5 dark:bg-white/5 flex justify-end">
+                    <button onclick="copyText($('area-text-display').value)" class="btn-glow px-4 py-2 text-xs">复制全文</button>
+                 </div>
               </div>
            </div>
         </div>`;
@@ -178,81 +273,114 @@
           window.history.replaceState({}, document.title, "/");
         }
       } else {
-        nav.innerText = siteConfig.serverCfg.navAdminUpload || "数据分发中心";
+        // 后台管理分发模式
+        navText.innerText = siteConfig.serverCfg.navAdminUpload || "管理控制台";
         main.innerHTML = `
-        <div class="w-full max-w-3xl flex flex-col gap-5">
-           <div class="flex justify-between items-end border-b border-[var(--border)] pb-3">
+        <div class="w-full max-w-4xl flex flex-col gap-6">
+           <!-- 头部控制器 -->
+           <div class="glass-card p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
               <div>
-                 <h2 class="text-lg font-bold">${escapeHtml(siteConfig.serverCfg.navAdminUpload || "数据分发中心")}</h2>
-                 <p class="text-xs text-[var(--text-sec)] font-mono">容量上限：${formatBytes(siteConfig.serverCfg.maxStorageBytes)}</p>
+                 <h1 class="text-lg font-extrabold tracking-tight">${escapeHtml(siteConfig.serverCfg.navAdminUpload || "数据分发中心")}</h1>
+                 <p class="text-xs text-[var(--text-muted)] font-mono mt-0.5">空间限额：${formatBytes(siteConfig.serverCfg.maxStorageBytes)}</p>
               </div>
-              <div class="flex bg-[var(--border)] p-0.5 rounded-lg">
-                 <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold">数据分发</button>
-                 <button onclick="switchAdminTab('manage')" id="tab-btn-manage" class="px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold">存储管理</button>
+              <div class="flex bg-slate-200/50 dark:bg-slate-800/50 p-1 rounded-xl border border-[var(--card-border)] self-start sm:self-auto">
+                 <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-700 shadow-sm">上传分发</button>
+                 <button onclick="switchAdminTab('manage')" id="tab-btn-manage" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-[var(--text-muted)]">文件管理</button>
               </div>
            </div>
            
-           <div id="panel-admin-upload" class="flex flex-col md:flex-row gap-5">
-              <div class="w-full md:w-48 shrink-0 flex flex-col gap-3">
-                 <div>
-                    <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1">模式</span>
-                    <div class="flex flex-col gap-1">
-                       <label class="ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" id="label-tgt-burn">
-                         <input type="radio" name="tgt" value="burn" onchange="setTarget('burn')" checked class="accent-[var(--accent)]">
-                         <span class="text-xs font-semibold">阅后即焚</span>
-                       </label>
-                       <label class="ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60" id="label-tgt-pub">
-                         <input type="radio" name="tgt" value="public" onchange="setTarget('public')" class="accent-[var(--accent)]">
-                         <span class="text-xs font-semibold">固定直连</span>
-                       </label>
+           <!-- 面板：分发上传 -->
+           <div id="panel-admin-upload" class="grid grid-cols-1 md:grid-cols-12 gap-5">
+              <!-- 左侧属性面板 -->
+              <div class="md:col-span-4 flex flex-col gap-4">
+                 <div class="glass-card p-4 flex flex-col gap-4">
+                    <div>
+                       <span class="block text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2">分发模式</span>
+                       <div class="grid grid-cols-2 gap-2">
+                          <button type="button" onclick="setTarget('burn')" id="btn-tgt-burn" class="p-2.5 rounded-xl text-xs font-bold border border-blue-500 bg-blue-500/10 text-blue-500 transition-all flex flex-col items-center gap-1">
+                             <span>🔥 阅后即焚</span>
+                             <span class="text-[9px] font-normal opacity-70">4位提取码</span>
+                          </button>
+                          <button type="button" onclick="setTarget('public')" id="btn-tgt-pub" class="p-2.5 rounded-xl text-xs font-bold border border-[var(--card-border)] text-[var(--text-muted)] transition-all flex flex-col items-center gap-1">
+                             <span>🔗 固定直连</span>
+                             <span class="text-[9px] font-normal opacity-70">永久保留</span>
+                          </button>
+                       </div>
                     </div>
-                 </div>
-                 <div>
-                    <span class="block text-[10px] font-bold text-[var(--text-sec)] uppercase mb-1">类型</span>
-                    <div class="flex bg-[var(--border)] rounded-lg p-0.5">
-                       <button onclick="setMode('file')" id="mode-btn-file" class="flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold">文件</button>
-                       <button onclick="setMode('text')" id="mode-btn-text" class="flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold">文本</button>
+
+                    <div>
+                       <span class="block text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2">载体类型</span>
+                       <div class="flex bg-slate-200/50 dark:bg-slate-800/50 p-1 rounded-xl border border-[var(--card-border)]">
+                          <button onclick="setMode('file')" id="mode-btn-file" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 shadow-sm transition-all">文件模式</button>
+                          <button onclick="setMode('text')" id="mode-btn-text" class="flex-1 py-1.5 rounded-lg text-xs font-bold text-[var(--text-muted)] transition-all">纯文本模式</button>
+                       </div>
                     </div>
+
+                    <button onclick="handleStartUpload()" id="btn-upload" class="btn-glow w-full py-3 text-xs mt-2 flex items-center justify-center gap-2">
+                       <span>执行开始分发</span>
+                    </button>
                  </div>
-                 <button onclick="handleStartUpload()" id="btn-upload" class="btn-primary w-full py-2 text-xs">执行上传</button>
               </div>
 
-              <div class="flex-1 min-h-[200px] relative">
-                 <div id="area-upload-file" class="absolute inset-0 flex flex-col">
-                    <input type="file" id="file-input" multiple class="hidden" onchange="handleFileSelected(this.files)">
-                    <div id="drop-zone" class="border border-dashed border-[var(--border)] bg-[var(--bg-card)] rounded-xl flex-1 flex flex-col items-center justify-center text-[var(--text-sec)] cursor-pointer p-4" onclick="$('file-input').click()">
-                       <svg class="w-6 h-6 mb-1 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                       <span class="text-xs">点击选择或拖拽文件至此区域</span>
+              <!-- 右侧交互区域 -->
+              <div class="md:col-span-8 flex flex-col">
+                 <div class="glass-card p-4 min-h-[280px] flex-1 flex flex-col relative overflow-hidden">
+                    <!-- 文件模式 -->
+                    <div id="area-upload-file" class="flex-1 flex flex-col">
+                       <input type="file" id="file-input" multiple class="hidden" onchange="handleFileSelected(this.files)">
+                       <div id="drop-zone" class="border-2 border-dashed border-[var(--card-border)] rounded-2xl flex-1 flex flex-col items-center justify-center text-[var(--text-muted)] cursor-pointer p-6 transition-all hover:border-blue-500/50" onclick="$('file-input').click()">
+                          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-3">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                          </div>
+                          <span class="text-xs font-semibold">点击选择或将文件拖入此区域</span>
+                          <span class="text-[10px] text-[var(--text-muted)] mt-1">支持多文件批量上传</span>
+                       </div>
+                       <!-- 选中文件标签流 -->
+                       <div id="file-preview-list" class="mt-3 max-h-[100px] overflow-y-auto flex flex-wrap gap-1.5"></div>
                     </div>
-                    <div id="file-preview-list" class="mt-2 max-h-[80px] overflow-y-auto grid grid-cols-2 gap-1"></div>
-                 </div>
-                 
-                 <div id="area-upload-text" class="hidden absolute inset-0">
-                    <textarea id="text-input" class="ui-input w-full h-full p-3 text-xs font-mono" placeholder="粘贴或输入文本内容..."></textarea>
-                 </div>
-                 
-                 <div id="box-up-progress" class="absolute bottom-0 inset-x-0 bg-[var(--bg-card)] border-t border-[var(--border)] p-2 hidden items-center gap-2 rounded-b-xl">
-                    <span id="text-up-filename" class="text-xs text-[var(--text-sec)] truncate w-1/3">上传中...</span>
-                    <div class="flex-1 bg-[var(--border)] rounded-full h-1.5"><div id="bar-up-progress" class="bg-[var(--accent)] h-full rounded-full w-0"></div></div>
-                    <span id="text-up-pct" class="text-xs font-mono font-bold w-8 text-right">0%</span>
+                    
+                    <!-- 文本模式 -->
+                    <div id="area-upload-text" class="hidden flex-1 flex flex-col">
+                       <textarea id="text-input" class="glass-input w-full flex-1 p-3.5 text-xs font-mono rounded-xl resize-none" placeholder="输入你想加密分享的私密信息、凭据或代码段..."></textarea>
+                    </div>
+
+                    <!-- 上传进度浮层 -->
+                    <div id="box-up-progress" class="absolute inset-x-0 bottom-0 bg-slate-900/95 dark:bg-slate-950/95 border-t border-[var(--card-border)] p-3 hidden items-center gap-3">
+                       <span id="text-up-filename" class="text-xs text-white truncate max-w-[150px]">上传中...</span>
+                       <div class="flex-1 bg-white/20 rounded-full h-1.5 overflow-hidden">
+                          <div id="bar-up-progress" class="bg-blue-500 h-full rounded-full transition-all duration-100 w-0"></div>
+                       </div>
+                       <span id="text-up-pct" class="text-xs font-mono font-bold text-blue-400 w-9 text-right">0%</span>
+                    </div>
                  </div>
               </div>
            </div>
 
-           <div id="panel-admin-manage" class="hidden flex-col gap-3">
-              <div class="flex justify-between items-center">
-                 <span class="text-xs font-mono text-[var(--text-sec)]" id="text-manage-count">0 个文件</span>
-                 <button onclick="fetchAdminFileList()" class="btn-secondary px-2 py-1 text-xs">刷新</button>
+           <!-- 面板：存储管理 -->
+           <div id="panel-admin-manage" class="hidden flex-col gap-4">
+              <div class="flex justify-between items-center px-1">
+                 <span class="text-xs font-mono text-[var(--text-muted)]" id="text-manage-count">加载中...</span>
+                 <button onclick="fetchAdminFileList()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card-border)] hover:bg-[var(--card-border-hover)] transition-all">刷新列表</button>
               </div>
-              <div id="admin-grid-list" class="grid grid-cols-1 md:grid-cols-3 gap-2.5"></div>
+              <div id="admin-grid-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
            </div>
 
-           <div id="modal-upload-success" class="hidden fixed inset-0 bg-[var(--bg-body)]/95 backdrop-blur-md z-[200] flex-col items-center justify-center p-4">
-              <div class="w-full max-w-sm flex flex-col items-center text-center">
-                 <h3 class="text-base font-bold mb-1">分发成功</h3>
-                 <p id="text-result-hint" class="text-xs text-[var(--text-sec)] mb-3 font-mono"></p>
-                 <div id="box-result-card" data-copy="" onclick="copyText(this.dataset.copy)" class="w-full border-2 border-[var(--accent)] bg-[var(--bg-card)] p-3 rounded-xl text-xl font-mono font-extrabold cursor-pointer hover:border-[var(--accent-hover)] mb-4 select-none">---</div>
-                 <button onclick="resetAdminForm()" class="btn-secondary w-full py-2 text-xs">继续分发</button>
+           <!-- 上传成功弹窗 -->
+           <div id="modal-upload-success" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[200] flex items-center justify-center p-4">
+              <div class="w-full max-w-sm glass-card p-6 flex flex-col items-center text-center">
+                 <div class="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3 ring-1 ring-emerald-500/20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                 </div>
+                 <h3 class="text-base font-extrabold mb-1">分发成功</h3>
+                 <p id="text-result-hint" class="text-xs text-[var(--text-muted)] mb-4"></p>
+                 
+                 <!-- 取件码或链接卡片 -->
+                 <div id="box-result-card" data-copy="" onclick="copyText(this.dataset.copy)" class="w-full p-4 rounded-xl border border-blue-500/40 bg-blue-500/5 text-2xl font-mono font-extrabold text-blue-500 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer mb-5 select-none relative group">
+                    <span>---</span>
+                    <span class="block text-[9px] font-sans font-medium text-[var(--text-muted)] mt-1">点击即可复制</span>
+                 </div>
+
+                 <button onclick="resetAdminForm()" class="btn-glow w-full py-2.5 text-xs">继续分发</button>
               </div>
            </div>
         </div>`;
@@ -266,10 +394,10 @@
       }
     }
 
-    /* 提取逻辑 */
+    /* 提取动作处理 */
     async function handleFindFiles() {
       const code = $('input-code').value.trim().toUpperCase();
-      if (code.length !== 4) return showToast("请输入 4 位有效提取码");
+      if (code.length !== 4) return showToast("请输入 4 位提取码");
 
       const btn = $('btn-fetch');
       btn.disabled = true; btn.innerText = "校验中...";
@@ -292,20 +420,23 @@
           $('view-result').classList.replace('hidden', 'flex');
           $('text-dl-count').innerText = `${State.downloadList.length} 个文件`;
           $('dl-item-list').innerHTML = State.downloadList.map(f => `
-            <div class="p-2.5 flex justify-between items-center text-xs">
-               <span class="font-medium truncate pr-2">${escapeHtml(f.name)}</span>
-               <span class="font-mono text-[var(--text-sec)] shrink-0">${formatBytes(f.size)}</span>
+            <div class="p-3 flex justify-between items-center text-xs rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all">
+               <div class="flex items-center gap-2.5 truncate pr-2">
+                 <span class="text-blue-500 font-bold">📄</span>
+                 <span class="font-semibold truncate">${escapeHtml(f.name)}</span>
+               </div>
+               <span class="font-mono text-[var(--text-muted)] shrink-0">${formatBytes(f.size)}</span>
             </div>
           `).join('');
         }
-      } catch (e) { showToast(siteConfig.serverCfg.msgNotFound || "未找到有效数据"); }
+      } catch (e) { showToast(siteConfig.serverCfg.msgNotFound || "未找到有效提取文件"); }
       finally { btn.disabled = false; btn.innerText = "提取数据"; }
     }
 
     async function handleDownloadAll() {
       $('btn-dl-all').disabled = true;
       for (let f of State.downloadList) {
-        const box = $('box-dl-progress'), bar = $('bar-dl-progress');
+        const box = $('box-dl-progress'), bar = $('bar-dl-progress'), pct = $('text-dl-pct');
         $('text-dl-filename').innerText = f.name;
         box.classList.replace('hidden', 'flex');
 
@@ -321,7 +452,10 @@
             const { done, value } = await reader.read();
             if (done) break;
             chunks.push(value); loaded += value.length;
-            if (total > 0) bar.style.width = Math.min(Math.round((loaded / total) * 100), 100) + '%';
+            if (total > 0) {
+              const p = Math.min(Math.round((loaded / total) * 100), 100);
+              bar.style.width = p + '%'; pct.innerText = p + '%';
+            }
           }
 
           const blobUrl = URL.createObjectURL(new Blob(chunks));
@@ -331,39 +465,52 @@
           await fetch(`${siteConfig.api.burn}?key=${encodeURIComponent(f.key)}`, { method: 'DELETE' });
         } finally { box.classList.replace('flex', 'hidden'); }
       }
-      setTimeout(() => location.reload(), 1000);
+      showToast("已完成提取并彻底销毁");
+      setTimeout(() => location.reload(), 1200);
     }
 
-    /* 管理后台逻辑 */
+    /* 后台 Tab 切换 */
     function switchAdminTab(tab) {
       const isUp = tab === 'upload';
       $('panel-admin-upload').classList.toggle('hidden', !isUp);
       $('panel-admin-manage').classList.toggle('hidden', isUp);
-      $('tab-btn-upload').className = isUp ? "px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
-      $('tab-btn-manage').className = !isUp ? "px-3 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "px-3 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
+      
+      const activeClass = "px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-700 shadow-sm";
+      const inactiveClass = "px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-[var(--text-muted)]";
+      $('tab-btn-upload').className = isUp ? activeClass : inactiveClass;
+      $('tab-btn-manage').className = !isUp ? activeClass : inactiveClass;
       if (!isUp) fetchAdminFileList();
     }
 
     function setTarget(tgt) {
       State.uploadTarget = tgt;
-      $('label-tgt-burn').className = tgt === 'burn' ? "ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60";
-      $('label-tgt-pub').className = tgt === 'public' ? "ui-card p-2 flex items-center gap-2 cursor-pointer border-[var(--accent)]" : "ui-card p-2 flex items-center gap-2 cursor-pointer opacity-60";
+      const btnBurn = $('btn-tgt-burn'), btnPub = $('btn-tgt-pub');
+      if (tgt === 'burn') {
+        btnBurn.className = "p-2.5 rounded-xl text-xs font-bold border border-blue-500 bg-blue-500/10 text-blue-500 transition-all flex flex-col items-center gap-1";
+        btnPub.className = "p-2.5 rounded-xl text-xs font-bold border border-[var(--card-border)] text-[var(--text-muted)] transition-all flex flex-col items-center gap-1";
+      } else {
+        btnPub.className = "p-2.5 rounded-xl text-xs font-bold border border-blue-500 bg-blue-500/10 text-blue-500 transition-all flex flex-col items-center gap-1";
+        btnBurn.className = "p-2.5 rounded-xl text-xs font-bold border border-[var(--card-border)] text-[var(--text-muted)] transition-all flex flex-col items-center gap-1";
+      }
     }
 
     function setMode(mode) {
       State.uploadMode = mode;
       $('area-upload-file').classList.toggle('hidden', mode !== 'file');
       $('area-upload-text').classList.toggle('hidden', mode !== 'text');
-      $('mode-btn-file').className = mode === 'file' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
-      $('mode-btn-text').className = mode === 'text' ? "flex-1 py-1 bg-[var(--bg-card)] rounded text-xs font-semibold" : "flex-1 py-1 text-[var(--text-sec)] rounded text-xs font-semibold";
+      const active = "flex-1 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 shadow-sm transition-all";
+      const inactive = "flex-1 py-1.5 rounded-lg text-xs font-bold text-[var(--text-muted)] transition-all";
+      $('mode-btn-file').className = mode === 'file' ? active : inactive;
+      $('mode-btn-text').className = mode === 'text' ? active : inactive;
     }
 
     function handleFileSelected(files) {
       State.selectedFiles = [...State.selectedFiles, ...Array.from(files)];
       $('file-preview-list').innerHTML = State.selectedFiles.map((f, i) => `
-        <div class="ui-card p-1 px-2 flex justify-between items-center text-xs">
-           <span class="truncate pr-1">${escapeHtml(f.name)}</span>
-           <button onclick="State.selectedFiles.splice(${i},1); handleFileSelected([])" class="text-[var(--text-sec)] hover:text-red-400">✕</button>
+        <div class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[var(--card-border)] flex items-center gap-1.5 border border-[var(--card-border)]">
+           <span class="truncate max-w-[120px]">${escapeHtml(f.name)}</span>
+           <span class="text-[9px] font-mono text-[var(--text-muted)]">(${formatBytes(f.size)})</span>
+           <button type="button" onclick="State.selectedFiles.splice(${i},1); handleFileSelected([])" class="text-[var(--text-muted)] hover:text-rose-500 font-bold ml-1">✕</button>
         </div>
       `).join('');
     }
@@ -374,10 +521,10 @@
 
       if (State.uploadMode === 'text') {
         const val = $('text-input').value.trim();
-        if (!val) return showToast('请输入文本内容');
+        if (!val) return showToast('请输入待分发的文本内容');
         queue = [new File([new Blob([val], { type: 'text/plain;charset=utf-8' })], siteConfig.serverCfg.textMessageFilename)];
       } else {
-        if (State.selectedFiles.length === 0) return showToast('请选择文件');
+        if (State.selectedFiles.length === 0) return showToast('请至少选择一个文件');
         queue = State.selectedFiles;
       }
 
@@ -389,7 +536,7 @@
         let code = 'N/A';
         if (!isPublic) {
           const cRes = await fetch(siteConfig.api.newCode);
-          if (!cRes.ok) throw new Error('提取码生成失败');
+          if (!cRes.ok) throw new Error('提取码申请失败');
           code = (await cRes.json()).code;
         }
 
@@ -400,7 +547,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename: f.name, size: f.size, code, isPublic })
           });
-          if (!preRes.ok) throw new Error('申请写入失败');
+          if (!preRes.ok) throw new Error('申请存储通道失败');
           const { url, key } = await preRes.json();
 
           await new Promise((resolve, reject) => {
@@ -412,8 +559,8 @@
                 bar.style.width = p + '%'; pct.innerText = p + '%';
               }
             };
-            xhr.onload = () => (xhr.status >= 200 && xhr.status < 300) ? resolve() : reject(new Error('传输失败'));
-            xhr.onerror = () => reject(new Error('网络连接中断'));
+            xhr.onload = () => (xhr.status >= 200 && xhr.status < 300) ? resolve() : reject(new Error('数据传输中断'));
+            xhr.onerror = () => reject(new Error('网络中断'));
             xhr.send(f);
           });
 
@@ -422,18 +569,17 @@
 
           if (isPublic) {
             const link = `${window.location.origin}${siteConfig.api.direct}?key=${encodeURIComponent(key)}`;
-            card.innerText = "直连链接";
+            card.innerHTML = `直连地址 <span class="block text-[9px] font-sans font-medium text-[var(--text-muted)] mt-1">点击复制</span>`;
             card.dataset.copy = link;
-            $('text-result-hint').innerHTML = `<span class="text-[var(--accent)] break-all">${escapeHtml(link)}</span>`;
+            $('text-result-hint').innerHTML = `下载直链：<span class="text-blue-500 break-all">${escapeHtml(link)}</span>`;
           } else {
-            card.innerText = code;
+            card.innerHTML = `${code} <span class="block text-[9px] font-sans font-medium text-[var(--text-muted)] mt-1">4位提取码 (点击复制)</span>`;
             card.dataset.copy = code;
-            card.classList.add('letter-spacing-code');
             const link = `${window.location.origin}/?code=${code}`;
-            $('text-result-hint').innerHTML = `提取链接：<span class="text-[var(--accent)] font-semibold">${escapeHtml(link)}</span>`;
+            $('text-result-hint').innerHTML = `访问提取：<span class="text-blue-500 font-semibold break-all">${escapeHtml(link)}</span>`;
           }
         }
-      } catch (e) { showToast(e.message || '上传失败'); }
+      } catch (e) { showToast(e.message || '上传异常'); }
       finally {
         State.isUploading = false; btn.disabled = false;
         box.classList.replace('flex', 'hidden'); bar.style.width = '0%';
@@ -442,14 +588,14 @@
 
     async function fetchAdminFileList() {
       const grid = $('admin-grid-list');
-      grid.innerHTML = '<div class="col-span-full py-6 text-center text-xs text-[var(--text-sec)] font-mono">加载中...</div>';
+      grid.innerHTML = '<div class="col-span-full py-8 text-center text-xs text-[var(--text-muted)] font-mono">加载存储清单中...</div>';
       try {
         const res = await fetch(siteConfig.api.adminList);
         const files = await res.json();
-        $('text-manage-count').innerText = `${files.length} 个文件`;
+        $('text-manage-count').innerText = `共 ${files.length} 个文件`;
 
         if (files.length === 0) {
-          grid.innerHTML = `<div class="col-span-full py-6 text-center text-xs text-[var(--text-sec)]">当前无存储文件</div>`;
+          grid.innerHTML = `<div class="col-span-full py-10 text-center text-xs text-[var(--text-muted)]">存储桶暂无文件</div>`;
           return;
         }
 
@@ -462,27 +608,29 @@
             : `${window.location.origin}/?code=${f.key.split('/')[0]}`;
 
           return `
-          <div class="ui-card p-3 flex flex-col justify-between gap-2">
-             <div class="flex flex-col gap-1">
-                <span class="text-[9px] font-bold px-1.5 py-0.5 border rounded w-max ${isPub ? 'border-[var(--border)] text-[var(--text-sec)]' : 'bg-[var(--accent)] text-white border-[var(--accent)]'}">${isPub ? '直连' : '即焚'}</span>
-                <span class="text-xs font-bold truncate mt-1" title="${escapeHtml(fname)}">${escapeHtml(fname)}</span>
-                <span class="text-[10px] text-[var(--text-sec)] font-mono">${formatBytes(f.size)}</span>
+          <div class="glass-card p-3.5 flex flex-col justify-between gap-3 group">
+             <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                   <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${isPub ? 'bg-indigo-500/10 text-indigo-500 border border-indigo-500/20' : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'}">${isPub ? '直连文件' : '即焚临时'}</span>
+                   <span class="text-[10px] font-mono text-[var(--text-muted)]">${formatBytes(f.size)}</span>
+                </div>
+                <span class="text-xs font-bold truncate mt-1 text-[var(--text-main)]" title="${escapeHtml(fname)}">${escapeHtml(fname)}</span>
              </div>
-             <div class="flex gap-1.5 mt-1">
-                <button onclick="copyText('${escapeHtml(link)}')" class="flex-1 text-[11px] font-semibold border border-[var(--border)] py-1 rounded hover:border-[var(--text-main)]">复制链接</button>
-                <button onclick="deleteFile('${escapeHtml(f.key)}')" class="text-[11px] font-semibold text-[var(--danger)] border border-red-500/20 py-1 px-2.5 rounded hover:bg-red-500 hover:text-white">销毁</button>
+             <div class="flex gap-2 pt-1 border-t border-[var(--card-border)]">
+                <button onclick="copyText('${escapeHtml(link)}')" class="flex-1 py-1.5 rounded-lg text-[11px] font-semibold bg-[var(--card-border)] hover:bg-blue-500 hover:text-white transition-all">复制链接</button>
+                <button onclick="deleteFile('${escapeHtml(f.key)}')" class="py-1.5 px-3 rounded-lg text-[11px] font-semibold text-rose-500 hover:bg-rose-500 hover:text-white transition-all">删除</button>
              </div>
           </div>`;
         }).join('');
-      } catch (e) { grid.innerHTML = '<div class="col-span-full py-6 text-center text-xs text-red-400">拉取列表失败</div>'; }
+      } catch (e) { grid.innerHTML = '<div class="col-span-full py-8 text-center text-xs text-rose-400">拉取列表异常，请重试</div>'; }
     }
 
     async function deleteFile(key) {
-      if (!confirm("确定彻底销毁此文件？")) return;
+      if (!confirm("确定要永久销毁此文件吗？")) return;
       try {
         const res = await fetch(`${siteConfig.api.delete}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
         if (res.ok) { showToast("已彻底销毁"); fetchAdminFileList(); }
-      } catch (e) { showToast("删除失败"); }
+      } catch (e) { showToast("销毁请求失败"); }
     }
 
     function resetAdminForm() {
@@ -492,7 +640,7 @@
       $('modal-upload-success').classList.replace('flex', 'hidden');
     }
 
-    // 启动 App
+    // 运行应用
     initApp();
   </script>
 </body>
