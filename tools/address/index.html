@@ -293,7 +293,7 @@
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
             --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.7);
+            --glass-border: #e5e7eb;
             --card-bg: #ffffff;
             --card-hover: #f8f8fa;
             --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.06);
@@ -302,42 +302,6 @@
             --glow-2: #fce7f3;
 
             --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2386868b' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #000000;
-                --text-primary: #f5f5f7;
-                --text-secondary: #86868b;
-                --glass-bg: rgba(28, 28, 30, 0.82);
-                --glass-border: rgba(255, 255, 255, 0.12);
-                --card-bg: #2c2c2e;
-                --card-hover: #3a3a3c;
-                --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
-                --accent: #0a84ff;
-                --glow-1: #1a2a40;
-                --glow-2: #3a1a28;
-
-                --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2398989d' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-            }
-
-            .modal-overlay {
-                background: rgba(0, 0, 0, 0.6) !important;
-            }
-
-            .modal-box {
-                background: #2c2c2e !important;
-            }
-
-            .modal-btn-cancel {
-                background: #3a3a3c !important;
-                color: #f5f5f7 !important;
-            }
-
-            .modal-btn-confirm {
-                background: #0a84ff !important;
-                color: #ffffff !important;
-            }
         }
 
         * {
@@ -370,20 +334,29 @@
             position: relative;
 
             -webkit-tap-highlight-color: transparent;
-
-            transition:
-                background-color 0.3s ease,
-                color 0.3s ease;
         }
 
-        /* 嵌入博客时自动去除多余上下留白，保持原卡片上下结构 */
+        /* 嵌入博客时：纯白背景覆盖 Notion 默认灰底，顶部对齐消除底部灰色空白 */
         body.embedded {
             min-height: auto;
-            background: transparent;
-            padding: 4px;
+            background-color: #ffffff;
+            align-items: flex-start;
+            padding: 0;
         }
         body.embedded .ambient-bg {
             display: none;
+        }
+        body.embedded .glass-container {
+            max-width: 100%;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            box-shadow: none;
+            padding: 12px;
+        }
+        body.embedded .info-row {
+            background: #f8f9fa;
+            border: 1px solid #eef0f2;
         }
 
         .ambient-bg {
@@ -425,7 +398,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 20px;
 
-            padding: 1rem 0.9rem 0.9rem 0.9rem;
+            padding: 0.85rem;
 
             box-shadow: var(--shadow-sm);
 
@@ -452,15 +425,15 @@
         h2 {
             text-align: center;
             margin: 0 0 2px 0;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .brand-subtitle {
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .brand-subtitle a {
@@ -476,7 +449,7 @@
         select.region-select {
             width: 100%;
 
-            padding: 8px 10px;
+            padding: 7px 10px;
 
             font-size: 0.85rem;
             font-weight: 600;
@@ -487,7 +460,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 10px;
 
-            margin-bottom: 8px;
+            margin-bottom: 6px;
 
             outline: none;
             cursor: pointer;
@@ -511,20 +484,20 @@
         button.generate-btn {
             width: 100%;
 
-            padding: 10px;
+            padding: 9px;
 
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
 
             background: var(--text-primary);
-            color: var(--bg-color);
+            color: #ffffff;
 
             border: none;
             border-radius: 10px;
 
             cursor: pointer;
 
-            margin-bottom: 8px;
+            margin-bottom: 6px;
 
             transition: all 0.2s ease;
 
@@ -544,7 +517,7 @@
         .info-list {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
         }
 
         .info-row {
@@ -552,7 +525,7 @@
             align-items: center;
             justify-content: space-between;
 
-            padding: 7px 10px;
+            padding: 6px 10px;
 
             background: var(--card-bg);
 
@@ -591,7 +564,7 @@
         }
 
         .value {
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             color: var(--text-primary);
 
             font-weight: 600;
@@ -623,15 +596,15 @@
         }
 
         .copy-btn {
-            padding: 4px 11px;
+            padding: 4px 10px;
 
             font-size: 0.72rem;
             font-weight: 600;
 
-            background: var(--bg-color);
+            background: #ffffff;
             color: var(--text-primary);
 
-            border: 1px solid var(--glass-border);
+            border: 1px solid #d1d5db;
 
             border-radius: 99px;
 
@@ -644,7 +617,7 @@
 
         .copy-btn:hover {
             background: var(--text-primary);
-            color: var(--bg-color);
+            color: #ffffff;
         }
 
         .copy-btn:active {
@@ -671,7 +644,7 @@
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
 
-            border-radius: 20px;
+            border-radius: 14px;
 
             display: flex;
             align-items: center;
@@ -769,7 +742,7 @@
 
         .modal-btn-confirm {
             background: var(--text-primary);
-            color: var(--bg-color);
+            color: #ffffff;
 
             border: none;
         }
@@ -782,12 +755,13 @@
             body {
                 padding: 24px;
             }
+            body.embedded {
+                padding: 0;
+            }
 
             .glass-container {
                 max-width: 450px;
-
                 padding: 1.25rem;
-
                 border-radius: 22px;
             }
 
@@ -803,24 +777,16 @@
 
             select.region-select {
                 padding: 10px 12px;
-
                 font-size: 0.88rem;
-
                 margin-bottom: 10px;
-
                 border-radius: 12px;
-
-                background-position:
-                    right 10px center;
+                background-position: right 10px center;
             }
 
             button.generate-btn {
                 padding: 11px;
-
                 font-size: 0.95rem;
-
                 margin-bottom: 12px;
-
                 border-radius: 12px;
             }
 
@@ -883,7 +849,7 @@
 </div>
 
 <script>
-// 识别是否在博客嵌入框中，自动去除 100vh 多余留白
+// 识别是否在博客嵌入框中，自动去除多余留白与灰底
 if (window.self !== window.top) {
     document.body.classList.add("embedded");
 }
