@@ -12,291 +12,57 @@
     <meta property="og:description" id="og-desc" content="">
     <meta property="og:type" content="website">
 
-    <script>
-    // ==================== 顶部配置区（修改内容只需改这里） ====================
-    const siteConfig = {
-        pageTitle: "外区ID地址生成器 | 小闻说",
-        brandName: "小闻说",
-        homeUrl: "https://www.xwsay.com",
-        faviconUrl: "https://www.xwsay.com/favicon.ico",
-        ogDescription: "极简外区ID真实地址生成工具，支持美区免税州、英区、日区、港区、新区与加区，自动保存与一键复制。",
-        confirmTitle: "重新生成地址？",
-        confirmText: "生成新地址后，当前显示的地址信息将被覆盖。",
-        btnConfirmText: "确定生成",
-        btnCancelText: "取消",
-
-        regions: [
-            {
-                id: "US",
-                name: "🇺🇸 美区免税州",
-                stateLabel: "州全称",
-                zipLabel: "邮编",
-                firstNames: [
-                    "James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph",
-                    "Thomas", "Charles", "Christopher", "Daniel", "Matthew", "Anthony", "Mark",
-                    "Donald", "Steven", "Paul", "Andrew", "Joshua", "Mary", "Patricia", "Jennifer",
-                    "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Karen"
-                ],
-                lastNames: [
-                    "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
-                    "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson",
-                    "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White"
-                ],
-                subdivisions: [
-                    {
-                        name: "Delaware",
-                        cnName: "特拉华州 (DE)",
-                        cities: [
-                            { name: "Wilmington", zip: "19801", streets: ["Market St", "King St", "French St", "Tatnall St", "Orange St", "Walnut St"], areaCodes: ["302"] },
-                            { name: "Wilmington", zip: "19805", streets: ["Lancaster Ave", "Union St", "Maryland Ave", "Scott St", "Elmwood Ave"], areaCodes: ["302"] },
-                            { name: "Newark", zip: "19711", streets: ["Main St", "South College Ave", "Academy St", "Chapel St", "Park Pl"], areaCodes: ["302"] },
-                            { name: "Newark", zip: "19713", streets: ["Ogletown Rd", "Library Ave", "Possum Park Rd", "Barksdale Rd"], areaCodes: ["302"] },
-                            { name: "Dover", zip: "19901", streets: ["S State St", "N State St", "Loockerman St", "Walker Rd", "Forest St"], areaCodes: ["302"] },
-                            { name: "Dover", zip: "19904", streets: ["Webbs Ln", "College Rd", "Kings Hwy", "Hazlettville Rd"], areaCodes: ["302"] },
-                            { name: "Middletown", zip: "19709", streets: ["Main St", "Broad St", "Middletown Warwick Rd", "Levels Rd"], areaCodes: ["302"] },
-                            { name: "Bear", zip: "19701", streets: ["Pulaski Hwy", "Summit Bridge Rd", "Red Lion Rd", "Wrangle Hill Rd"], areaCodes: ["302"] }
-                        ]
-                    },
-                    {
-                        name: "Oregon",
-                        cnName: "俄勒冈州 (OR)",
-                        cities: [
-                            { name: "Portland", zip: "97204", streets: ["SW 5th Ave", "SW 6th Ave", "SW Morrison St", "SW Yamhill St", "SW Taylor St"], areaCodes: ["503", "971"] },
-                            { name: "Portland", zip: "97209", streets: ["NW 10th Ave", "NW 11th Ave", "NW Glisan St", "NW Hoyt St", "NW Everett St"], areaCodes: ["503", "971"] },
-                            { name: "Portland", zip: "97214", streets: ["SE Belmont St", "SE Morrison St", "SE Hawthorne Blvd", "SE Stark St"], areaCodes: ["503", "971"] },
-                            { name: "Salem", zip: "97301", streets: ["State St", "Chemeketa St", "Center St", "Marion St", "Commercial St"], areaCodes: ["503", "971"] },
-                            { name: "Salem", zip: "97302", streets: ["12th St SE", "25th St SE", "Mission St SE", "River Rd S"], areaCodes: ["503", "971"] },
-                            { name: "Eugene", zip: "97401", streets: ["Willamette St", "Oak St", "Pearl St", "Charnelton St", "Coburg Rd"], areaCodes: ["541", "458"] },
-                            { name: "Eugene", zip: "97402", streets: ["W 11th Ave", "W 18th Ave", "Barger Dr", "Royal Ave", "Garfield St"], areaCodes: ["541", "458"] },
-                            { name: "Gresham", zip: "97030", streets: ["NE Burnside Rd", "SE Stark St", "Division St", "NW 2nd St"], areaCodes: ["503", "971"] },
-                            { name: "Hillsboro", zip: "97124", streets: ["NE Cornell Rd", "SE Baseline Rd", "NE 25th Ave", "Main St"], areaCodes: ["503", "971"] },
-                            { name: "Beaverton", zip: "97005", streets: ["SW Hall Blvd", "SW Watson Ave", "Canyon Rd", "Farmington Rd"], areaCodes: ["503", "971"] }
-                        ]
-                    },
-                    {
-                        name: "New Hampshire",
-                        cnName: "新罕布什尔州 (NH)",
-                        cities: [
-                            { name: "Manchester", zip: "03101", streets: ["Elm St", "Main St", "Bridge St", "Chestnut St", "Hanover St"], areaCodes: ["603"] },
-                            { name: "Manchester", zip: "03103", streets: ["S Mammoth Rd", "Brown Ave", "Wilson St", "Calef Rd", "Second St"], areaCodes: ["603"] },
-                            { name: "Nashua", zip: "03060", streets: ["Main St", "East Pearl St", "Temple St", "Canal St", "Concord St"], areaCodes: ["603"] },
-                            { name: "Nashua", zip: "03062", streets: ["Amherst St", "Daniel Webster Hwy", "Spit Brook Rd", "Royal Oak Dr"], areaCodes: ["603"] },
-                            { name: "Concord", zip: "03301", streets: ["S Main St", "Pleasant St", "Centre St", "Airport Rd", "Loudon Rd"], areaCodes: ["603"] },
-                            { name: "Derry", zip: "03038", streets: ["East Broadway", "Crystal Ave", "Birch St", "Rockingham Rd"], areaCodes: ["603"] },
-                            { name: "Rochester", zip: "03867", streets: ["Main St", "Wakefield St", "Washington St", "Union St"], areaCodes: ["603"] }
-                        ]
-                    },
-                    {
-                        name: "Montana",
-                        cnName: "蒙大拿州 (MT)",
-                        cities: [
-                            { name: "Billings", zip: "59101", streets: ["Grand Ave", "Broadwater Ave", "Central Ave", "Main St", "N 27th St"], areaCodes: ["406"] },
-                            { name: "Billings", zip: "59102", streets: ["King Ave", "Poly Dr", "Broadway", "Shiloh Rd"], areaCodes: ["406"] },
-                            { name: "Missoula", zip: "59801", streets: ["Higgins Ave", "Brooks St", "Russell St", "Orange St", "Main St"], areaCodes: ["406"] },
-                            { name: "Great Falls", zip: "59401", streets: ["Central Ave", "1st Ave S", "2nd Ave N", "Park Dr"], areaCodes: ["406"] },
-                            { name: "Bozeman", zip: "59715", streets: ["Main St", "7th Ave", "Willson Ave", "College St"], areaCodes: ["406"] },
-                            { name: "Butte", zip: "59701", streets: ["W Park St", "Main St", "Montana St", "Arizona St"], areaCodes: ["406"] }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "UK",
-                name: "🇬🇧 英国 (United Kingdom)",
-                stateLabel: "郡/地区",
-                zipLabel: "邮编",
-                firstNames: ["Oliver", "George", "Harry", "Noah", "Jack", "Amelia", "Olivia", "Isla", "Emily", "Ava"],
-                lastNames: ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies"],
-                generatePhone: () => {
-                    const local = `7${Math.floor(100000000 + Math.random() * 900000000)}`;
-                    return { display: `+44 ${local}`, copy: local };
-                },
-                subdivisions: [
-                    {
-                        name: "Greater London",
-                        cnName: "大伦敦",
-                        cities: [
-                            { name: "London", zip: "EC1A 1BB", streets: ["High Holborn", "Fleet St", "Oxford St", "Regent St", "Baker St", "Strand"] },
-                            { name: "Westminster", zip: "SW1A 2AB", streets: ["Victoria St", "Whitehall", "Piccadilly", "Pall Mall", "Horseferry Rd"] }
-                        ]
-                    },
-                    {
-                        name: "Greater Manchester",
-                        cnName: "大曼彻斯特",
-                        cities: [
-                            { name: "Manchester", zip: "M1 1AG", streets: ["Deansgate", "Market St", "Portland St", "Oxford Rd", "Peter St"] },
-                            { name: "Salford", zip: "M5 4WT", streets: ["Chapel St", "Regent Rd", "Cross Ln", "Eccles New Rd"] }
-                        ]
-                    },
-                    {
-                        name: "West Midlands",
-                        cnName: "西米德兰兹",
-                        cities: [
-                            { name: "Birmingham", zip: "B1 1BB", streets: ["New St", "Corporation St", "Colmore Row", "Broad St", "Moor St"] }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "JP",
-                name: "🇯🇵 日本 (Japan)",
-                stateLabel: "都道府县",
-                zipLabel: "郵便番号",
-                firstNames: ["Ren", "Hiroto", "Sota", "Yuma", "Minato", "Hana", "Himari", "Aoi", "Yuna", "Ichika"],
-                lastNames: ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura"],
-                generatePhone: () => {
-                    const prefix = ["90", "80", "70"][Math.floor(Math.random() * 3)];
-                    const p1 = Math.floor(1000 + Math.random() * 9000);
-                    const p2 = Math.floor(1000 + Math.random() * 9000);
-                    return { display: `+81 ${prefix}-${p1}-${p2}`, copy: `0${prefix}${p1}${p2}` };
-                },
-                subdivisions: [
-                    {
-                        name: "東京都",
-                        cnName: "东京都",
-                        cities: [
-                            { name: "新宿区", zip: "160-0022", streets: ["新宿", "歌舞伎町", "西新宿", "大久保", "百人町"] },
-                            { name: "渋谷区", zip: "150-0002", streets: ["渋谷", "道玄坂", "宇田川町", "神南", "恵比寿"] },
-                            { name: "千代田区", zip: "100-0001", streets: ["千代田", "丸の内", "大手町", "神田神保町", "霞が関"] }
-                        ]
-                    },
-                    {
-                        name: "大阪府",
-                        cnName: "大阪府",
-                        cities: [
-                            { name: "大阪市北区", zip: "530-0001", streets: ["梅田", "中之島", "曾根崎", "天神橋", "堂岛"] },
-                            { name: "大阪市中央区", zip: "542-0081", streets: ["南船場", "心斎橋筋", "道顿堀", "難波", "本町"] }
-                        ]
-                    },
-                    {
-                        name: "神奈川県",
-                        cnName: "神奈川县",
-                        cities: [
-                            { name: "横浜市中区", zip: "231-0001", streets: ["本町", "山下町", "元町", "海岸通", "日本大通"] }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "HK",
-                name: "🇭🇰 中国香港 (Hong Kong)",
-                stateLabel: "区域",
-                zipLabel: "邮编",
-                firstNames: ["Ka Ho", "Wai Kit", "Sze Man", "Wing Yan", "Chun Kit", "Tsz Ching", "Lok Yi"],
-                lastNames: ["Chan", "Lee", "Cheung", "Wong", "Lau", "Leung", "Ng", "Lam"],
-                generatePhone: () => {
-                    const prefix = ["5", "6", "9"][Math.floor(Math.random() * 3)];
-                    const local = `${prefix}${Math.floor(1000000 + Math.random() * 9000000)}`;
-                    return { display: `+852 ${local}`, copy: local };
-                },
-                subdivisions: [
-                    {
-                        name: "香港岛",
-                        cnName: "香港岛",
-                        cities: [
-                            { name: "中环", zip: "999077", streets: ["Queen's Rd Central", "Des Voeux Rd Central", "Connaught Rd Central", "Wellington St"] },
-                            { name: "湾仔", zip: "999077", streets: ["Hennessy Rd", "Lockhart Rd", "Johnston Rd", "Gloucester Rd"] },
-                            { name: "铜锣湾", zip: "999077", streets: ["Causeway Rd", "Yee Wo St", "Percival St", "Paterson St"] }
-                        ]
-                    },
-                    {
-                        name: "九龙",
-                        cnName: "九龙",
-                        cities: [
-                            { name: "旺角", zip: "999077", streets: ["Nathan Rd", "Argyle St", "Sai Yeung Choi St", "Mong Kok Rd"] },
-                            { name: "尖沙咀", zip: "999077", streets: ["Canton Rd", "Salisbury Rd", "Granville Rd", "Kimberley Rd"] },
-                            { name: "观塘", zip: "999077", streets: ["Kwun Tong Rd", "Hoi Yuen Rd", "Hung To Rd", "How Ming St"] }
-                        ]
-                    },
-                    {
-                        name: "新界",
-                        cnName: "新界",
-                        cities: [
-                            { name: "沙田", zip: "999077", streets: ["Sha Tin Centre St", "Yuen Wo Rd", "Tai Po Rd Sha Tin"] },
-                            { name: "屯门", zip: "999077", streets: ["Tuen Mun Heung Sze Wui Rd", "Tuen Lung St", "Pui To Rd"] }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "SG",
-                name: "🇸🇬 新加坡 (Singapore)",
-                stateLabel: "区域",
-                zipLabel: "邮编",
-                firstNames: ["Wei Ming", "Jia Jun", "Xing Yu", "Chloe", "Ethan", "Lucas", "Hannah"],
-                lastNames: ["Tan", "Lim", "Lee", "Ng", "Ong", "Wong", "Chua"],
-                generatePhone: () => {
-                    const prefix = ["8", "9"][Math.floor(Math.random() * 2)];
-                    const local = `${prefix}${Math.floor(1000000 + Math.random() * 9000000)}`;
-                    return { display: `+65 ${local}`, copy: local };
-                },
-                subdivisions: [
-                    {
-                        name: "Central Region",
-                        cnName: "中部地区",
-                        cities: [
-                            { name: "Singapore", zip: "238801", streets: ["Orchard Rd", "Somerset Rd", "Grange Rd", "Paterson Rd"] },
-                            { name: "Singapore", zip: "018980", streets: ["Marina Blvd", "Raffles Ave", "Shenton Way", "Battery Rd"] }
-                        ]
-                    },
-                    {
-                        name: "East Region",
-                        cnName: "东部地区",
-                        cities: [
-                            { name: "Singapore", zip: "529510", streets: ["Tampines Ave 4", "Tampines Ave 5", "Simei St 1", "Changi Rd"] }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "CA",
-                name: "🇨🇦 加拿大 (Canada)",
-                stateLabel: "省份",
-                zipLabel: "邮编",
-                firstNames: ["Liam", "Noah", "Jackson", "Lucas", "Oliver", "Emma", "Olivia", "Ava"],
-                lastNames: ["Smith", "Brown", "Tremblay", "Martin", "Roy", "Wilson", "Macdonald"],
-                subdivisions: [
-                    {
-                        name: "Ontario",
-                        cnName: "安大略省",
-                        cities: [
-                            { name: "Toronto", zip: "M5V 2T6", streets: ["Yonge St", "Queen St W", "King St W", "Front St W", "Bay St"], areaCodes: ["416", "647"] },
-                            { name: "Ottawa", zip: "K1P 1J1", streets: ["Wellington St", "Bank St", "Elgin St", "Rideau St"], areaCodes: ["613", "343"] }
-                        ]
-                    },
-                    {
-                        name: "British Columbia",
-                        cnName: "不列颠哥伦比亚省",
-                        cities: [
-                            { name: "Vancouver", zip: "V6B 1A1", streets: ["Robson St", "W Georgia St", "Granville St", "Burrard St"], areaCodes: ["604", "778"] },
-                            { name: "Victoria", zip: "V8W 1P6", streets: ["Government St", "Douglas St", "Fort St", "Yates St"], areaCodes: ["250", "778"] }
-                        ]
-                    },
-                    {
-                        name: "Alberta",
-                        cnName: "艾伯塔省",
-                        cities: [
-                            { name: "Calgary", zip: "T2P 1J9", streets: ["8 Ave SW", "7 Ave SW", "Macleod Trail", "Centre St S"], areaCodes: ["403", "587"] },
-                            { name: "Edmonton", zip: "T5J 0N3", streets: ["Jasper Ave", "104 St NW", "Whyte Ave"], areaCodes: ["780", "587"] }
-                        ]
-                    }
-                ]
-            }
-        ]
-    };
-    // ==================== 配置区结束（下方底层代码无需修改） ====================
-    </script>
-
     <style>
         :root {
-            --bg-color: #f5f5f7;
+            --bg-color: #f2f2f7;
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.7);
             --card-bg: #ffffff;
-            --card-hover: #fafafa;
-            --border-color: #e5e5ea;
+            --card-hover: #f8f8fa;
+            --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.06);
             --accent: #0071e3;
+            --glow-1: #e0eaff;
+            --glow-2: #fce7f3;
+
             --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2386868b' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --text-primary: #f5f5f7;
+                --text-secondary: #86868b;
+                --glass-bg: rgba(28, 28, 30, 0.82);
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --card-bg: #2c2c2e;
+                --card-hover: #3a3a3c;
+                --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
+                --accent: #0a84ff;
+                --glow-1: #1a2a40;
+                --glow-2: #3a1a28;
+
+                --select-arrow: url("data:image/svg+xml;utf8,<svg fill='%2398989d' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            }
+
+            .modal-overlay {
+                background: rgba(0, 0, 0, 0.6) !important;
+            }
+
+            .modal-box {
+                background: #2c2c2e !important;
+            }
+
+            .modal-btn-cancel {
+                background: #3a3a3c !important;
+                color: #f5f5f7 !important;
+            }
+
+            .modal-btn-confirm {
+                background: #0a84ff !important;
+                color: #ffffff !important;
+            }
         }
 
         * {
@@ -306,71 +72,102 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Text",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
             background-color: var(--bg-color);
             color: var(--text-primary);
+
             min-height: 100vh;
+            min-height: 100dvh;
+
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
-            -webkit-tap-highlight-color: transparent;
-        }
 
-        /* 嵌入 NotionNext 博客时：完全扁平化融入，无外边框和多余阴影 */
-        body.embedded {
-            min-height: auto;
-            background-color: #ffffff;
-            align-items: flex-start;
-            padding: 0;
-        }
-        body.embedded .ambient-bg {
-            display: none;
-        }
-        body.embedded .glass-container {
-            max-width: 100%;
-            background: #ffffff;
-            border: none;
-            box-shadow: none;
-            padding: 4px 0;
-        }
-        body.embedded .info-row {
-            background: #fbfbfd;
-            border: 1px solid #f2f2f7;
-        }
-        body.embedded .info-row:hover {
-            background: #f5f5f7;
-            border-color: #e5e5ea;
+            padding: 12px;
+
+            position: relative;
+
+            -webkit-tap-highlight-color: transparent;
+
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease;
         }
 
         .ambient-bg {
             position: fixed;
             top: 0;
             left: 0;
+
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at 20% 20%, #e0eaff 0%, transparent 40%),
-                        radial-gradient(circle at 80% 80%, #fce7f3 0%, transparent 40%);
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    var(--glow-1) 0%,
+                    transparent 40%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    var(--glow-2) 0%,
+                    transparent 40%
+                );
+
             filter: blur(60px);
             opacity: 0.85;
+
             z-index: -1;
             pointer-events: none;
         }
 
         .glass-container {
             width: 100%;
-            max-width: 460px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            max-width: 420px;
+
+            background: var(--glass-bg);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 1.25rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+            padding: 1rem 0.9rem 0.9rem 0.9rem;
+
+            box-shadow: var(--shadow-sm);
+
+            animation:
+                slideUpFade 0.4s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                both;
+
+            position: relative;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
             text-align: center;
-            margin: 0 0 4px 0;
-            font-size: 1.1rem;
+            margin: 0 0 2px 0;
+            font-size: 1.05rem;
             font-weight: 600;
         }
 
@@ -378,7 +175,7 @@
             text-align: center;
             font-size: 0.75rem;
             color: var(--text-secondary);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .brand-subtitle a {
@@ -393,44 +190,61 @@
 
         select.region-select {
             width: 100%;
-            padding: 10px 12px;
-            font-size: 0.9rem;
+
+            padding: 8px 10px;
+
+            font-size: 0.85rem;
             font-weight: 600;
-            background: #fbfbfd;
+
+            background: var(--card-bg);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 10px;
+
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+
+            margin-bottom: 8px;
+
             outline: none;
             cursor: pointer;
+
             appearance: none;
             -webkit-appearance: none;
+
             background-image: var(--select-arrow);
             background-repeat: no-repeat;
-            background-position: right 12px center;
+            background-position: right 8px center;
             background-size: 16px;
+
             transition: all 0.2s ease;
         }
 
         select.region-select:focus {
             border-color: var(--accent);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
         }
 
         button.generate-btn {
             width: 100%;
-            padding: 11px;
-            font-size: 0.95rem;
+
+            padding: 10px;
+
+            font-size: 0.9rem;
             font-weight: 600;
+
             background: var(--text-primary);
-            color: #ffffff;
+            color: var(--bg-color);
+
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
+
             cursor: pointer;
-            margin-bottom: 12px;
+
+            margin-bottom: 8px;
+
             transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         button.generate-btn:hover {
@@ -445,49 +259,63 @@
         .info-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .info-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 14px;
-            background: #fbfbfd;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
+
+            padding: 7px 10px;
+
+            background: var(--card-bg);
+
+            border-radius: 10px;
+
+            border: 1px solid var(--glass-border);
+
+            transition:
+                background-color 0.2s ease;
         }
 
         .info-row:hover {
-            background: #f5f5f7;
-            border-color: #d1d1d6;
+            background: var(--card-hover);
         }
 
         .info-content {
             display: flex;
             flex-direction: column;
+
             flex: 1;
             overflow: hidden;
-            padding-right: 10px;
+
+            padding-right: 8px;
         }
 
         .label {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             color: var(--text-secondary);
-            margin-bottom: 2px;
+
+            margin-bottom: 1px;
+
             font-weight: 600;
+
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
 
         .value {
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             color: var(--text-primary);
+
             font-weight: 600;
+
             white-space: nowrap;
             overflow: hidden;
+
             text-overflow: ellipsis;
+
             display: flex;
             align-items: center;
         }
@@ -496,34 +324,36 @@
             color: var(--text-secondary);
             font-size: 0.85em;
             font-weight: 400;
-            margin-left: 6px;
-            user-select: none;
-        }
 
-        .btn-group {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
+            margin-left: 6px;
+
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .copy-btn {
-            padding: 5px 12px;
-            font-size: 0.78rem;
+            padding: 4px 11px;
+
+            font-size: 0.72rem;
             font-weight: 600;
-            background: #ffffff;
+
+            background: var(--bg-color);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
+
+            border: 1px solid var(--glass-border);
+
             border-radius: 99px;
+
             cursor: pointer;
+
             transition: all 0.15s ease;
+
             flex-shrink: 0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }
 
         .copy-btn:hover {
             background: var(--text-primary);
-            color: #ffffff;
-            border-color: var(--text-primary);
+            color: var(--bg-color);
         }
 
         .copy-btn:active {
@@ -538,20 +368,30 @@
 
         .modal-overlay {
             position: absolute;
+
             top: 0;
             left: 0;
+
             width: 100%;
             height: 100%;
+
             background: rgba(0, 0, 0, 0.3);
+
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
+
             border-radius: 20px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             opacity: 0;
+
             pointer-events: none;
+
             transition: opacity 0.2s ease;
+
             z-index: 100;
         }
 
@@ -562,15 +402,25 @@
 
         .modal-box {
             background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.25rem;
+
+            border: 1px solid var(--glass-border);
+
+            border-radius: 14px;
+
+            padding: 1.1rem;
+
             width: 85%;
-            max-width: 300px;
+            max-width: 290px;
+
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.15);
+
             transform: scale(0.92);
-            transition: transform 0.2s ease;
+
+            transition:
+                transform 0.2s ease;
         }
 
         .modal-overlay.active .modal-box {
@@ -578,17 +428,21 @@
         }
 
         .modal-title {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 600;
-            margin-bottom: 6px;
+
+            margin-bottom: 4px;
+
             color: var(--text-primary);
         }
 
         .modal-desc {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-secondary);
-            margin-bottom: 14px;
-            line-height: 1.4;
+
+            margin-bottom: 12px;
+
+            line-height: 1.35;
         }
 
         .modal-actions {
@@ -598,41 +452,384 @@
 
         .modal-btn {
             flex: 1;
-            padding: 9px;
-            font-size: 0.85rem;
+
+            padding: 8px;
+
+            font-size: 0.82rem;
             font-weight: 600;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+
+            border-radius: 8px;
+
+            border: 1px solid var(--glass-border);
+
             cursor: pointer;
+
             transition: all 0.2s;
         }
 
         .modal-btn-cancel {
-            background: #f5f5f7;
+            background: var(--bg-color);
             color: var(--text-primary);
         }
 
         .modal-btn-cancel:hover {
-            background: #e5e5ea;
+            opacity: 0.85;
         }
 
         .modal-btn-confirm {
             background: var(--text-primary);
-            color: #ffffff;
+            color: var(--bg-color);
+
             border: none;
         }
 
         .modal-btn-confirm:hover {
             opacity: 0.9;
         }
+
+        @media (min-width: 640px) {
+            body {
+                padding: 24px;
+            }
+
+            .glass-container {
+                max-width: 450px;
+
+                padding: 1.25rem;
+
+                border-radius: 22px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+                margin-bottom: 3px;
+            }
+
+            .brand-subtitle {
+                font-size: 0.8rem;
+                margin-bottom: 12px;
+            }
+
+            select.region-select {
+                padding: 10px 12px;
+
+                font-size: 0.88rem;
+
+                margin-bottom: 10px;
+
+                border-radius: 12px;
+
+                background-position:
+                    right 10px center;
+            }
+
+            button.generate-btn {
+                padding: 11px;
+
+                font-size: 0.95rem;
+
+                margin-bottom: 12px;
+
+                border-radius: 12px;
+            }
+
+            .info-list {
+                gap: 8px;
+            }
+
+            .info-row {
+                padding: 9px 14px;
+                border-radius: 12px;
+            }
+
+            .label {
+                font-size: 0.65rem;
+                margin-bottom: 2px;
+            }
+
+            .value {
+                font-size: 0.95rem;
+            }
+
+            .copy-btn {
+                padding: 5px 14px;
+                font-size: 0.78rem;
+            }
+        }
     </style>
 </head>
 
 <body>
 
+<script>
+const siteConfig = {
+    pageTitle: "外区ID地址生成器 | 小闻说",
+    brandName: "小闻说",
+    homeUrl: "https://www.xwsay.com",
+    faviconUrl: "https://www.xwsay.com/favicon.ico",
+    ogDescription: "极简外区ID真实地址生成工具，支持美区免税州、英区、日区、港区、新区与加区，自动保存与一键复制。",
+    confirmTitle: "重新生成地址？",
+    confirmText: "生成新地址后，当前显示的地址信息将被覆盖。",
+    btnConfirmText: "确定生成",
+    btnCancelText: "取消",
+
+    regions: [
+        {
+            id: "US",
+            name: "🇺🇸 美区免税州",
+            stateLabel: "州全称",
+            zipLabel: "邮编",
+            firstNames: [
+                "James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph",
+                "Thomas", "Charles", "Christopher", "Daniel", "Matthew", "Anthony", "Mark",
+                "Donald", "Steven", "Paul", "Andrew", "Joshua", "Mary", "Patricia", "Jennifer",
+                "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Karen"
+            ],
+            lastNames: [
+                "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
+                "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson",
+                "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White"
+            ],
+            subdivisions: [
+                {
+                    name: "Delaware",
+                    cnName: "特拉华州 (DE)",
+                    cities: [
+                        { name: "Wilmington", zip: "19801", streets: ["Market St", "King St", "French St", "Tatnall St", "Orange St", "Walnut St"], areaCodes: ["302"] },
+                        { name: "Wilmington", zip: "19805", streets: ["Lancaster Ave", "Union St", "Maryland Ave", "Scott St", "Elmwood Ave"], areaCodes: ["302"] },
+                        { name: "Newark", zip: "19711", streets: ["Main St", "South College Ave", "Academy St", "Chapel St", "Park Pl"], areaCodes: ["302"] },
+                        { name: "Newark", zip: "19713", streets: ["Ogletown Rd", "Library Ave", "Possum Park Rd", "Barksdale Rd"], areaCodes: ["302"] },
+                        { name: "Dover", zip: "19901", streets: ["S State St", "N State St", "Loockerman St", "Walker Rd", "Forest St"], areaCodes: ["302"] },
+                        { name: "Dover", zip: "19904", streets: ["Webbs Ln", "College Rd", "Kings Hwy", "Hazlettville Rd"], areaCodes: ["302"] },
+                        { name: "Middletown", zip: "19709", streets: ["Main St", "Broad St", "Middletown Warwick Rd", "Levels Rd"], areaCodes: ["302"] },
+                        { name: "Bear", zip: "19701", streets: ["Pulaski Hwy", "Summit Bridge Rd", "Red Lion Rd", "Wrangle Hill Rd"], areaCodes: ["302"] }
+                    ]
+                },
+                {
+                    name: "Oregon",
+                    cnName: "俄勒冈州 (OR)",
+                    cities: [
+                        { name: "Portland", zip: "97204", streets: ["SW 5th Ave", "SW 6th Ave", "SW Morrison St", "SW Yamhill St", "SW Taylor St"], areaCodes: ["503", "971"] },
+                        { name: "Portland", zip: "97209", streets: ["NW 10th Ave", "NW 11th Ave", "NW Glisan St", "NW Hoyt St", "NW Everett St"], areaCodes: ["503", "971"] },
+                        { name: "Portland", zip: "97214", streets: ["SE Belmont St", "SE Morrison St", "SE Hawthorne Blvd", "SE Stark St"], areaCodes: ["503", "971"] },
+                        { name: "Salem", zip: "97301", streets: ["State St", "Chemeketa St", "Center St", "Marion St", "Commercial St"], areaCodes: ["503", "971"] },
+                        { name: "Salem", zip: "97302", streets: ["12th St SE", "25th St SE", "Mission St SE", "River Rd S"], areaCodes: ["503", "971"] },
+                        { name: "Eugene", zip: "97401", streets: ["Willamette St", "Oak St", "Pearl St", "Charnelton St", "Coburg Rd"], areaCodes: ["541", "458"] },
+                        { name: "Eugene", zip: "97402", streets: ["W 11th Ave", "W 18th Ave", "Barger Dr", "Royal Ave", "Garfield St"], areaCodes: ["541", "458"] },
+                        { name: "Gresham", zip: "97030", streets: ["NE Burnside Rd", "SE Stark St", "Division St", "NW 2nd St"], areaCodes: ["503", "971"] },
+                        { name: "Hillsboro", zip: "97124", streets: ["NE Cornell Rd", "SE Baseline Rd", "NE 25th Ave", "Main St"], areaCodes: ["503", "971"] },
+                        { name: "Beaverton", zip: "97005", streets: ["SW Hall Blvd", "SW Watson Ave", "Canyon Rd", "Farmington Rd"], areaCodes: ["503", "971"] }
+                    ]
+                },
+                {
+                    name: "New Hampshire",
+                    cnName: "新罕布什尔州 (NH)",
+                    cities: [
+                        { name: "Manchester", zip: "03101", streets: ["Elm St", "Main St", "Bridge St", "Chestnut St", "Hanover St"], areaCodes: ["603"] },
+                        { name: "Manchester", zip: "03103", streets: ["S Mammoth Rd", "Brown Ave", "Wilson St", "Calef Rd", "Second St"], areaCodes: ["603"] },
+                        { name: "Nashua", zip: "03060", streets: ["Main St", "East Pearl St", "Temple St", "Canal St", "Concord St"], areaCodes: ["603"] },
+                        { name: "Nashua", zip: "03062", streets: ["Amherst St", "Daniel Webster Hwy", "Spit Brook Rd", "Royal Oak Dr"], areaCodes: ["603"] },
+                        { name: "Concord", zip: "03301", streets: ["S Main St", "Pleasant St", "Centre St", "Airport Rd", "Loudon Rd"], areaCodes: ["603"] },
+                        { name: "Derry", zip: "03038", streets: ["East Broadway", "Crystal Ave", "Birch St", "Rockingham Rd"], areaCodes: ["603"] },
+                        { name: "Rochester", zip: "03867", streets: ["Main St", "Wakefield St", "Washington St", "Union St"], areaCodes: ["603"] }
+                    ]
+                },
+                {
+                    name: "Montana",
+                    cnName: "蒙大拿州 (MT)",
+                    cities: [
+                        { name: "Billings", zip: "59101", streets: ["Grand Ave", "Broadwater Ave", "Central Ave", "Main St", "N 27th St"], areaCodes: ["406"] },
+                        { name: "Billings", zip: "59102", streets: ["King Ave", "Poly Dr", "Broadway", "Shiloh Rd"], areaCodes: ["406"] },
+                        { name: "Missoula", zip: "59801", streets: ["Higgins Ave", "Brooks St", "Russell St", "Orange St", "Main St"], areaCodes: ["406"] },
+                        { name: "Great Falls", zip: "59401", streets: ["Central Ave", "1st Ave S", "2nd Ave N", "Park Dr"], areaCodes: ["406"] },
+                        { name: "Bozeman", zip: "59715", streets: ["Main St", "7th Ave", "Willson Ave", "College St"], areaCodes: ["406"] },
+                        { name: "Butte", zip: "59701", streets: ["W Park St", "Main St", "Montana St", "Arizona St"], areaCodes: ["406"] }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "UK",
+            name: "🇬🇧 英国 (United Kingdom)",
+            stateLabel: "郡/地区",
+            zipLabel: "邮编",
+            firstNames: ["Oliver", "George", "Harry", "Noah", "Jack", "Amelia", "Olivia", "Isla", "Emily", "Ava"],
+            lastNames: ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies"],
+            generatePhone: () => `+44 7${Math.floor(100000000 + Math.random() * 900000000)}`,
+            subdivisions: [
+                {
+                    name: "Greater London",
+                    cnName: "大伦敦",
+                    cities: [
+                        { name: "London", zip: "EC1A 1BB", streets: ["High Holborn", "Fleet St", "Oxford St", "Regent St", "Baker St", "Strand"] },
+                        { name: "Westminster", zip: "SW1A 2AB", streets: ["Victoria St", "Whitehall", "Piccadilly", "Pall Mall", "Horseferry Rd"] }
+                    ]
+                },
+                {
+                    name: "Greater Manchester",
+                    cnName: "大曼彻斯特",
+                    cities: [
+                        { name: "Manchester", zip: "M1 1AG", streets: ["Deansgate", "Market St", "Portland St", "Oxford Rd", "Peter St"] },
+                        { name: "Salford", zip: "M5 4WT", streets: ["Chapel St", "Regent Rd", "Cross Ln", "Eccles New Rd"] }
+                    ]
+                },
+                {
+                    name: "West Midlands",
+                    cnName: "西米德兰兹",
+                    cities: [
+                        { name: "Birmingham", zip: "B1 1BB", streets: ["New St", "Corporation St", "Colmore Row", "Broad St", "Moor St"] }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "JP",
+            name: "🇯🇵 日本 (Japan)",
+            stateLabel: "都道府县",
+            zipLabel: "郵便番号",
+            firstNames: ["Ren", "Hiroto", "Sota", "Yuma", "Minato", "Hana", "Himari", "Aoi", "Yuna", "Ichika"],
+            lastNames: ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura"],
+            generatePhone: () => {
+                const prefix = ["90", "80", "70"][Math.floor(Math.random() * 3)];
+                return `+81 ${prefix}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`;
+            },
+            subdivisions: [
+                {
+                    name: "東京都",
+                    cnName: "东京都",
+                    cities: [
+                        { name: "新宿区", zip: "160-0022", streets: ["新宿", "歌舞伎町", "西新宿", "大久保", "百人町"] },
+                        { name: "渋谷区", zip: "150-0002", streets: ["渋谷", "道玄坂", "宇田川町", "神南", "恵比寿"] },
+                        { name: "千代田区", zip: "100-0001", streets: ["千代田", "丸の内", "大手町", "神田神保町", "霞が関"] }
+                    ]
+                },
+                {
+                    name: "大阪府",
+                    cnName: "大阪府",
+                    cities: [
+                        { name: "大阪市北区", zip: "530-0001", streets: ["梅田", "中之島", "曾根崎", "天神橋", "堂岛"] },
+                        { name: "大阪市中央区", zip: "542-0081", streets: ["南船場", "心斎橋筋", "道顿堀", "難波", "本町"] }
+                    ]
+                },
+                {
+                    name: "神奈川県",
+                    cnName: "神奈川县",
+                    cities: [
+                        { name: "横浜市中区", zip: "231-0001", streets: ["本町", "山下町", "元町", "海岸通", "日本大通"] }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "HK",
+            name: "🇭🇰 中国香港 (Hong Kong)",
+            stateLabel: "区域",
+            zipLabel: "邮编",
+            firstNames: ["Ka Ho", "Wai Kit", "Sze Man", "Wing Yan", "Chun Kit", "Tsz Ching", "Lok Yi"],
+            lastNames: ["Chan", "Lee", "Cheung", "Wong", "Lau", "Leung", "Ng", "Lam"],
+            generatePhone: () => {
+                const prefix = ["5", "6", "9"][Math.floor(Math.random() * 3)];
+                return `+852 ${prefix}${Math.floor(1000000 + Math.random() * 9000000)}`;
+            },
+            subdivisions: [
+                {
+                    name: "香港岛",
+                    cnName: "香港岛",
+                    cities: [
+                        { name: "中环", zip: "999077", streets: ["Queen's Rd Central", "Des Voeux Rd Central", "Connaught Rd Central", "Wellington St"] },
+                        { name: "湾仔", zip: "999077", streets: ["Hennessy Rd", "Lockhart Rd", "Johnston Rd", "Gloucester Rd"] },
+                        { name: "铜锣湾", zip: "999077", streets: ["Causeway Rd", "Yee Wo St", "Percival St", "Paterson St"] }
+                    ]
+                },
+                {
+                    name: "九龙",
+                    cnName: "九龙",
+                    cities: [
+                        { name: "旺角", zip: "999077", streets: ["Nathan Rd", "Argyle St", "Sai Yeung Choi St", "Mong Kok Rd"] },
+                        { name: "尖沙咀", zip: "999077", streets: ["Canton Rd", "Salisbury Rd", "Granville Rd", "Kimberley Rd"] },
+                        { name: "观塘", zip: "999077", streets: ["Kwun Tong Rd", "Hoi Yuen Rd", "Hung To Rd", "How Ming St"] }
+                    ]
+                },
+                {
+                    name: "新界",
+                    cnName: "新界",
+                    cities: [
+                        { name: "沙田", zip: "999077", streets: ["Sha Tin Centre St", "Yuen Wo Rd", "Tai Po Rd Sha Tin"] },
+                        { name: "屯门", zip: "999077", streets: ["Tuen Mun Heung Sze Wui Rd", "Tuen Lung St", "Pui To Rd"] }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "SG",
+            name: "🇸🇬 新加坡 (Singapore)",
+            stateLabel: "区域",
+            zipLabel: "邮编",
+            firstNames: ["Wei Ming", "Jia Jun", "Xing Yu", "Chloe", "Ethan", "Lucas", "Hannah"],
+            lastNames: ["Tan", "Lim", "Lee", "Ng", "Ong", "Wong", "Chua"],
+            generatePhone: () => {
+                const prefix = ["8", "9"][Math.floor(Math.random() * 2)];
+                return `+65 ${prefix}${Math.floor(1000000 + Math.random() * 9000000)}`;
+            },
+            subdivisions: [
+                {
+                    name: "Central Region",
+                    cnName: "中部地区",
+                    cities: [
+                        { name: "Singapore", zip: "238801", streets: ["Orchard Rd", "Somerset Rd", "Grange Rd", "Paterson Rd"] },
+                        { name: "Singapore", zip: "018980", streets: ["Marina Blvd", "Raffles Ave", "Shenton Way", "Battery Rd"] }
+                    ]
+                },
+                {
+                    name: "East Region",
+                    cnName: "东部地区",
+                    cities: [
+                        { name: "Singapore", zip: "529510", streets: ["Tampines Ave 4", "Tampines Ave 5", "Simei St 1", "Changi Rd"] }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "CA",
+            name: "🇨🇦 加拿大 (Canada)",
+            stateLabel: "省份",
+            zipLabel: "邮编",
+            firstNames: ["Liam", "Noah", "Jackson", "Lucas", "Oliver", "Emma", "Olivia", "Ava"],
+            lastNames: ["Smith", "Brown", "Tremblay", "Martin", "Roy", "Wilson", "Macdonald"],
+            subdivisions: [
+                {
+                    name: "Ontario",
+                    cnName: "安大略省",
+                    cities: [
+                        { name: "Toronto", zip: "M5V 2T6", streets: ["Yonge St", "Queen St W", "King St W", "Front St W", "Bay St"], areaCodes: ["416", "647"] },
+                        { name: "Ottawa", zip: "K1P 1J1", streets: ["Wellington St", "Bank St", "Elgin St", "Rideau St"], areaCodes: ["613", "343"] }
+                    ]
+                },
+                {
+                    name: "British Columbia",
+                    cnName: "不列颠哥伦比亚省",
+                    cities: [
+                        { name: "Vancouver", zip: "V6B 1A1", streets: ["Robson St", "W Georgia St", "Granville St", "Burrard St"], areaCodes: ["604", "778"] },
+                        { name: "Victoria", zip: "V8W 1P6", streets: ["Government St", "Douglas St", "Fort St", "Yates St"], areaCodes: ["250", "778"] }
+                    ]
+                },
+                {
+                    name: "Alberta",
+                    cnName: "艾伯塔省",
+                    cities: [
+                        { name: "Calgary", zip: "T2P 1J9", streets: ["8 Ave SW", "7 Ave SW", "Macleod Trail", "Centre St S"], areaCodes: ["403", "587"] },
+                        { name: "Edmonton", zip: "T5J 0N3", streets: ["Jasper Ave", "104 St NW", "Whyte Ave"], areaCodes: ["780", "587"] }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+</script>
+
 <div class="ambient-bg"></div>
 
-<div class="glass-container" id="main-card">
+<div class="glass-container">
     <h2>🌐 外区ID地址生成器</h2>
 
     <div class="brand-subtitle">
@@ -653,21 +850,15 @@
             <div class="modal-title" id="modal-title"></div>
             <div class="modal-desc" id="modal-desc"></div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-cancel" id="btn-cancel" onclick="closeModal()">取消</button>
-                <button class="modal-btn modal-btn-confirm" id="btn-confirm" onclick="confirmAction()">确定</button>
+                <button class="modal-btn modal-btn-cancel" onclick="closeModal()">取消</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmAction()">确定</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// 识别是否在 Notion 博客嵌入框中，自动去除多余容器边框与阴影
-if (window.self !== window.top) {
-    document.body.classList.add("embedded");
-}
-
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "xwsay_saved_address_v2";
 
 $("page-title").innerText = siteConfig.pageTitle;
 $("brand-link").href = siteConfig.homeUrl;
@@ -677,8 +868,6 @@ $("og-title").content = siteConfig.pageTitle;
 $("og-desc").content = siteConfig.ogDescription;
 $("modal-title").innerText = siteConfig.confirmTitle;
 $("modal-desc").innerText = siteConfig.confirmText;
-$("btn-cancel").innerText = siteConfig.btnCancelText;
-$("btn-confirm").innerText = siteConfig.btnConfirmText;
 
 const regionSelectEl = $("region-select");
 siteConfig.regions.forEach(item => {
@@ -692,10 +881,12 @@ let isAddressGenerated = false;
 
 const getRandom = arr => arr[Math.floor(Math.random() * arr.length)];
 
-async function copyRawText(text, btnElement) {
+async function copyText(elementId, btnElement) {
+    const el = $(elementId);
+    const text = el.getAttribute("data-copy-val") || el.innerText;
+
     const showSuccess = () => {
-        const oldText = btnElement.getAttribute("data-orig-text") || btnElement.innerText;
-        btnElement.setAttribute("data-orig-text", oldText);
+        const oldText = btnElement.innerText;
         btnElement.innerText = "已复制";
         btnElement.classList.add("copied");
 
@@ -733,31 +924,13 @@ const createRow = (label, copyValue, id, displayHtml) => `
     <div class="info-row">
         <div class="info-content">
             <div class="label">${label}</div>
-            <div class="value" id="${id}" data-copy-val="${copyValue}" title="${copyValue}">
+            <div class="value" id="${id}" data-copy-val="${copyValue}">
                 ${displayHtml || copyValue}
             </div>
         </div>
-        <button class="copy-btn" onclick="copyRawText('${copyValue.replace(/'/g, "\\'")}', this)">复制</button>
+        <button class="copy-btn" onclick="copyText('${id}', this)">复制</button>
     </div>
 `;
-
-const createNameRow = (firstName, lastName) => {
-    const fullName = `${firstName} ${lastName}`;
-    return `
-    <div class="info-row">
-        <div class="info-content">
-            <div class="label">全名 (名 First · 姓 Last)</div>
-            <div class="value" id="val-name" title="${fullName}">
-                ${fullName}
-            </div>
-        </div>
-        <div class="btn-group">
-            <button class="copy-btn" onclick="copyRawText('${firstName}', this)">复制名</button>
-            <button class="copy-btn" onclick="copyRawText('${lastName}', this)">复制姓</button>
-        </div>
-    </div>
-    `;
-};
 
 const getRegionConfig = regionId =>
     siteConfig.regions.find(r => r.id === regionId) || siteConfig.regions[0];
@@ -771,12 +944,12 @@ function renderAddress(data) {
     }
 
     $("output").innerHTML =
-        createNameRow(data.firstName, data.lastName) +
+        createRow("全名", data.fullName, "val-name") +
         createRow("街道", data.fullStreet, "val-street") +
         createRow("城市", data.cityName, "val-city") +
         createRow(regionCfg.stateLabel, data.stateName, "val-state", stateDisplayHtml) +
         createRow(regionCfg.zipLabel, data.zipCode, "val-zip") +
-        createRow("电话 (点击仅复制纯数字)", data.phoneCopy, "val-phone", data.phoneDisplay);
+        createRow("电话", data.phone, "val-phone");
 
     isAddressGenerated = true;
 }
@@ -812,10 +985,7 @@ function generateNANPPhone(cityObj, defaultAreaCode = "202") {
     const areaCode = getRandom(cityObj.areaCodes || [defaultAreaCode]);
     const prefix = Math.floor(Math.random() * 800) + 200;
     const line = Math.floor(Math.random() * 9000) + 1000;
-    return {
-        display: `+1-${areaCode}-${prefix}-${line}`,
-        copy: `${areaCode}${prefix}${line}`
-    };
+    return `+1-${areaCode}-${prefix}-${line}`;
 }
 
 function generateNewAddress() {
@@ -840,58 +1010,28 @@ function generateNewAddress() {
         fullStreet = `${streetNumber} ${streetBase}`;
     }
 
-    const firstName = getRandom(regionCfg.firstNames);
-    const lastName = getRandom(regionCfg.lastNames);
+    const fullName = `${getRandom(regionCfg.firstNames)} ${getRandom(regionCfg.lastNames)}`;
 
-    let phoneObj;
+    let phone;
     if (currentRegionId === "US" || currentRegionId === "CA") {
-        phoneObj = generateNANPPhone(cityObj, currentRegionId === "US" ? "302" : "416");
+        phone = generateNANPPhone(cityObj, currentRegionId === "US" ? "302" : "416");
     } else {
-        phoneObj = regionCfg.generatePhone();
+        phone = regionCfg.generatePhone();
     }
 
-    const addressData = {
+    renderAddress({
         regionId: currentRegionId,
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         fullStreet: fullStreet,
         cityName: cityObj.name,
         stateName: subObj.name,
         stateCnName: subObj.cnName || "",
         zipCode: cityObj.zip,
-        phoneDisplay: phoneObj.display,
-        phoneCopy: phoneObj.copy
-    };
-
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(addressData));
-    } catch (e) {}
-
-    renderAddress(addressData);
+        phone: phone
+    });
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlRegion = (urlParams.get("region") || "").toUpperCase();
-    const hasValidUrlRegion = siteConfig.regions.some(r => r.id === urlRegion);
-
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed && parsed.regionId && parsed.firstName) {
-                if (!hasValidUrlRegion || parsed.regionId === urlRegion) {
-                    regionSelectEl.value = parsed.regionId;
-                    renderAddress(parsed);
-                    return;
-                }
-            }
-        }
-    } catch (e) {}
-
-    if (hasValidUrlRegion) {
-        regionSelectEl.value = urlRegion;
-    }
     generateNewAddress();
 });
 </script>
